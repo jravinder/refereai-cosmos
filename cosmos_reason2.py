@@ -106,6 +106,10 @@ class CosmosReason2Backend(VisionBackend):
     JETSON_NIM_ENDPOINT = "http://localhost:8000/v1"
     DEFAULT_MODEL = "nvidia/cosmos-reason2-8b"
 
+    # Ollama fallback — used when Cosmos NIM is unreachable
+    OLLAMA_ENDPOINT = "http://localhost:11434/v1"
+    OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "llava")
+
     def __init__(
         self,
         config: VisionConfig,
@@ -128,6 +132,9 @@ class CosmosReason2Backend(VisionBackend):
             or self.DEFAULT_MODEL
         )
         self._client: Optional[httpx.AsyncClient] = None
+
+        # Ollama fallback state
+        self._using_fallback = False
 
         # Observability
         self._call_count = 0
@@ -227,6 +234,48 @@ class CosmosReason2Backend(VisionBackend):
 
             self._call_count += 1
 
+        except (httpx.ConnectError, httpx.TimeoutException) as e:
+            logger.warning(
+                "Cosmos NIM unavailable, falling back to Ollama: %s",
+                self.OLLAMA_MODEL,
+            )
+            # Try Ollama as fallback for connection/timeout errors
+            try:
+                fallback_client = httpx.AsyncClient(timeout=120.0)
+                try:
+                    fallback_response = await fallback_client.post(
+                        f"{self.OLLAMA_ENDPOINT}/chat/completions",
+                        json={
+                            "model": self.OLLAMA_MODEL,
+                            "messages": messages,
+                            "max_tokens": self.config.max_tokens or 1024,
+                            "temperature": self.config.temperature,
+                        },
+                    )
+                    fallback_response.raise_for_status()
+                    data = fallback_response.json()
+
+                    raw = data["choices"][0]["message"]["content"]
+                    result.raw_response = raw
+                    thinking, answer = parse_cosmos_response(raw)
+                    result.thinking = thinking
+                    result.answer = answer
+                    result.model = self.OLLAMA_MODEL
+
+                    usage = data.get("usage", {})
+                    result.token_count = usage.get("total_tokens", 0)
+
+                    self._using_fallback = True
+                    self._call_count += 1
+                finally:
+                    await fallback_client.aclose()
+            except Exception as fallback_err:
+                self._errors += 1
+                logger.error(
+                    "Ollama fallback also failed: %s", fallback_err
+                )
+                result.answer = ""
+                result.thinking = ""
         except Exception as e:
             self._errors += 1
             logger.error("Cosmos Reason 2 error: %s", e)
@@ -311,6 +360,46 @@ class CosmosReason2Backend(VisionBackend):
             result.token_count = usage.get("total_tokens", 0)
             self._call_count += 1
 
+        except (httpx.ConnectError, httpx.TimeoutException) as e:
+            logger.warning(
+                "Cosmos NIM unavailable, falling back to Ollama: %s",
+                self.OLLAMA_MODEL,
+            )
+            # Try Ollama as fallback for connection/timeout errors
+            try:
+                fallback_client = httpx.AsyncClient(timeout=120.0)
+                try:
+                    fallback_response = await fallback_client.post(
+                        f"{self.OLLAMA_ENDPOINT}/chat/completions",
+                        json={
+                            "model": self.OLLAMA_MODEL,
+                            "messages": messages,
+                            "max_tokens": self.config.max_tokens or 1024,
+                            "temperature": self.config.temperature,
+                        },
+                    )
+                    fallback_response.raise_for_status()
+                    data = fallback_response.json()
+
+                    raw = data["choices"][0]["message"]["content"]
+                    result.raw_response = raw
+                    thinking, answer = parse_cosmos_response(raw)
+                    result.thinking = thinking
+                    result.answer = answer
+                    result.model = self.OLLAMA_MODEL
+
+                    usage = data.get("usage", {})
+                    result.token_count = usage.get("total_tokens", 0)
+
+                    self._using_fallback = True
+                    self._call_count += 1
+                finally:
+                    await fallback_client.aclose()
+            except Exception as fallback_err:
+                self._errors += 1
+                logger.error(
+                    "Ollama fallback also failed: %s", fallback_err
+                )
         except Exception as e:
             self._errors += 1
             logger.error("Cosmos video analysis error: %s", e)
@@ -360,6 +449,8 @@ class CosmosReason2Backend(VisionBackend):
             "errors": self._errors,
             "avg_latency_ms": round(avg_latency, 1),
             "total_latency_ms": round(self._total_latency_ms, 1),
+            "using_fallback": self._using_fallback,
+            "fallback_model": self.OLLAMA_MODEL,
         }
 
     async def close(self):

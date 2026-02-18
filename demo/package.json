@@ -1,0 +1,14 @@
+{
+  "name": "refereai-cosmos-demo",
+  "private": true,
+  "version": "1.0.0",
+  "description": "RefereAI x Cosmos Reason 2 — Hackathon Demo Showcase",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^6.1.0"
+  }
+}

@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RefereAI x Cosmos Reason 2 | AI-Powered Sports Companion</title>
+  <meta name="description" content="Physical AI reasoning for amateur sports. Powered by NVIDIA Cosmos Reason 2 on Jetson AGX Orin." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <!-- NAVBAR                                                  -->
+  <!-- ════════════════════════════════════════════════════════ -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <span class="nav-logo-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <rect x="2" y="2" width="24" height="24" rx="6" stroke="#76B900" stroke-width="2"/>
+            <circle cx="14" cy="14" r="5" fill="#76B900"/>
+            <path d="M14 4 L14 9 M14 19 L14 24 M4 14 L9 14 M19 14 L24 14" stroke="#76B900" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="nav-logo-text">RefereAI</span>
+      </a>
+      <div class="nav-links">
+        <a href="#architecture">Architecture</a>
+        <a href="#sports">Sports</a>
+        <a href="#reasoning">Reasoning</a>
+        <a href="#live">Live Demo</a>
+        <a href="#features">Features</a>
+        <a href="#hardware">Hardware</a>
+      </div>
+      <a href="https://github.com/jravinder/refereai-cosmos" target="_blank" class="nav-cta">
+        View on GitHub
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M3.75 2h3.5a.75.75 0 010 1.5H4.56l7.72 7.72a.75.75 0 11-1.06 1.06L3.5 4.56v2.69a.75.75 0 01-1.5 0v-3.5A1.75 1.75 0 013.75 2z"/></svg>
+      </a>
+    </div>
+  </nav>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <!-- HERO                                                    -->
+  <!-- ════════════════════════════════════════════════════════ -->
+  <section class="hero" id="hero">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-glow hero-glow--1"></div>
+    <div class="hero-glow hero-glow--2"></div>
+
+    <div class="container hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Cosmos Cookoff Hackathon 2026
+      </div>
+      <h1 class="hero-title">
+        RefereAI
+        <span class="hero-x">x</span>
+        <span class="hero-cosmos">Cosmos Reason 2</span>
+      </h1>
+      <p class="hero-tagline">
+        Your AI-powered sports companion with <em>physical reasoning</em>.<br/>
+        Turn any backyard game into a professional match.
+      </p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="hero-stat-number">5</span>
+          <span class="hero-stat-label">Sports</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-number">CoT</span>
+          <span class="hero-stat-label">Reasoning</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-number">Edge</span>
+          <span class="hero-stat-label">AI Processing</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-number">&lt;2s</span>
+          <span class="hero-stat-label">Latency</span>
+        </div>
+      </div>
+      <div class="hero-cta-row">
+        <a href="#architecture" class="btn btn--primary">See Architecture</a>
+        <a href="#reasoning" class="btn btn--outline">Live Reasoning</a>
+      </div>
+    </div>
+
+    <div class="hero-scroll-hint">
+      <span>Scroll to explore</span>
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M10 4v12M5 11l5 5 5-5"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <!-- ARCHITECTURE PIPELINE                                   -->
+  <!-- ════════════════════════════════════════════════════════ -->
+  <section class="section" id="architecture">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">System Design</span>
+        <h2 class="section-title">Edge AI Pipeline</h2>
+        <p class="section-subtitle">
+          Camera to scoreboard in under 2 seconds. No cloud dependency.
+          Physical reasoning happens entirely on device.
+        </p>
+      </div>
+
+      <div class="pipeline">
+        <div class="pipeline-step" data-step="1">
+          <div class="pipeline-icon">
+            <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+              <rect x="4" y="8" width="28" height="18" rx="3" stroke="#76B900" stroke-width="2"/>
+              <circle cx="18" cy="17" r="5" stroke="#76B900" stroke-width="2"/>
+              <circle cx="18" cy="17" r="2" fill="#76B900"/>
+              <rect x="15" y="26" width="6" height="3" rx="1" fill="#76B900" opacity="0.5"/>
+            </svg>
+          </div>
+          <h3>Camera Feed</h3>
+          <p>Phone or IP camera captures the game via OpenCV feed</p>
+        </div>
+
+        <div class="pipeline-arrow">
+          <svg width="48" height="24" viewBox="0 0 48 24" fill="none">
+            <path d="M0 12h40M34 6l6 6-6 6" stroke="#76B900" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span class="pipeline-arrow-label">Frames</span>
+        </div>
+
+        <div class="pipeline-step pipeline-step--hero" data-step="2">
+          <div class="pipeline-icon pipeline-icon--nvidia">
+            <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+              <rect x="3" y="3" width="30" height="30" rx="4" stroke="#76B900" stroke-width="2"/>
+              <rect x="8" y="8" width="8" height="8" rx="1" fill="#76B900" opacity="0.7"/>
+              <rect x="20" y="8" width="8" height="8" rx="1" fill="#76B900" opacity="0.5"/>
+              <rect x="8" y="20" width="8" height="8" rx="1" fill="#76B900" opacity="0.5"/>
+              <rect x="20" y="20" width="8" height="8" rx="1" fill="#76B900" opacity="0.3"/>
+            </svg>
+          </div>
+          <h3>Jetson AGX Orin</h3>
+          <p>NVIDIA edge GPU runs DeepStream pipeline + ball detection + TrackNet</p>
+        </div>
+
+        <div class="pipeline-arrow">
+          <svg width="48" height="24" viewBox="0 0 48 24" fill="none">
+            <path d="M0 12h40M34 6l6 6-6 6" stroke="#76B900" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span class="pipeline-arrow-label">Keyframes</span>
+        </div>
+
+        <div class="pipeline-step pipeline-step--cosmos" data-step="3">
+          <div class="pipeline-icon pipeline-icon--cosmos">
+            <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+              <circle cx="18" cy="18" r="14" stroke="#76B900" stroke-width="2" stroke-dasharray="4 3"/>
+              <circle cx="18" cy="18" r="8" stroke="#76B900" stroke-width="1.5"/>
+              <circle cx="18" cy="18" r="3" fill="#76B900"/>
+              <path d="M18 4v4M18 28v4M4 18h4M28 18h4" stroke="#76B900" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Cosmos Reason 2</h3>
+          <p>Chain-of-thought physical reasoning: trajectory, spin, boundary detection</p>
+        </div>
+
+        <div class="pipeline-arrow">
+          <svg width="48" height="24" viewBox="0 0 48 24" fill="none">
+            <path d="M0 12h40M34 6l6 6-6 6" stroke="#76B900" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span class="pipeline-arrow-label">Events</span>
+        </div>
+
+        <div class="pipeline-step" data-step="4">
+          <div class="pipeline-icon">
+            <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+              <rect x="9" y="4" width="18" height="28" rx="4" stroke="#76B900" stroke-width="2"/>
+              <rect x="14" y="27" width="8" height="2" rx="1" fill="#76B900" opacity="0.5"/>
+              <rect x="13" y="9" width="10" height="6" rx="1" stroke="#76B900" stroke-width="1.5"/>
+              <text x="18" y="14" text-anchor="middle" fill="#76B900" font-size="5" font-weight="bold">42</text>
+            </svg>
+          </div>
+          <h3>Mobile App</h3>
+          <p>React Native app shows live scores, AI reasoning, and commentary</p>
+        </div>
+      </div>
+
+      <div class="pipeline-detail-bar">
+        <div class="pipeline-detail">
+          <span class="pipeline-detail-label">Protocol</span>
+          <span class="pipeline-detail-value">WebSocket + REST</span>
+        </div>
+        <div class="pipeline-detail">
+          <span class="pipeline-detail-label">Model</span>
+          <span class="pipeline-detail-value">nvidia/cosmos-reason2-8b</span>
+        </div>
+        <div class="pipeline-detail">
+          <span class="pipeline-detail-label">Format</span>
+          <span class="pipeline-detail-value">OpenAI-compatible API</span>
+        </div>
+        <div class="pipeline-detail">
+          <span class="pipeline-detail-label">Deployment</span>
+          <span class="pipeline-detail-value">NIM Container</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <!-- MULTI-SPORT CARDS                                       -->
+  <!-- ════════════════════════════════════════════════════════ -->
+  <section class="section section--dark" id="sports">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Multi-Sport</span>
+        <h2 class="section-title">Five Sports. One AI.</h2>
+        <p class="section-subtitle">
+          Sport-specific physical reasoning prompts tuned for each game's unique physics.
+        </p>
+      </div>
+
+      <div class="sport-tabs">
+        <button class="sport-tab active" data-sport="cricket">Cricket</button>
+        <button class="sport-tab" data-sport="tennis">Tennis</button>
+        <button class="sport-tab" data-sport="pickleball">Pickleball</button>
+        <button class="sport-tab" data-sport="badminton">Badminton</button>
+        <button class="sport-tab" data-sport="tabletennis">Table Tennis</button>
+      </div>
+
+      <div class="sport-cards">
+        <!-- Cricket -->
+        <div class="sport-card active" data-sport="cricket">
+          <div class="sport-card-icon">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+              <circle cx="32" cy="20" r="6" stroke="#76B900" stroke-width="2.5"/>
+              <line x1="32" y1="26" x2="32" y2="56" stroke="#76B900" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="20" y1="36" x2="44" y2="36" stroke="#76B900" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+              <circle cx="50" cy="14" r="4" fill="#76B900" opacity="0.6"/>
+            </svg>
+          </div>
+          <div class="sport-card-content">
+            <h3>Cricket</h3>
+            <p>2.5 billion fans worldwide. Massive gully cricket culture.</p>
+            <div class="sport-detects">
+              <h4>What Cosmos Detects</h4>
+              <ul>
+                <li>Ball trajectory from bowler to batsman</li>
+                <li>Boundary 4s and 6s (ball crossing rope)</li>
+                <li>Wickets and stump hits</li>
+                <li>Wide and no-ball calls</li>
+                <li>Shot classification (drive, pull, cut, sweep)</li>
+                <li>Swing, seam, and spin analysis</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tennis -->
+        <div class="sport-card" data-sport="tennis">
+          <div class="sport-card-icon">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+              <circle cx="32" cy="32" r="18" stroke="#76B900" stroke-width="2.5"/>
+              <path d="M14 32c0-10 8-18 18-18" stroke="#76B900" stroke-width="2" opacity="0.5"/>
+              <path d="M50 32c0 10-8 18-18 18" stroke="#76B900" stroke-width="2" opacity="0.5"/>
+              <line x1="14" y1="32" x2="50" y2="32" stroke="#76B900" stroke-width="1.5" opacity="0.3"/>
+            </svg>
+          </div>
+          <div class="sport-card-content">
+            <h3>Tennis</h3>
+            <p>1 billion fans. Park and club players everywhere.</p>
+            <div class="sport-detects">
+              <h4>What Cosmos Detects</h4>
+              <ul>
+                <li>Ball position relative to court lines (in/out)</li>
+                <li>Shot type: forehand, backhand, serve, volley</li>
+                <li>Serve placement (wide, T, body)</li>
+                <li>Spin analysis (topspin, slice, flat)</li>
+                <li>Aces and double faults</li>
+                <li>Rally dynamics and court positioning</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pickleball -->
+        <div class="sport-card" data-sport="pickleball">
+          <div class="sport-card-icon">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+              <rect x="16" y="10" width="18" height="30" rx="9" stroke="#76B900" stroke-width="2.5"/>
+              <line x1="25" y1="40" x2="25" y2="56" stroke="#76B900" stroke-width="2.5" stroke-linecap="round"/>
+              <circle cx="44" cy="20" r="5" stroke="#76B900" stroke-width="2" stroke-dasharray="3 2"/>
+              <line x1="14" y1="48" x2="50" y2="48" stroke="#76B900" stroke-width="1.5" opacity="0.3" stroke-dasharray="4 3"/>
+            </svg>
+          </div>
+          <div class="sport-card-content">
+            <h3>Pickleball</h3>
+            <p>Fastest growing sport in the US. Explosive community.</p>
+            <div class="sport-detects">
+              <h4>What Cosmos Detects</h4>
+              <ul>
+                <li>Kitchen (non-volley zone) violations</li>
+                <li>Dink shots vs drives vs lobs</li>
+                <li>Ball trajectory relative to boundaries</li>
+                <li>Serve legality (underhand, below waist)</li>
+                <li>Double-bounce rule compliance</li>
+                <li>Player positioning relative to kitchen line</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Badminton -->
+        <div class="sport-card" data-sport="badminton">
+          <div class="sport-card-icon">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+              <ellipse cx="25" cy="16" rx="8" ry="12" stroke="#76B900" stroke-width="2.5"/>
+              <line x1="25" y1="28" x2="25" y2="56" stroke="#76B900" stroke-width="2.5" stroke-linecap="round"/>
+              <circle cx="46" cy="12" r="3" fill="#76B900" opacity="0.6"/>
+              <path d="M43 15 L49 9" stroke="#76B900" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+              <path d="M46 15 L46 9" stroke="#76B900" stroke-width="1" stroke-linecap="round" opacity="0.3"/>
+            </svg>
+          </div>
+          <div class="sport-card-content">
+            <h3>Badminton</h3>
+            <p>Huge in Asia. Fast-paced rallies and smash speeds over 300 km/h.</p>
+            <div class="sport-detects">
+              <h4>What Cosmos Detects</h4>
+              <ul>
+                <li>Shuttlecock trajectory and deceleration</li>
+                <li>Smash vs clear vs drop shot classification</li>
+                <li>Court boundary detection (in/out)</li>
+                <li>Serve rule compliance</li>
+                <li>Net violations</li>
+                <li>Rally patterns and footwork analysis</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Table Tennis -->
+        <div class="sport-card" data-sport="tabletennis">
+          <div class="sport-card-icon">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+              <circle cx="24" cy="20" r="12" stroke="#76B900" stroke-width="2.5"/>
+              <line x1="24" y1="32" x2="24" y2="56" stroke="#76B900" stroke-width="2.5" stroke-linecap="round"/>
+              <circle cx="46" cy="16" r="4" fill="#76B900" opacity="0.6"/>
+              <rect x="10" y="44" width="44" height="2" rx="1" fill="#76B900" opacity="0.2"/>
+              <line x1="32" y1="40" x2="32" y2="48" stroke="#76B900" stroke-width="1.5" opacity="0.3"/>
+            </svg>
+          </div>
+          <div class="sport-card-content">
+            <h3>Table Tennis</h3>
+            <p>Popular worldwide. Spin analysis is everything.</p>
+            <div class="sport-detects">
+              <h4>What Cosmos Detects</h4>
+              <ul>
+                <li>Ball spin (topspin, backspin, sidespin) from paddle angle</li>
+                <li>Ball trajectory relative to table edges</li>
+                <li>Serve legality (open palm, toss height)</li>
+                <li>Let detection (net clips)</li>
+                <li>Edge balls vs clean hits</li>
+                <li>Rally speed and placement patterns</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <!-- COSMOS REASONING PANEL                                  -->
+  <!-- ════════════════════════════════════════════════════════ -->
+  <section class="section" id="reasoning">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Physical AI</span>
+        <h2 class="section-title">Chain-of-Thought Reasoning</h2>
+        <p class="section-subtitle">
+          Cosmos Reason 2 thinks step-by-step about ball physics before making a call.
+          Here is what that looks like in action.
+        </p>
+      </div>
+
+      <div class="reasoning-panel">
+        <div class="reasoning-header">
+          <div class="reasoning-dots">
+            <span></span><span></span><span></span>
+          </div>
+          <span class="reasoning-filename">cosmos_reason2_output.json</span>
+          <span class="reasoning-model">nvidia/cosmos-reason2-8b</span>
+        </div>
+
+        <div class="reasoning-body">
+          <div class="reasoning-section reasoning-think">
+            <div class="reasoning-tag">&lt;think&gt;</div>
+            <div class="reasoning-content" id="reasoning-think-content">
+Looking at this cricket frame, I need to analyze the ball trajectory
+and determine the scoring event.
+
+1. The ball has been bowled and the batsman has played a shot.
+   The bat angle suggests a cover drive - face open, leaning
+   into the stroke with front foot forward.
+
+2. Ball trajectory analysis: The ball appears to be traveling
+   along the ground toward the off-side boundary. Speed
+   estimation from motion blur suggests ~80 km/h post-contact.
+
+3. Fielder positions: I can see a cover fielder diving but the
+   ball has passed to their right. No other fielder in the path
+   between ball and boundary rope.
+
+4. Physics check: At this speed and angle, the ball will reach
+   the boundary rope within ~2.5 seconds. No obstacle in path.
+   Probability of boundary: HIGH.
+
+5. Delivery analysis: The bowler delivered a length ball on
+   off-stump. Slight outswing visible from seam position.
+   The batsman has used the pace of the ball effectively.
+            </div>
+            <div class="reasoning-tag">&lt;/think&gt;</div>
+          </div>
+
+          <div class="reasoning-section reasoning-answer">
+            <div class="reasoning-tag reasoning-tag--answer">&lt;answer&gt;</div>
+            <pre class="reasoning-json"><code>{
+  "phase": "batting",
+  "ball_state": "traveling_to_boundary",
+  "event": "boundary_4",
+  "confidence": 0.92,
+  "description": "Cover drive through the gap, ball racing to the boundary. Clean stroke, no fielder in the path.",
+  "shot_type": "cover_drive",
+  "delivery_type": "outswing",
+  "speed_estimate": "medium"
+}</code></pre>
+            <div class="reasoning-tag reasoning-tag--answer">&lt;/answer&gt;</div>
+          </div>
+        </div>
+
+        <div class="reasoning-footer">
+          <span class="reasoning-stat">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5.5"/><path d="M7 4v3.5l2.5 1.5"/></svg>
+            847ms latency
+          </span>
+          <span class="reasoning-stat">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="10" height="10" rx="2"/><path d="M5 7h4M7 5v4"/></svg>
+            342 tokens
+          </span>
+          <span class="reasoning-stat">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10l3-3 2 2 5-5"/></svg>
+            92% confidence
+          </span>
+        </div>
+      </div>
+
+      <div class="reasoning-explainer">
+        <div class="explainer-card">
+          <div class="explainer-number">1</div>
+          <h4>See</h4>
+          <p>Camera frame is sent to Cosmos Reason 2 with sport-specific prompts</p>
+        </div>
+        <div class="explainer-card">
+          <div class="explainer-number">2</div>
+          <h4>Think</h4>
+          <p>Model reasons about ball physics, trajectory, player positions step by step</p>
+        </div>
+        <div class="explainer-card">
+          <div class="explainer-number">3</div>
+          <h4>Decide</h4>
+          <p>Structured JSON output with event classification and confidence score</p>
+        </div>
+        <div class="explainer-card">
+          <div class="explainer-number">4</div>
+          <h4>Score</h4>
+          <p>Event feeds into the scoring engine and broadcasts to the mobile app</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <!-- LIVE INFERENCE                                           -->
+  <!-- ════════════════════════════════════════════════════════ -->
+  <section class="section section--dark" id="live">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Live Demo</span>
+        <h2 class="section-title">See It Think</h2>
+        <p class="section-subtitle">
+          Feed a sports image to Cosmos Reason 2 on the Jetson AGX Orin.
+          Watch it reason about ball physics, player positions, and make a call.
+        </p>
+      </div>
+
+      <div class="live-panel">
+        <!-- Image Selection -->
+        <div class="live-samples">
+          <div class="live-samples-label">Select a sports frame or video clip</div>
+
+          <!-- Image samples -->
+          <div class="live-media-row">
+            <span class="live-media-type">Images</span>
+            <div class="live-samples-grid live-samples-grid--images">
+              <button class="live-sample active" data-sport="cricket" data-src="samples/cricket.jpg" data-type="image">
+                <img src="samples/cricket.jpg" alt="Cricket" loading="lazy" />
+                <span class="live-sample-label">Cricket</span>
+              </button>
+              <button class="live-sample" data-sport="tennis" data-src="samples/tennis.jpg" data-type="image">
+                <img src="samples/tennis.jpg" alt="Tennis" loading="lazy" />
+                <span class="live-sample-label">Tennis</span>
+              </button>
+              <button class="live-sample" data-sport="pickleball" data-src="samples/pickleball.jpg" data-type="image">
+                <img src="samples/pickleball.jpg" alt="Pickleball" loading="lazy" />
+                <span class="live-sample-label">Pickleball</span>
+              </button>
+              <button class="live-sample" data-sport="badminton" data-src="samples/badminton.jpg" data-type="image">
+                <img src="samples/badminton.jpg" alt="Badminton" loading="lazy" />
+                <span class="live-sample-label">Badminton</span>
+              </button>
+              <button class="live-sample" data-sport="tabletennis" data-src="samples/tabletennis.jpg" data-type="image">
+                <img src="samples/tabletennis.jpg" alt="Table Tennis" loading="lazy" />
+                <span class="live-sample-label">Table Tennis</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Video samples -->
+          <div class="live-media-row">
+            <span class="live-media-type">Video Clips <span class="live-badge">5s</span></span>
+            <div class="live-samples-grid live-samples-grid--videos">
+              <button class="live-sample live-sample--video" data-sport="cricket" data-src="samples/cricket_clip.mp4" data-type="video">
+                <video src="samples/cricket_clip.mp4" muted loop preload="metadata"></video>
+                <span class="live-sample-play">&#9654;</span>
+                <span class="live-sample-label">Cricket</span>
+              </button>
+              <button class="live-sample live-sample--video" data-sport="tennis" data-src="samples/tennis_clip.mp4" data-type="video">
+                <video src="samples/tennis_clip.mp4" muted loop preload="metadata"></video>
+                <span class="live-sample-play">&#9654;</span>
+                <span class="live-sample-label">Tennis</span>
+              </button>
+              <button class="live-sample live-sample--video" data-sport="badminton" data-src="samples/badminton_clip.mp4" data-type="video">
+                <video src="samples/badminton_clip.mp4" muted loop preload="metadata"></video>
+                <span class="live-sample-play">&#9654;</span>
+                <span class="live-sample-label">Badminton</span>
+              </button>
+              <button class="live-sample live-sample--video" data-sport="tabletennis" data-src="samples/tabletennis_clip.mp4" data-type="video">
+                <video src="samples/tabletennis_clip.mp4" muted loop preload="metadata"></video>
+                <span class="live-sample-play">&#9654;</span>
+                <span class="live-sample-label">Table Tennis</span>
+              </button>
+              <label class="live-sample live-sample--upload" tabindex="0">
+                <input type="file" id="live-upload" accept="image/*,video/mp4" hidden />
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="#76B900" stroke-width="2"><path d="M16 22V10M10 16l6-6 6 6"/><rect x="4" y="4" width="24" height="24" rx="4"/></svg>
+                <span class="live-sample-label">Upload</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Preview + Controls -->
+        <div class="live-workspace">
+          <div class="live-preview">
+            <img id="live-preview-img" src="samples/cricket.jpg" alt="Selected frame" />
+            <video id="live-preview-video" muted loop playsinline style="display:none;"></video>
+            <div class="live-preview-overlay" id="live-overlay" style="display:none;">
+              <div class="live-preview-spinner">
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" stroke="#76B900" stroke-width="3" stroke-dasharray="80 40" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" from="0 24 24" to="360 24 24" dur="1s" repeatCount="indefinite"/></circle></svg>
+              </div>
+              <span class="live-preview-status">Analyzing with Cosmos Reason 2...</span>
+            </div>
+          </div>
+
+          <div class="live-controls">
+            <div class="live-sport-row">
+              <label class="live-control-label">Sport</label>
+              <select id="live-sport" class="live-select">
+                <option value="cricket">Cricket</option>
+                <option value="tennis">Tennis</option>
+                <option value="pickleball">Pickleball</option>
+                <option value="badminton">Badminton</option>
+                <option value="tabletennis">Table Tennis</option>
+              </select>
+            </div>
+            <div class="live-prompt-row">
+              <label class="live-control-label">Prompt <span class="live-optional">(optional override)</span></label>
+              <textarea id="live-prompt" class="live-textarea" rows="2" placeholder="Default: Analyze this frame for scoring events..."></textarea>
+            </div>
+            <button id="live-send" class="btn btn--primary live-btn">
+              <span class="live-btn-text">Analyze Frame</span>
+              <span class="live-btn-spinner" style="display:none;">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="2" stroke-dasharray="30 14" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" from="0 9 9" to="360 9 9" dur="0.8s" repeatCount="indefinite"/></circle></svg>
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div id="live-result" class="live-result" style="display:none;">
+          <div class="reasoning-panel">
+            <div class="reasoning-header">
+              <div class="reasoning-dots"><span></span><span></span><span></span></div>
+              <span class="reasoning-filename">cosmos_reason2 &mdash; live inference</span>
+              <span class="reasoning-model" id="live-model">nvidia/cosmos-reason2-8b</span>
+            </div>
+            <div class="reasoning-body">
+              <div class="reasoning-section reasoning-think">
+                <div class="reasoning-tag">&lt;think&gt;</div>
+                <div class="reasoning-content" id="live-thinking"></div>
+                <div class="reasoning-tag">&lt;/think&gt;</div>
+              </div>
+              <div class="reasoning-section reasoning-answer">
+                <div class="reasoning-tag reasoning-tag--answer">&lt;answer&gt;</div>
+                <div class="reasoning-content" id="live-answer"></div>
+                <div class="reasoning-tag reasoning-tag--answer">&lt;/answer&gt;</div>
+              </div>
+            </div>
+            <div class="reasoning-footer">
+              <span class="reasoning-stat">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5.5"/><path d="M7 4v3.5l2.5 1.5"/></svg>
+                <span id="live-latency-val">—</span>
+              </span>
+              <span class="reasoning-stat">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="10" height="10" rx="2"/><path d="M5 7h4M7 5v4"/></svg>
+                <span id="live-tokens-val">—</span>
+              </span>
+              <span class="reasoning-stat">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="6" width="10" height="6" rx="1"/><path d="M4 6V4a3 3 0 016 0v2"/></svg>
+                <span id="live-device-val">Jetson AGX Orin</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div id="live-error" class="live-error" style="display:none;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <!-- FEATURES                                                -->
+  <!-- ════════════════════════════════════════════════════════ -->
+  <section class="section section--dark" id="features">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Capabilities</span>
+        <h2 class="section-title">What RefereAI Does</h2>
+        <p class="section-subtitle">
+          Professional-grade sports analysis, powered entirely at the edge.
+        </p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card feature-card--large">
+          <div class="feature-icon">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+              <circle cx="10" cy="30" r="3" fill="#76B900"/>
+              <circle cx="18" cy="18" r="3" fill="#76B900" opacity="0.7"/>
+              <circle cx="26" cy="24" r="3" fill="#76B900" opacity="0.5"/>
+              <circle cx="34" cy="10" r="3" fill="#76B900" opacity="0.3"/>
+              <path d="M10 30 Q14 18 18 18 Q22 18 26 24 Q30 30 34 10" stroke="#76B900" stroke-width="2" fill="none" stroke-dasharray="4 2"/>
+            </svg>
+          </div>
+          <h3>Physical Reasoning</h3>
+          <p>
+            Cosmos Reason 2 analyzes ball trajectories, bounce physics, and player positions
+            with chain-of-thought reasoning. The model thinks step-by-step about what it sees
+            before making a scoring decision.
+          </p>
+          <div class="feature-tech-tags">
+            <span>Cosmos Reason 2</span>
+            <span>Chain-of-Thought</span>
+            <span>Edge AI</span>
+          </div>
+        </div>
+
+        <div class="feature-card feature-card--large">
+          <div class="feature-icon">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+              <rect x="4" y="8" width="32" height="24" rx="3" stroke="#76B900" stroke-width="2"/>
+              <path d="M12 16h6M12 20h10M12 24h8" stroke="#76B900" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+              <circle cx="30" cy="16" r="4" stroke="#76B900" stroke-width="1.5"/>
+              <path d="M28 18l2-2 2 2" stroke="#76B900" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>AI Commentary</h3>
+          <p>
+            Live play-by-play commentary generated from scoring events.
+            Context-aware descriptions of shots, deliveries, and rallies.
+            Multiple commentary styles for casual and competitive play.
+          </p>
+          <div class="feature-tech-tags">
+            <span>English</span>
+            <span>Context-Aware</span>
+            <span>Real-Time</span>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+              <rect x="6" y="6" width="28" height="28" rx="4" stroke="#76B900" stroke-width="2"/>
+              <text x="20" y="24" text-anchor="middle" fill="#76B900" font-size="14" font-weight="bold">42</text>
+              <circle cx="32" cy="10" r="4" fill="#76B900" opacity="0.3"/>
+            </svg>
+          </div>
+          <h3>Live Scoring</h3>
+          <p>
+            Automatic score updates via WebSocket. Cast to any screen as a TV-style scoreboard.
+            Works offline with local SQLite storage.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+              <rect x="6" y="6" width="28" height="28" rx="4" stroke="#76B900" stroke-width="2"/>
+              <path d="M12 20h6l2-6 4 12 2-6h6" stroke="#76B900" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>Multi-Sport Engine</h3>
+          <p>
+            Sport-specific scoring engines for cricket, tennis, pickleball,
+            badminton, and table tennis. Each with tuned physical reasoning prompts.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <!-- HARDWARE                                                -->
+  <!-- ════════════════════════════════════════════════════════ -->
+  <section class="section" id="hardware">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Edge Hardware</span>
+        <h2 class="section-title">Powered by Jetson AGX Orin</h2>
+        <p class="section-subtitle">
+          275 TOPS of AI compute in a compact module. Everything runs on-device.
+        </p>
+      </div>
+
+      <div class="hardware-layout">
+        <div class="hardware-visual">
+          <div class="hardware-box">
+            <div class="hardware-box-glow"></div>
+            <div class="hardware-box-inner">
+              <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+                <rect x="10" y="10" width="100" height="100" rx="12" stroke="#76B900" stroke-width="2"/>
+                <rect x="25" y="25" width="30" height="30" rx="4" fill="#76B900" opacity="0.2" stroke="#76B900" stroke-width="1"/>
+                <rect x="65" y="25" width="30" height="30" rx="4" fill="#76B900" opacity="0.15" stroke="#76B900" stroke-width="1"/>
+                <rect x="25" y="65" width="30" height="30" rx="4" fill="#76B900" opacity="0.15" stroke="#76B900" stroke-width="1"/>
+                <rect x="65" y="65" width="30" height="30" rx="4" fill="#76B900" opacity="0.1" stroke="#76B900" stroke-width="1"/>
+                <text x="60" y="64" text-anchor="middle" fill="#76B900" font-size="10" font-family="JetBrains Mono" font-weight="700">ORIN</text>
+              </svg>
+              <div class="hardware-label">NVIDIA Jetson AGX Orin 64GB</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hardware-specs">
+          <div class="spec-row">
+            <span class="spec-key">GPU</span>
+            <span class="spec-value">2048 CUDA cores + 64 Tensor cores</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-key">Memory</span>
+            <span class="spec-value">64 GB LPDDR5 (204.8 GB/s)</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-key">AI Perf</span>
+            <span class="spec-value">275 TOPS (INT8)</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-key">CPU</span>
+            <span class="spec-value">12-core Arm Cortex-A78AE</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-key">DLA</span>
+            <span class="spec-value">2x NVDLA v2.0</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-key">Power</span>
+            <span class="spec-value">15W - 60W (configurable)</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-key">Container</span>
+            <span class="spec-value">NIM: cosmos-reason2-8b</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-key">Pipeline</span>
+            <span class="spec-value">DeepStream + FastAPI + Ollama</span>
+          </div>
+        </div>
+
+        <div class="hardware-advantages">
+          <h3>Why Edge AI?</h3>
+          <div class="advantage-item">
+            <div class="advantage-icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#76B900" stroke-width="1.5"><circle cx="10" cy="10" r="8"/><path d="M10 6v4l3 2"/></svg>
+            </div>
+            <div>
+              <strong>Low Latency</strong>
+              <p>Sub-2s from frame capture to score update. No round-trip to cloud.</p>
+            </div>
+          </div>
+          <div class="advantage-item">
+            <div class="advantage-icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#76B900" stroke-width="1.5"><path d="M10 2v4M10 14v4M2 10h4M14 10h4"/><circle cx="10" cy="10" r="3"/></svg>
+            </div>
+            <div>
+              <strong>Works Offline</strong>
+              <p>No internet needed. Play anywhere -- parks, backyards, remote fields.</p>
+            </div>
+          </div>
+          <div class="advantage-item">
+            <div class="advantage-icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#76B900" stroke-width="1.5"><rect x="3" y="3" width="14" height="14" rx="3"/><path d="M7 10l2 2 4-4"/></svg>
+            </div>
+            <div>
+              <strong>Privacy First</strong>
+              <p>Video never leaves the device. All processing is on-device.</p>
+            </div>
+          </div>
+          <div class="advantage-item">
+            <div class="advantage-icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#76B900" stroke-width="1.5"><path d="M4 16l4-4m4-4l4-4"/><circle cx="7" cy="13" r="2"/><circle cx="13" cy="7" r="2"/></svg>
+            </div>
+            <div>
+              <strong>Cost Effective</strong>
+              <p>No per-inference cloud costs. One-time hardware investment.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <!-- TEAM / FOOTER                                           -->
+  <!-- ════════════════════════════════════════════════════════ -->
+  <section class="section section--dark section--team" id="team">
+    <div class="container">
+      <div class="team-content">
+        <div class="team-info">
+          <span class="section-tag">Team</span>
+          <h2 class="section-title">Built by</h2>
+          <h3 class="team-name">Ravinder Jilkapally</h3>
+          <p class="team-org">RefereAI</p>
+          <p class="team-desc">
+            AI-powered umpiring and live commentary for amateur sports.
+            Making every backyard match feel like a professional game.
+          </p>
+          <div class="team-links">
+            <a href="https://github.com/jravinder" target="_blank" class="team-link">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M10 0C4.477 0 0 4.477 0 10c0 4.42 2.865 8.167 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0110 4.836a9.578 9.578 0 012.5.337c1.91-1.294 2.748-1.025 2.748-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C17.137 18.163 20 14.418 20 10c0-5.523-4.477-10-10-10z"/></svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+
+        <div class="team-hackathon">
+          <div class="hackathon-card">
+            <div class="hackathon-logo">
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                <rect x="4" y="4" width="40" height="40" rx="8" stroke="#76B900" stroke-width="2"/>
+                <path d="M14 24h20M24 14v20" stroke="#76B900" stroke-width="3" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h4>NVIDIA Cosmos Cookoff</h4>
+            <p class="hackathon-desc">Building with Cosmos Reason 2 for physical AI applications</p>
+            <div class="hackathon-prizes">
+              <div class="prize">
+                <span class="prize-place">1st</span>
+                <span class="prize-value">$3K + DGX Spark</span>
+              </div>
+              <div class="prize">
+                <span class="prize-place">2nd</span>
+                <span class="prize-value">$2K + RTX 5090</span>
+              </div>
+              <div class="prize">
+                <span class="prize-place">3rd</span>
+                <span class="prize-value">$500 Credits</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="footer-brand">RefereAI</span>
+      <span class="footer-divider">|</span>
+      <span>Powered by NVIDIA Cosmos Reason 2</span>
+      <span class="footer-divider">|</span>
+      <span>Jetson AGX Orin</span>
+    </div>
+  </footer>
+
+  <script type="module" src="/main.js"></script>
+</body>
+</html>

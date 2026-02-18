@@ -130,6 +130,7 @@ async def main():
     parser.add_argument("--model", help="Model name")
     parser.add_argument("--list-sports", action="store_true", help="List supported sports")
     parser.add_argument("--all-modes", action="store_true", help="Run all analysis modes")
+    parser.add_argument("--save-output", help="Save results to JSON file")
     args = parser.parse_args()
 
     if args.list_sports:
@@ -165,24 +166,44 @@ async def main():
 
     print(f"Connected to {config.endpoint} ({config.model})")
 
+    result = None
+
     if args.image:
         image_b64 = load_image_base64(args.image)
         print(f"Loaded image: {args.image} ({len(image_b64) // 1024}KB base64)")
 
         if args.all_modes:
             for mode in ["scene", "physics", "commentary"]:
-                await analyze_image(backend, image_b64, args.sport, mode)
+                result = await analyze_image(backend, image_b64, args.sport, mode)
         else:
-            await analyze_image(backend, image_b64, args.sport, args.mode)
+            result = await analyze_image(backend, image_b64, args.sport, args.mode)
 
     elif args.video:
         video_b64 = load_video_base64(args.video)
         print(f"Loaded video: {args.video} ({len(video_b64) // 1024}KB base64)")
-        await analyze_video(backend, video_b64, args.sport)
+        result = await analyze_video(backend, video_b64, args.sport)
 
     # Print stats
+    stats = backend.get_stats()
     print(f"\n--- Backend Stats ---")
-    print(json.dumps(backend.get_stats(), indent=2))
+    print(json.dumps(stats, indent=2))
+
+    # Save output if requested
+    if args.save_output and result:
+        output = {
+            "sport": args.sport,
+            "mode": args.mode if not args.all_modes else "all",
+            "thinking": result.thinking,
+            "answer": result.answer,
+            "raw_response": result.raw_response,
+            "latency_ms": result.latency_ms,
+            "token_count": result.token_count,
+            "model": result.model,
+            "stats": stats,
+        }
+        with open(args.save_output, "w") as f:
+            json.dump(output, f, indent=2)
+        print(f"\nOutput saved to {args.save_output}")
 
     await backend.close()
 

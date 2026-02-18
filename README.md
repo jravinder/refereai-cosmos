@@ -1,6 +1,6 @@
 # RefereAI x Cosmos Reason 2
 
-**AI-powered sports companion with physical reasoning** — ball tracking, AI commentary, live scoring, and Hawk-Eye style replay analysis for amateur sports.
+**AI-powered sports companion with physical reasoning** — ball tracking, AI commentary, live scoring, and chain-of-thought decision-making for amateur sports.
 
 Built for the [NVIDIA Cosmos Cookoff](https://luma.com/nvidia-cosmos-cookoff) hackathon.
 
@@ -9,9 +9,9 @@ Built for the [NVIDIA Cosmos Cookoff](https://luma.com/nvidia-cosmos-cookoff) ha
 RefereAI uses **NVIDIA Cosmos Reason 2** to bring professional-level AI analysis to any sports match with just a camera and a phone:
 
 - **Ball Tracking** — Physical reasoning about trajectories, spin, bounce angles
-- **AI Commentary** — Scene understanding drives context-aware commentary in 6 languages
+- **AI Commentary** — Scene understanding drives context-aware play-by-play commentary
 - **Scoring Decisions** — Line calls (in/out), boundary detection, rule compliance with chain-of-thought reasoning
-- **Replay Analysis** — Post-play reasoning about what happened and why
+- **Video Analysis** — Post-play reasoning about what happened and why
 - **Multi-Sport** — Cricket, tennis, pickleball, badminton, table tennis from one system
 
 ### Why Cosmos Reason 2?
@@ -37,41 +37,68 @@ Camera → Jetson AGX Orin 64GB (everything on-device)
 
 ### Prerequisites
 
-- NVIDIA Jetson AGX Orin (64GB) with JetPack 6.x
-- Docker installed
-- NGC API key from [build.nvidia.com](https://build.nvidia.com/nvidia/cosmos-reason2-8b)
+- GPU with 32GB+ VRAM (Jetson AGX Orin 64GB, H100, or similar)
+- Python 3.10+ with `pip install httpx python-dotenv`
+- One of: vLLM, NIM container, or HuggingFace transformers
 
-### 1. Deploy Cosmos NIM on Jetson
+### Option A: vLLM (Recommended)
+
+```bash
+# Install vLLM (>=0.11.0)
+pip install vllm
+
+# Serve Cosmos Reason 2 (downloads from HuggingFace automatically)
+vllm serve nvidia/Cosmos-Reason2-8B \
+  --allowed-local-media-path "$(pwd)" \
+  --max-model-len 16384 \
+  --reasoning-parser qwen3 \
+  --port 8000
+```
+
+### Option B: NIM Container (Jetson / Docker)
 
 ```bash
 # Login to NGC
 docker login nvcr.io
 # Username: $oauthtoken
-# Password: <your NGC API key>
+# Password: <your NGC API key from build.nvidia.com>
 
-# Pull and run the NIM container
-export NGC_API_KEY=<your-key>
-export LOCAL_NIM_CACHE=~/.cache/nim
-mkdir -p "$LOCAL_NIM_CACHE"
-
+# Pull and run
 docker run -d --name cosmos-nim \
   --gpus all --ipc host --shm-size=32GB \
   -e NGC_API_KEY \
-  -v "$LOCAL_NIM_CACHE:/opt/nim/.cache" \
+  -v ~/.cache/nim:/opt/nim/.cache \
   -p 8000:8000 \
   nvcr.io/nim/nvidia/cosmos-reason2-8b:latest
 ```
 
-### 2. Configure
+### Option C: Local GGUF (Apple Silicon / CPU)
+
+```bash
+# Install llama.cpp
+brew install llama.cpp
+
+# Download quantized model (8.71GB + 752MB vision encoder)
+huggingface-cli download prithivMLmods/Cosmos-Reason2-8B-GGUF \
+  Cosmos-Reason2-8B.Q8_0.gguf \
+  Cosmos-Reason2-8B.mmproj-q8_0.gguf \
+  --local-dir ./models
+
+# Run inference on an image
+llama-mtmd-cli \
+  -m ./models/Cosmos-Reason2-8B.Q8_0.gguf \
+  --mmproj ./models/Cosmos-Reason2-8B.mmproj-q8_0.gguf \
+  --image cricket_test.jpg \
+  -p "Analyze this cricket frame..." \
+  --temp 0.3 -n 1024
+```
+
+### Configure and Run
 
 ```bash
 cp .env.example .env
-# Edit .env with your API key and endpoint
-```
+# Edit .env — default endpoint is http://localhost:8000/v1
 
-### 3. Run Demo
-
-```bash
 pip install httpx python-dotenv
 
 # Analyze a cricket frame
@@ -79,6 +106,9 @@ python demo.py --image cricket_frame.jpg --sport cricket --all-modes
 
 # Analyze a tennis video clip
 python demo.py --video tennis_rally.mp4 --sport tennis
+
+# Save output to JSON
+python demo.py --image frame.jpg --sport cricket --mode physics --save-output output.json
 
 # List supported sports
 python demo.py --list-sports
@@ -89,9 +119,10 @@ python demo.py --list-sports
 | File | Purpose |
 |------|---------|
 | `cosmos_reason2.py` | `CosmosReason2Backend` — VisionBackend implementation with chain-of-thought parsing, video clip support, observability |
-| `cosmos_prompts.py` | Sport-specific physical reasoning prompts (5 sports x 5 modes) |
+| `cosmos_prompts.py` | Sport-specific physical reasoning prompts (5 sports x 3 modes) |
 | `cosmos_sports_agent.py` | `CosmosScorePipeline` — agentic loop: frame → Cosmos → GameEvent → ScoringEngine → WebSocket |
 | `demo.py` | CLI demo script for testing |
+| `index.html` | Submission showcase page (open in browser) |
 | `.env.example` | Configuration template |
 
 ## How the Reasoning Works
@@ -130,7 +161,7 @@ This reasoning chain is:
 
 ## Team
 
-Built by [Ravinder Jilkapally](https://github.com/jravinder) and the RefereAI team.
+Built by [Ravinder Jilkapally](https://github.com/jravinder).
 
 ---
 
