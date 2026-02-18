@@ -5,3 +5,4 @@ __pycache__/
 node_modules/
 demo/dist/
 demo/node_modules/
+.vercel

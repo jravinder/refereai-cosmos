@@ -188,7 +188,15 @@ function initNavbarScroll() {
 
 // ── Live Inference (Image-based) ──────────────────────────────
 function initLiveInference() {
-  const COSMOS_URL = 'http://192.168.4.124:8000/v1/chat/completions';
+  // Cosmos endpoint — configurable via ?endpoint= query param
+  // Local: http://192.168.4.124:8000/v1/chat/completions
+  // Tailscale: https://<jetson-hostname>:8000/v1/chat/completions
+  const params = new URLSearchParams(window.location.search);
+  const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  const COSMOS_URL = params.get('endpoint')
+    || (isLocal
+      ? 'http://192.168.4.124:8000/v1/chat/completions'
+      : '/api/cosmos');  // Vercel proxy route (avoids mixed-content)
 
   const sportSelect = document.getElementById('live-sport');
   const promptInput = document.getElementById('live-prompt');
@@ -476,7 +484,10 @@ function initLiveInference() {
 
       displayResult(thinking, answer, elapsed, usage.total_tokens || '?', true);
     } catch (err) {
-      errorDiv.textContent = `Inference failed: ${err.message}. Ensure the Jetson is reachable at ${COSMOS_URL}`;
+      const hint = isLocal
+        ? `Ensure the Jetson is reachable at ${COSMOS_URL}`
+        : 'Live inference requires Jetson AGX Orin. Try a sample image to see cached Cosmos reasoning.';
+      errorDiv.textContent = `Inference failed: ${err.message}. ${hint}`;
       errorDiv.style.display = 'block';
     } finally {
       sendBtn.disabled = false;

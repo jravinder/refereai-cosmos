@@ -1,5 +1,8 @@
 {
   "buildCommand": "cd demo && npm install && npm run build",
   "outputDirectory": "demo/dist",
-  "framework": "vite"
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/api/cosmos", "destination": "/api/cosmos" }
+  ]
 }
