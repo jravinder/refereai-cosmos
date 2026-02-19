@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   const apiKey = process.env.COSMOS_API_KEY;
   const provided = req.headers['x-cosmos-key'];
   if (!apiKey || provided !== apiKey) {
-    return res.status(401).json({ error: 'Unauthorized' });
+    return res.status(401).json({ error: 'Unauthorized', debug: { hasApiKey: !!apiKey, hasProvided: !!provided, match: apiKey === provided } });
   }
 
   const backendUrl = process.env.COSMOS_BACKEND_URL;
