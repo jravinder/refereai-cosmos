@@ -449,7 +449,7 @@ function initLiveInference() {
       }
 
       const headers = { 'Content-Type': 'application/json' };
-      if (!isLocal) headers['x-cosmos-key'] = 'rai-cosmos-2026-cookoff';
+      if (!isLocal && import.meta.env.VITE_COSMOS_KEY) headers['x-cosmos-key'] = import.meta.env.VITE_COSMOS_KEY;
 
       const response = await fetch(COSMOS_URL, {
         method: 'POST',
