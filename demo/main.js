@@ -237,12 +237,27 @@ function initLiveInference() {
     tabletennis: 'Analyze this table tennis frame. Identify the stroke type (loop, push, chop, flick, block, smash) and spin (topspin, backspin, sidespin). Check ball position relative to the table edge — edge ball vs side contact. If serving, verify open palm, 16cm toss, and visibility.',
   };
 
+  const deviceEl = document.getElementById('live-device-val');
+
   // ── Display result with typing animation ──
-  function displayResult(thinking, answer, latency, tokens, animated) {
+  function displayResult(thinking, answer, latency, tokens, animated, meta) {
     thinkingEl.textContent = '';
     answerEl.textContent = '';
     latencyEl.textContent = `${latency}s latency`;
     tokensEl.textContent = `${tokens} tokens`;
+
+    // Show source: cached vs live Jetson
+    if (meta?.source === 'live') {
+      deviceEl.textContent = `Jetson AGX Orin (live)`;
+      deviceEl.style.color = '#34d399'; // green — live
+    } else if (meta?.source === 'cached') {
+      deviceEl.textContent = `Pre-cached result`;
+      deviceEl.style.color = '#fbbf24'; // amber — cached
+    } else {
+      deviceEl.textContent = 'Jetson AGX Orin';
+      deviceEl.style.color = '';
+    }
+
     resultDiv.style.display = 'block';
 
     if (animated && thinking) {
@@ -419,7 +434,7 @@ function initLiveInference() {
       sendBtn.disabled = false;
       btnText.textContent = 'Analyze Frame';
 
-      displayResult(cached.thinking, cached.answer, cached.latency_s, cached.tokens, true);
+      displayResult(cached.thinking, cached.answer, cached.latency_s, cached.tokens, true, { source: 'cached' });
       return;
     }
 
@@ -485,7 +500,13 @@ function initLiveInference() {
       const ansMatch = answer.match(/<answer>([\s\S]*?)<\/answer>/);
       if (ansMatch) answer = ansMatch[1].trim();
 
-      displayResult(thinking, answer, elapsed, usage.total_tokens || '?', true);
+      // Log observability metadata from proxy
+      const proxyMeta = data._refereai || {};
+      if (proxyMeta.request_id) {
+        console.log(`[RefereAI] request_id=${proxyMeta.request_id} proxy=${proxyMeta.proxy_latency_ms}ms total=${elapsed}s tokens=${usage.total_tokens || '?'}`);
+      }
+
+      displayResult(thinking, answer, elapsed, usage.total_tokens || '?', true, { source: 'live', ...proxyMeta });
     } catch (err) {
       const hint = isLocal
         ? `Ensure the Jetson is reachable at ${COSMOS_URL}`
