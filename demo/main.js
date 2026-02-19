@@ -448,9 +448,12 @@ function initLiveInference() {
         contentParts.push({ type: 'image_url', image_url: { url: 'data:image/jpeg;base64,' + media.base64 } });
       }
 
+      const headers = { 'Content-Type': 'application/json' };
+      if (!isLocal) headers['x-cosmos-key'] = 'rai-cosmos-2026-cookoff';
+
       const response = await fetch(COSMOS_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify({
           model: 'nvidia/cosmos-reason2-8b',
           messages: [
