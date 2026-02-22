@@ -20,11 +20,11 @@
   --text-secondary: rgba(255, 255, 255, 0.65);
   --text-muted:     rgba(255, 255, 255, 0.45);
 
-  /* Accent — NVIDIA green (hackathon branding) */
-  --accent:         #76B900;
-  --accent-dim:     rgba(118, 185, 0, 0.15);
-  --accent-glow:    rgba(118, 185, 0, 0.35);
-  --accent-bright:  #8fd400;
+  /* Accent — Electric Cyan (matching landing page) */
+  --accent:         #00eaff;
+  --accent-dim:     rgba(0, 234, 255, 0.12);
+  --accent-glow:    rgba(0, 234, 255, 0.35);
+  --accent-bright:  #33eeff;
 
   /* Multi-color palette — matches landing page */
   --cyan:           #00d9ff;
@@ -35,13 +35,13 @@
   --orange:         #fb923c;
 
   /* Gradients */
-  --gradient-accent: linear-gradient(135deg, #76B900, #8fd400, #76B900);
-  --gradient-bg:     linear-gradient(180deg, #080810 0%, #0a1206 50%, #080810 100%);
-  --gradient-card:   linear-gradient(160deg, rgba(118,185,0,0.08), transparent 60%);
-  --gradient-border: linear-gradient(135deg, rgba(118,185,0,0.4), rgba(118,185,0,0.05));
+  --gradient-accent: linear-gradient(135deg, #00eaff, #33eeff, #00eaff);
+  --gradient-bg:     linear-gradient(180deg, #080810 0%, #0a1020 50%, #080810 100%);
+  --gradient-card:   linear-gradient(160deg, rgba(0,234,255,0.06), transparent 60%);
+  --gradient-border: linear-gradient(135deg, rgba(0,234,255,0.4), rgba(0,234,255,0.05));
 
   /* Glass */
-  --glass-bg:       rgba(10, 10, 16, 0.7);
+  --glass-bg:       rgba(19, 19, 31, 0.7);
   --glass-blur:     24px;
 
   /* Typography — matches landing page */

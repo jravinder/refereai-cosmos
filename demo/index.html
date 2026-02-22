@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RefereAI x Cosmos Reason 2 | AI-Powered Sports Companion</title>
-  <meta name="description" content="Physical AI reasoning for amateur sports. Powered by NVIDIA Cosmos Reason 2 on Jetson AGX Orin." />
+  <title>RefereAI — Your Personal Coach, Referee &amp; Guide</title>
+  <meta name="description" content="Every player deserves an AI companion. RefereAI watches the game, reasons about ball physics, and keeps score — powered by NVIDIA Cosmos Reason 2." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Nunito:ital,wght@1,900&display=swap" rel="stylesheet" />
@@ -44,16 +44,15 @@
     <div class="container hero-content">
       <div class="hero-badge">
         <span class="badge-dot"></span>
-        Cosmos Cookoff Hackathon 2026
+        NVIDIA Cosmos Cookoff 2026
       </div>
       <h1 class="hero-title">
-        RefereAI
-        <span class="hero-x">x</span>
-        <span class="hero-cosmos">Cosmos Reason 2</span>
+        Your personal
+        <span class="hero-cosmos">coach, referee &amp; guide</span>
       </h1>
       <p class="hero-tagline">
-        Your AI-powered sports companion with <em>physical reasoning</em>.<br/>
-        Turn any backyard game into a professional match.
+        Every player deserves an AI companion that watches the game, understands the physics,
+        and keeps score &mdash; so you can just <em>play</em>.
       </p>
       <div class="hero-stats">
         <div class="hero-stat">
@@ -62,28 +61,28 @@
         </div>
         <div class="hero-stat-divider"></div>
         <div class="hero-stat">
-          <span class="hero-stat-number">CoT</span>
-          <span class="hero-stat-label">Reasoning</span>
+          <span class="hero-stat-number">Edge</span>
+          <span class="hero-stat-label">On-Device AI</span>
         </div>
         <div class="hero-stat-divider"></div>
         <div class="hero-stat">
-          <span class="hero-stat-number">Edge</span>
-          <span class="hero-stat-label">AI Processing</span>
+          <span class="hero-stat-number">CoT</span>
+          <span class="hero-stat-label">Physical Reasoning</span>
         </div>
         <div class="hero-stat-divider"></div>
         <div class="hero-stat">
           <span class="hero-stat-number">&lt;2s</span>
-          <span class="hero-stat-label">Latency</span>
+          <span class="hero-stat-label">Frame to Score</span>
         </div>
       </div>
       <div class="hero-cta-row">
-        <a href="#architecture" class="btn btn--primary">See Architecture</a>
-        <a href="#reasoning" class="btn btn--outline">Live Reasoning</a>
+        <a href="#live" class="btn btn--primary">Try Live Reasoning</a>
+        <a href="#sports" class="btn btn--outline">Explore 5 Sports</a>
       </div>
     </div>
 
     <div class="hero-scroll-hint">
-      <span>Scroll to explore</span>
+      <span>See how it works</span>
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
         <path d="M10 4v12M5 11l5 5 5-5"/>
       </svg>
@@ -96,11 +95,11 @@
   <section class="section" id="architecture">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag">System Design</span>
-        <h2 class="section-title">Edge AI Pipeline</h2>
+        <span class="section-tag">How It Works</span>
+        <h2 class="section-title">From Camera to Scoreboard</h2>
         <p class="section-subtitle">
-          Camera to scoreboard in under 2 seconds. No cloud dependency.
-          Physical reasoning happens entirely on device.
+          Point your phone. The AI watches the game, reasons about ball physics,
+          and updates the score &mdash; all in under 2 seconds, entirely on device.
         </p>
       </div>
 
@@ -108,10 +107,10 @@
         <div class="pipeline-step" data-step="1">
           <div class="pipeline-icon">
             <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-              <rect x="4" y="8" width="28" height="18" rx="3" stroke="#76B900" stroke-width="2"/>
-              <circle cx="18" cy="17" r="5" stroke="#76B900" stroke-width="2"/>
-              <circle cx="18" cy="17" r="2" fill="#76B900"/>
-              <rect x="15" y="26" width="6" height="3" rx="1" fill="#76B900" opacity="0.5"/>
+              <rect x="4" y="8" width="28" height="18" rx="3" stroke="#00eaff" stroke-width="2"/>
+              <circle cx="18" cy="17" r="5" stroke="#00eaff" stroke-width="2"/>
+              <circle cx="18" cy="17" r="2" fill="#00eaff"/>
+              <rect x="15" y="26" width="6" height="3" rx="1" fill="#00eaff" opacity="0.5"/>
             </svg>
           </div>
           <h3>Camera Feed</h3>
@@ -120,7 +119,7 @@
 
         <div class="pipeline-arrow">
           <svg width="48" height="24" viewBox="0 0 48 24" fill="none">
-            <path d="M0 12h40M34 6l6 6-6 6" stroke="#76B900" stroke-width="2" stroke-linecap="round"/>
+            <path d="M0 12h40M34 6l6 6-6 6" stroke="#00eaff" stroke-width="2" stroke-linecap="round"/>
           </svg>
           <span class="pipeline-arrow-label">Frames</span>
         </div>
@@ -128,11 +127,11 @@
         <div class="pipeline-step pipeline-step--hero" data-step="2">
           <div class="pipeline-icon pipeline-icon--nvidia">
             <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-              <rect x="3" y="3" width="30" height="30" rx="4" stroke="#76B900" stroke-width="2"/>
-              <rect x="8" y="8" width="8" height="8" rx="1" fill="#76B900" opacity="0.7"/>
-              <rect x="20" y="8" width="8" height="8" rx="1" fill="#76B900" opacity="0.5"/>
-              <rect x="8" y="20" width="8" height="8" rx="1" fill="#76B900" opacity="0.5"/>
-              <rect x="20" y="20" width="8" height="8" rx="1" fill="#76B900" opacity="0.3"/>
+              <rect x="3" y="3" width="30" height="30" rx="4" stroke="#00eaff" stroke-width="2"/>
+              <rect x="8" y="8" width="8" height="8" rx="1" fill="#00eaff" opacity="0.7"/>
+              <rect x="20" y="8" width="8" height="8" rx="1" fill="#00eaff" opacity="0.5"/>
+              <rect x="8" y="20" width="8" height="8" rx="1" fill="#00eaff" opacity="0.5"/>
+              <rect x="20" y="20" width="8" height="8" rx="1" fill="#00eaff" opacity="0.3"/>
             </svg>
           </div>
           <h3>Jetson AGX Orin</h3>
@@ -141,7 +140,7 @@
 
         <div class="pipeline-arrow">
           <svg width="48" height="24" viewBox="0 0 48 24" fill="none">
-            <path d="M0 12h40M34 6l6 6-6 6" stroke="#76B900" stroke-width="2" stroke-linecap="round"/>
+            <path d="M0 12h40M34 6l6 6-6 6" stroke="#00eaff" stroke-width="2" stroke-linecap="round"/>
           </svg>
           <span class="pipeline-arrow-label">Keyframes</span>
         </div>
@@ -149,10 +148,10 @@
         <div class="pipeline-step pipeline-step--cosmos" data-step="3">
           <div class="pipeline-icon pipeline-icon--cosmos">
             <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-              <circle cx="18" cy="18" r="14" stroke="#76B900" stroke-width="2" stroke-dasharray="4 3"/>
-              <circle cx="18" cy="18" r="8" stroke="#76B900" stroke-width="1.5"/>
-              <circle cx="18" cy="18" r="3" fill="#76B900"/>
-              <path d="M18 4v4M18 28v4M4 18h4M28 18h4" stroke="#76B900" stroke-width="1.5" stroke-linecap="round"/>
+              <circle cx="18" cy="18" r="14" stroke="#00eaff" stroke-width="2" stroke-dasharray="4 3"/>
+              <circle cx="18" cy="18" r="8" stroke="#00eaff" stroke-width="1.5"/>
+              <circle cx="18" cy="18" r="3" fill="#00eaff"/>
+              <path d="M18 4v4M18 28v4M4 18h4M28 18h4" stroke="#00eaff" stroke-width="1.5" stroke-linecap="round"/>
             </svg>
           </div>
           <h3>Cosmos Reason 2</h3>
@@ -161,7 +160,7 @@
 
         <div class="pipeline-arrow">
           <svg width="48" height="24" viewBox="0 0 48 24" fill="none">
-            <path d="M0 12h40M34 6l6 6-6 6" stroke="#76B900" stroke-width="2" stroke-linecap="round"/>
+            <path d="M0 12h40M34 6l6 6-6 6" stroke="#00eaff" stroke-width="2" stroke-linecap="round"/>
           </svg>
           <span class="pipeline-arrow-label">Events</span>
         </div>
@@ -169,10 +168,10 @@
         <div class="pipeline-step" data-step="4">
           <div class="pipeline-icon">
             <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-              <rect x="9" y="4" width="18" height="28" rx="4" stroke="#76B900" stroke-width="2"/>
-              <rect x="14" y="27" width="8" height="2" rx="1" fill="#76B900" opacity="0.5"/>
-              <rect x="13" y="9" width="10" height="6" rx="1" stroke="#76B900" stroke-width="1.5"/>
-              <text x="18" y="14" text-anchor="middle" fill="#76B900" font-size="5" font-weight="bold">42</text>
+              <rect x="9" y="4" width="18" height="28" rx="4" stroke="#00eaff" stroke-width="2"/>
+              <rect x="14" y="27" width="8" height="2" rx="1" fill="#00eaff" opacity="0.5"/>
+              <rect x="13" y="9" width="10" height="6" rx="1" stroke="#00eaff" stroke-width="1.5"/>
+              <text x="18" y="14" text-anchor="middle" fill="#00eaff" font-size="5" font-weight="bold">42</text>
             </svg>
           </div>
           <h3>Mobile App</h3>
@@ -207,10 +206,11 @@
   <section class="section section--dark" id="sports">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag">Multi-Sport</span>
+        <span class="section-tag">Your Game, Your Rules</span>
         <h2 class="section-title">Five Sports. One AI.</h2>
         <p class="section-subtitle">
-          Sport-specific physical reasoning prompts tuned for each game's unique physics.
+          Whether it's gully cricket in Mumbai, park tennis in London, or pickleball in your backyard &mdash;
+          RefereAI understands the physics of your game.
         </p>
       </div>
 
@@ -227,10 +227,10 @@
         <div class="sport-card active" data-sport="cricket">
           <div class="sport-card-icon">
             <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-              <circle cx="32" cy="20" r="6" stroke="#76B900" stroke-width="2.5"/>
-              <line x1="32" y1="26" x2="32" y2="56" stroke="#76B900" stroke-width="2.5" stroke-linecap="round"/>
-              <line x1="20" y1="36" x2="44" y2="36" stroke="#76B900" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
-              <circle cx="50" cy="14" r="4" fill="#76B900" opacity="0.6"/>
+              <circle cx="32" cy="20" r="6" stroke="#00eaff" stroke-width="2.5"/>
+              <line x1="32" y1="26" x2="32" y2="56" stroke="#00eaff" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="20" y1="36" x2="44" y2="36" stroke="#00eaff" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+              <circle cx="50" cy="14" r="4" fill="#00eaff" opacity="0.6"/>
             </svg>
           </div>
           <div class="sport-card-content">
@@ -254,10 +254,10 @@
         <div class="sport-card" data-sport="tennis">
           <div class="sport-card-icon">
             <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-              <circle cx="32" cy="32" r="18" stroke="#76B900" stroke-width="2.5"/>
-              <path d="M14 32c0-10 8-18 18-18" stroke="#76B900" stroke-width="2" opacity="0.5"/>
-              <path d="M50 32c0 10-8 18-18 18" stroke="#76B900" stroke-width="2" opacity="0.5"/>
-              <line x1="14" y1="32" x2="50" y2="32" stroke="#76B900" stroke-width="1.5" opacity="0.3"/>
+              <circle cx="32" cy="32" r="18" stroke="#00eaff" stroke-width="2.5"/>
+              <path d="M14 32c0-10 8-18 18-18" stroke="#00eaff" stroke-width="2" opacity="0.5"/>
+              <path d="M50 32c0 10-8 18-18 18" stroke="#00eaff" stroke-width="2" opacity="0.5"/>
+              <line x1="14" y1="32" x2="50" y2="32" stroke="#00eaff" stroke-width="1.5" opacity="0.3"/>
             </svg>
           </div>
           <div class="sport-card-content">
@@ -281,10 +281,10 @@
         <div class="sport-card" data-sport="pickleball">
           <div class="sport-card-icon">
             <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-              <rect x="16" y="10" width="18" height="30" rx="9" stroke="#76B900" stroke-width="2.5"/>
-              <line x1="25" y1="40" x2="25" y2="56" stroke="#76B900" stroke-width="2.5" stroke-linecap="round"/>
-              <circle cx="44" cy="20" r="5" stroke="#76B900" stroke-width="2" stroke-dasharray="3 2"/>
-              <line x1="14" y1="48" x2="50" y2="48" stroke="#76B900" stroke-width="1.5" opacity="0.3" stroke-dasharray="4 3"/>
+              <rect x="16" y="10" width="18" height="30" rx="9" stroke="#00eaff" stroke-width="2.5"/>
+              <line x1="25" y1="40" x2="25" y2="56" stroke="#00eaff" stroke-width="2.5" stroke-linecap="round"/>
+              <circle cx="44" cy="20" r="5" stroke="#00eaff" stroke-width="2" stroke-dasharray="3 2"/>
+              <line x1="14" y1="48" x2="50" y2="48" stroke="#00eaff" stroke-width="1.5" opacity="0.3" stroke-dasharray="4 3"/>
             </svg>
           </div>
           <div class="sport-card-content">
@@ -308,11 +308,11 @@
         <div class="sport-card" data-sport="badminton">
           <div class="sport-card-icon">
             <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-              <ellipse cx="25" cy="16" rx="8" ry="12" stroke="#76B900" stroke-width="2.5"/>
-              <line x1="25" y1="28" x2="25" y2="56" stroke="#76B900" stroke-width="2.5" stroke-linecap="round"/>
-              <circle cx="46" cy="12" r="3" fill="#76B900" opacity="0.6"/>
-              <path d="M43 15 L49 9" stroke="#76B900" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
-              <path d="M46 15 L46 9" stroke="#76B900" stroke-width="1" stroke-linecap="round" opacity="0.3"/>
+              <ellipse cx="25" cy="16" rx="8" ry="12" stroke="#00eaff" stroke-width="2.5"/>
+              <line x1="25" y1="28" x2="25" y2="56" stroke="#00eaff" stroke-width="2.5" stroke-linecap="round"/>
+              <circle cx="46" cy="12" r="3" fill="#00eaff" opacity="0.6"/>
+              <path d="M43 15 L49 9" stroke="#00eaff" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+              <path d="M46 15 L46 9" stroke="#00eaff" stroke-width="1" stroke-linecap="round" opacity="0.3"/>
             </svg>
           </div>
           <div class="sport-card-content">
@@ -336,11 +336,11 @@
         <div class="sport-card" data-sport="tabletennis">
           <div class="sport-card-icon">
             <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-              <circle cx="24" cy="20" r="12" stroke="#76B900" stroke-width="2.5"/>
-              <line x1="24" y1="32" x2="24" y2="56" stroke="#76B900" stroke-width="2.5" stroke-linecap="round"/>
-              <circle cx="46" cy="16" r="4" fill="#76B900" opacity="0.6"/>
-              <rect x="10" y="44" width="44" height="2" rx="1" fill="#76B900" opacity="0.2"/>
-              <line x1="32" y1="40" x2="32" y2="48" stroke="#76B900" stroke-width="1.5" opacity="0.3"/>
+              <circle cx="24" cy="20" r="12" stroke="#00eaff" stroke-width="2.5"/>
+              <line x1="24" y1="32" x2="24" y2="56" stroke="#00eaff" stroke-width="2.5" stroke-linecap="round"/>
+              <circle cx="46" cy="16" r="4" fill="#00eaff" opacity="0.6"/>
+              <rect x="10" y="44" width="44" height="2" rx="1" fill="#00eaff" opacity="0.2"/>
+              <line x1="32" y1="40" x2="32" y2="48" stroke="#00eaff" stroke-width="1.5" opacity="0.3"/>
             </svg>
           </div>
           <div class="sport-card-content">
@@ -369,11 +369,11 @@
   <section class="section" id="reasoning">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag">Physical AI</span>
-        <h2 class="section-title">Chain-of-Thought Reasoning</h2>
+        <span class="section-tag">The AI Brain</span>
+        <h2 class="section-title">Watch It Think</h2>
         <p class="section-subtitle">
-          Cosmos Reason 2 thinks step-by-step about ball physics before making a call.
-          Here is what that looks like in action.
+          Just like a real umpire, RefereAI watches the play, reasons about what happened,
+          and makes a call &mdash; except it shows you its entire thought process.
         </p>
       </div>
 
@@ -479,11 +479,11 @@ and determine the scoring event.
   <section class="section section--dark" id="live">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag">Live Demo</span>
-        <h2 class="section-title">See It Think</h2>
+        <span class="section-tag">Try It Yourself</span>
+        <h2 class="section-title">Live Reasoning</h2>
         <p class="section-subtitle">
-          Feed a sports image to Cosmos Reason 2 on the Jetson AGX Orin.
-          Watch it reason about ball physics, player positions, and make a call.
+          Pick a sports clip below and watch Cosmos Reason 2 analyze it in real time.
+          See the chain-of-thought reasoning as the AI figures out what happened.
         </p>
       </div>
 
@@ -545,7 +545,7 @@ and determine the scoring event.
               </button>
               <label class="live-sample live-sample--upload" tabindex="0">
                 <input type="file" id="live-upload" accept="image/*,video/mp4" hidden />
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="#76B900" stroke-width="2"><path d="M16 22V10M10 16l6-6 6 6"/><rect x="4" y="4" width="24" height="24" rx="4"/></svg>
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="#00eaff" stroke-width="2"><path d="M16 22V10M10 16l6-6 6 6"/><rect x="4" y="4" width="24" height="24" rx="4"/></svg>
                 <span class="live-sample-label">Upload</span>
               </label>
             </div>
@@ -559,7 +559,7 @@ and determine the scoring event.
             <video id="live-preview-video" muted loop playsinline style="display:none;"></video>
             <div class="live-preview-overlay" id="live-overlay" style="display:none;">
               <div class="live-preview-spinner">
-                <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" stroke="#76B900" stroke-width="3" stroke-dasharray="80 40" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" from="0 24 24" to="360 24 24" dur="1s" repeatCount="indefinite"/></circle></svg>
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" stroke="#00eaff" stroke-width="3" stroke-dasharray="80 40" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" from="0 24 24" to="360 24 24" dur="1s" repeatCount="indefinite"/></circle></svg>
               </div>
               <span class="live-preview-status">Analyzing with Cosmos Reason 2...</span>
             </div>
@@ -637,10 +637,11 @@ and determine the scoring event.
   <section class="section section--dark" id="features">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag">Capabilities</span>
-        <h2 class="section-title">What RefereAI Does</h2>
+        <span class="section-tag">What You Get</span>
+        <h2 class="section-title">Your AI Companion</h2>
         <p class="section-subtitle">
-          Professional-grade sports analysis, powered entirely at the edge.
+          Everything you need to turn a casual game into something special &mdash;
+          no extra equipment, no internet, no subscription.
         </p>
       </div>
 
@@ -648,11 +649,11 @@ and determine the scoring event.
         <div class="feature-card feature-card--large">
           <div class="feature-icon">
             <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-              <circle cx="10" cy="30" r="3" fill="#76B900"/>
-              <circle cx="18" cy="18" r="3" fill="#76B900" opacity="0.7"/>
-              <circle cx="26" cy="24" r="3" fill="#76B900" opacity="0.5"/>
-              <circle cx="34" cy="10" r="3" fill="#76B900" opacity="0.3"/>
-              <path d="M10 30 Q14 18 18 18 Q22 18 26 24 Q30 30 34 10" stroke="#76B900" stroke-width="2" fill="none" stroke-dasharray="4 2"/>
+              <circle cx="10" cy="30" r="3" fill="#00eaff"/>
+              <circle cx="18" cy="18" r="3" fill="#00eaff" opacity="0.7"/>
+              <circle cx="26" cy="24" r="3" fill="#00eaff" opacity="0.5"/>
+              <circle cx="34" cy="10" r="3" fill="#00eaff" opacity="0.3"/>
+              <path d="M10 30 Q14 18 18 18 Q22 18 26 24 Q30 30 34 10" stroke="#00eaff" stroke-width="2" fill="none" stroke-dasharray="4 2"/>
             </svg>
           </div>
           <h3>Physical Reasoning</h3>
@@ -671,10 +672,10 @@ and determine the scoring event.
         <div class="feature-card feature-card--large">
           <div class="feature-icon">
             <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-              <rect x="4" y="8" width="32" height="24" rx="3" stroke="#76B900" stroke-width="2"/>
-              <path d="M12 16h6M12 20h10M12 24h8" stroke="#76B900" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
-              <circle cx="30" cy="16" r="4" stroke="#76B900" stroke-width="1.5"/>
-              <path d="M28 18l2-2 2 2" stroke="#76B900" stroke-width="1.5" stroke-linecap="round"/>
+              <rect x="4" y="8" width="32" height="24" rx="3" stroke="#00eaff" stroke-width="2"/>
+              <path d="M12 16h6M12 20h10M12 24h8" stroke="#00eaff" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+              <circle cx="30" cy="16" r="4" stroke="#00eaff" stroke-width="1.5"/>
+              <path d="M28 18l2-2 2 2" stroke="#00eaff" stroke-width="1.5" stroke-linecap="round"/>
             </svg>
           </div>
           <h3>AI Commentary</h3>
@@ -693,9 +694,9 @@ and determine the scoring event.
         <div class="feature-card">
           <div class="feature-icon">
             <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-              <rect x="6" y="6" width="28" height="28" rx="4" stroke="#76B900" stroke-width="2"/>
-              <text x="20" y="24" text-anchor="middle" fill="#76B900" font-size="14" font-weight="bold">42</text>
-              <circle cx="32" cy="10" r="4" fill="#76B900" opacity="0.3"/>
+              <rect x="6" y="6" width="28" height="28" rx="4" stroke="#00eaff" stroke-width="2"/>
+              <text x="20" y="24" text-anchor="middle" fill="#00eaff" font-size="14" font-weight="bold">42</text>
+              <circle cx="32" cy="10" r="4" fill="#00eaff" opacity="0.3"/>
             </svg>
           </div>
           <h3>Live Scoring</h3>
@@ -708,8 +709,8 @@ and determine the scoring event.
         <div class="feature-card">
           <div class="feature-icon">
             <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-              <rect x="6" y="6" width="28" height="28" rx="4" stroke="#76B900" stroke-width="2"/>
-              <path d="M12 20h6l2-6 4 12 2-6h6" stroke="#76B900" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <rect x="6" y="6" width="28" height="28" rx="4" stroke="#00eaff" stroke-width="2"/>
+              <path d="M12 20h6l2-6 4 12 2-6h6" stroke="#00eaff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </div>
           <h3>Multi-Sport Engine</h3>
@@ -728,10 +729,11 @@ and determine the scoring event.
   <section class="section" id="hardware">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag">Edge Hardware</span>
-        <h2 class="section-title">Powered by Jetson AGX Orin</h2>
+        <span class="section-tag">Built for the Field</span>
+        <h2 class="section-title">No Cloud. No Lag. No Problem.</h2>
         <p class="section-subtitle">
-          275 TOPS of AI compute in a compact module. Everything runs on-device.
+          Everything runs on a single NVIDIA Jetson board &mdash; take it to the park,
+          the backyard, or the local club. Works anywhere, even offline.
         </p>
       </div>
 
@@ -741,12 +743,12 @@ and determine the scoring event.
             <div class="hardware-box-glow"></div>
             <div class="hardware-box-inner">
               <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
-                <rect x="10" y="10" width="100" height="100" rx="12" stroke="#76B900" stroke-width="2"/>
-                <rect x="25" y="25" width="30" height="30" rx="4" fill="#76B900" opacity="0.2" stroke="#76B900" stroke-width="1"/>
-                <rect x="65" y="25" width="30" height="30" rx="4" fill="#76B900" opacity="0.15" stroke="#76B900" stroke-width="1"/>
-                <rect x="25" y="65" width="30" height="30" rx="4" fill="#76B900" opacity="0.15" stroke="#76B900" stroke-width="1"/>
-                <rect x="65" y="65" width="30" height="30" rx="4" fill="#76B900" opacity="0.1" stroke="#76B900" stroke-width="1"/>
-                <text x="60" y="64" text-anchor="middle" fill="#76B900" font-size="10" font-family="JetBrains Mono" font-weight="700">ORIN</text>
+                <rect x="10" y="10" width="100" height="100" rx="12" stroke="#00eaff" stroke-width="2"/>
+                <rect x="25" y="25" width="30" height="30" rx="4" fill="#00eaff" opacity="0.2" stroke="#00eaff" stroke-width="1"/>
+                <rect x="65" y="25" width="30" height="30" rx="4" fill="#00eaff" opacity="0.15" stroke="#00eaff" stroke-width="1"/>
+                <rect x="25" y="65" width="30" height="30" rx="4" fill="#00eaff" opacity="0.15" stroke="#00eaff" stroke-width="1"/>
+                <rect x="65" y="65" width="30" height="30" rx="4" fill="#00eaff" opacity="0.1" stroke="#00eaff" stroke-width="1"/>
+                <text x="60" y="64" text-anchor="middle" fill="#00eaff" font-size="10" font-family="JetBrains Mono" font-weight="700">ORIN</text>
               </svg>
               <div class="hardware-label">NVIDIA Jetson AGX Orin 64GB</div>
             </div>
@@ -792,7 +794,7 @@ and determine the scoring event.
           <h3>Why Edge AI?</h3>
           <div class="advantage-item">
             <div class="advantage-icon">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#76B900" stroke-width="1.5"><circle cx="10" cy="10" r="8"/><path d="M10 6v4l3 2"/></svg>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#00eaff" stroke-width="1.5"><circle cx="10" cy="10" r="8"/><path d="M10 6v4l3 2"/></svg>
             </div>
             <div>
               <strong>Low Latency</strong>
@@ -801,7 +803,7 @@ and determine the scoring event.
           </div>
           <div class="advantage-item">
             <div class="advantage-icon">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#76B900" stroke-width="1.5"><path d="M10 2v4M10 14v4M2 10h4M14 10h4"/><circle cx="10" cy="10" r="3"/></svg>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#00eaff" stroke-width="1.5"><path d="M10 2v4M10 14v4M2 10h4M14 10h4"/><circle cx="10" cy="10" r="3"/></svg>
             </div>
             <div>
               <strong>Works Offline</strong>
@@ -810,7 +812,7 @@ and determine the scoring event.
           </div>
           <div class="advantage-item">
             <div class="advantage-icon">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#76B900" stroke-width="1.5"><rect x="3" y="3" width="14" height="14" rx="3"/><path d="M7 10l2 2 4-4"/></svg>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#00eaff" stroke-width="1.5"><rect x="3" y="3" width="14" height="14" rx="3"/><path d="M7 10l2 2 4-4"/></svg>
             </div>
             <div>
               <strong>Privacy First</strong>
@@ -819,7 +821,7 @@ and determine the scoring event.
           </div>
           <div class="advantage-item">
             <div class="advantage-icon">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#76B900" stroke-width="1.5"><path d="M4 16l4-4m4-4l4-4"/><circle cx="7" cy="13" r="2"/><circle cx="13" cy="7" r="2"/></svg>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#00eaff" stroke-width="1.5"><path d="M4 16l4-4m4-4l4-4"/><circle cx="7" cy="13" r="2"/><circle cx="13" cy="7" r="2"/></svg>
             </div>
             <div>
               <strong>Cost Effective</strong>
@@ -843,8 +845,9 @@ and determine the scoring event.
           <h3 class="team-name">Ravinder Jilkapally</h3>
           <p class="team-org">RefereAI</p>
           <p class="team-desc">
-            AI-powered umpiring and live commentary for amateur sports.
-            Making every backyard match feel like a professional game.
+            I grew up playing gully cricket and park tennis without umpires.
+            RefereAI is the companion I always wished I had &mdash; a personal coach,
+            referee, and guide that's always there when you need it.
           </p>
           <div class="team-links">
             <a href="https://github.com/jravinder" target="_blank" class="team-link">
@@ -858,8 +861,8 @@ and determine the scoring event.
           <div class="hackathon-card">
             <div class="hackathon-logo">
               <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                <rect x="4" y="4" width="40" height="40" rx="8" stroke="#76B900" stroke-width="2"/>
-                <path d="M14 24h20M24 14v20" stroke="#76B900" stroke-width="3" stroke-linecap="round"/>
+                <rect x="4" y="4" width="40" height="40" rx="8" stroke="#00eaff" stroke-width="2"/>
+                <path d="M14 24h20M24 14v20" stroke="#00eaff" stroke-width="3" stroke-linecap="round"/>
               </svg>
             </div>
             <h4>NVIDIA Cosmos Cookoff</h4>
@@ -889,7 +892,7 @@ and determine the scoring event.
       <div class="footer-top">
         <div class="footer-brand-section">
           <div class="footer-logo">RefereAI</div>
-          <p>AI-powered umpiring and live commentary for amateur sports. Making every backyard match feel like a professional game.</p>
+          <p>Your personal coach, referee, and guide &mdash; for every game, on your time. Powered by NVIDIA Cosmos Reason 2.</p>
         </div>
         <div class="footer-col">
           <h4>Technology</h4>
