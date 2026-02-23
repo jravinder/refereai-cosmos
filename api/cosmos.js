@@ -10,13 +10,8 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'POST only' });
   }
 
-  // API key gate
-  const apiKey = process.env.COSMOS_API_KEY;
-  const provided = req.headers['x-cosmos-key'];
-  if (!apiKey || provided !== apiKey) {
-    console.log(`[${requestId}] AUTH_FAIL ip=${req.headers['x-forwarded-for'] || 'unknown'}`);
-    return res.status(401).json({ error: 'Unauthorized' });
-  }
+  // Rate-limit logging (no client auth — backend key handles real auth)
+  console.log(`[${requestId}] ip=${req.headers['x-forwarded-for'] || 'unknown'}`);
 
   const backendUrl = process.env.COSMOS_BACKEND_URL;
   if (!backendUrl) {

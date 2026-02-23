@@ -209,21 +209,12 @@
         <span class="section-tag">Your Game, Your Rules</span>
         <h2 class="section-title">Five Sports. One AI.</h2>
         <p class="section-subtitle">
-          Cricket, tennis, pickleball, badminton, and table tennis &mdash;
+          Tennis, pickleball, badminton, table tennis, and cricket &mdash;
           each with sport-specific physical reasoning tuned for the rules and physics of the game.
         </p>
       </div>
 
       <div class="sports-grid">
-        <div class="sports-grid-card" data-sport="cricket">
-          <svg width="40" height="40" viewBox="0 0 64 64" fill="none">
-            <circle cx="32" cy="20" r="6" stroke="var(--cyan)" stroke-width="2.5"/>
-            <line x1="32" y1="26" x2="32" y2="56" stroke="var(--cyan)" stroke-width="2.5" stroke-linecap="round"/>
-            <circle cx="50" cy="14" r="4" fill="var(--cyan)" opacity="0.6"/>
-          </svg>
-          <h3>Cricket</h3>
-          <p>Trajectory, boundaries, wickets, shot classification, swing &amp; spin analysis</p>
-        </div>
         <div class="sports-grid-card" data-sport="tennis">
           <svg width="40" height="40" viewBox="0 0 64 64" fill="none">
             <circle cx="32" cy="32" r="18" stroke="var(--purple)" stroke-width="2.5"/>
@@ -259,6 +250,15 @@
           </svg>
           <h3>Table Tennis</h3>
           <p>Spin analysis, edge detection, serve legality, let calls, rally patterns</p>
+        </div>
+        <div class="sports-grid-card" data-sport="cricket">
+          <svg width="40" height="40" viewBox="0 0 64 64" fill="none">
+            <circle cx="32" cy="20" r="6" stroke="var(--cyan)" stroke-width="2.5"/>
+            <line x1="32" y1="26" x2="32" y2="56" stroke="var(--cyan)" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="50" cy="14" r="4" fill="var(--cyan)" opacity="0.6"/>
+          </svg>
+          <h3>Cricket</h3>
+          <p>Trajectory, boundaries, wickets, shot classification, swing &amp; spin analysis</p>
         </div>
       </div>
     </div>
@@ -397,11 +397,7 @@ and determine the scoring event.
           <div class="live-media-row">
             <span class="live-media-type">Images</span>
             <div class="live-samples-grid live-samples-grid--images">
-              <button class="live-sample active" data-sport="cricket" data-src="samples/cricket.jpg" data-type="image">
-                <img src="samples/cricket.jpg" alt="Cricket" loading="lazy" />
-                <span class="live-sample-label">Cricket</span>
-              </button>
-              <button class="live-sample" data-sport="tennis" data-src="samples/tennis.jpg" data-type="image">
+              <button class="live-sample active" data-sport="tennis" data-src="samples/tennis.jpg" data-type="image">
                 <img src="samples/tennis.jpg" alt="Tennis" loading="lazy" />
                 <span class="live-sample-label">Tennis</span>
               </button>
@@ -417,6 +413,10 @@ and determine the scoring event.
                 <img src="samples/tabletennis.jpg" alt="Table Tennis" loading="lazy" />
                 <span class="live-sample-label">Table Tennis</span>
               </button>
+              <button class="live-sample" data-sport="cricket" data-src="samples/cricket.jpg" data-type="image">
+                <img src="samples/cricket.jpg" alt="Cricket" loading="lazy" />
+                <span class="live-sample-label">Cricket</span>
+              </button>
             </div>
           </div>
 
@@ -424,11 +424,6 @@ and determine the scoring event.
           <div class="live-media-row">
             <span class="live-media-type">Video Clips <span class="live-badge">5s</span></span>
             <div class="live-samples-grid live-samples-grid--videos">
-              <button class="live-sample live-sample--video" data-sport="cricket" data-src="samples/cricket_clip.mp4" data-type="video">
-                <video src="samples/cricket_clip.mp4" muted loop preload="metadata"></video>
-                <span class="live-sample-play">&#9654;</span>
-                <span class="live-sample-label">Cricket</span>
-              </button>
               <button class="live-sample live-sample--video" data-sport="tennis" data-src="samples/tennis_clip.mp4" data-type="video">
                 <video src="samples/tennis_clip.mp4" muted loop preload="metadata"></video>
                 <span class="live-sample-play">&#9654;</span>
@@ -444,6 +439,11 @@ and determine the scoring event.
                 <span class="live-sample-play">&#9654;</span>
                 <span class="live-sample-label">Table Tennis</span>
               </button>
+              <button class="live-sample live-sample--video" data-sport="cricket" data-src="samples/cricket_clip.mp4" data-type="video">
+                <video src="samples/cricket_clip.mp4" muted loop preload="metadata"></video>
+                <span class="live-sample-play">&#9654;</span>
+                <span class="live-sample-label">Cricket</span>
+              </button>
               <label class="live-sample live-sample--upload" tabindex="0">
                 <input type="file" id="live-upload" accept="image/*,video/mp4" hidden />
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="#00eaff" stroke-width="2"><path d="M16 22V10M10 16l6-6 6 6"/><rect x="4" y="4" width="24" height="24" rx="4"/></svg>
@@ -456,7 +456,7 @@ and determine the scoring event.
         <!-- Preview + Controls -->
         <div class="live-workspace">
           <div class="live-preview">
-            <img id="live-preview-img" src="samples/cricket.jpg" alt="Selected frame" />
+            <img id="live-preview-img" src="samples/tennis.jpg" alt="Selected frame" />
             <video id="live-preview-video" muted loop playsinline style="display:none;"></video>
             <div class="live-preview-overlay" id="live-overlay" style="display:none;">
               <div class="live-preview-spinner">
@@ -470,11 +470,11 @@ and determine the scoring event.
             <div class="live-sport-row">
               <label class="live-control-label">Sport</label>
               <select id="live-sport" class="live-select">
-                <option value="cricket">Cricket</option>
                 <option value="tennis">Tennis</option>
                 <option value="pickleball">Pickleball</option>
                 <option value="badminton">Badminton</option>
                 <option value="tabletennis">Table Tennis</option>
+                <option value="cricket">Cricket</option>
               </select>
             </div>
             <div class="live-prompt-row">
