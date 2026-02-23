@@ -214,150 +214,51 @@
         </p>
       </div>
 
-      <div class="sport-tabs">
-        <button class="sport-tab active" data-sport="cricket">Cricket</button>
-        <button class="sport-tab" data-sport="tennis">Tennis</button>
-        <button class="sport-tab" data-sport="pickleball">Pickleball</button>
-        <button class="sport-tab" data-sport="badminton">Badminton</button>
-        <button class="sport-tab" data-sport="tabletennis">Table Tennis</button>
-      </div>
-
-      <div class="sport-cards">
-        <!-- Cricket -->
-        <div class="sport-card active" data-sport="cricket">
-          <div class="sport-card-icon">
-            <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-              <circle cx="32" cy="20" r="6" stroke="#00eaff" stroke-width="2.5"/>
-              <line x1="32" y1="26" x2="32" y2="56" stroke="#00eaff" stroke-width="2.5" stroke-linecap="round"/>
-              <line x1="20" y1="36" x2="44" y2="36" stroke="#00eaff" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
-              <circle cx="50" cy="14" r="4" fill="#00eaff" opacity="0.6"/>
-            </svg>
-          </div>
-          <div class="sport-card-content">
-            <h3>Cricket</h3>
-            <p>2.5 billion fans worldwide. Massive gully cricket culture.</p>
-            <div class="sport-detects">
-              <h4>What Cosmos Detects</h4>
-              <ul>
-                <li>Ball trajectory from bowler to batsman</li>
-                <li>Boundary 4s and 6s (ball crossing rope)</li>
-                <li>Wickets and stump hits</li>
-                <li>Wide and no-ball calls</li>
-                <li>Shot classification (drive, pull, cut, sweep)</li>
-                <li>Swing, seam, and spin analysis</li>
-              </ul>
-            </div>
-          </div>
+      <div class="sports-grid">
+        <div class="sports-grid-card" data-sport="cricket">
+          <svg width="40" height="40" viewBox="0 0 64 64" fill="none">
+            <circle cx="32" cy="20" r="6" stroke="var(--cyan)" stroke-width="2.5"/>
+            <line x1="32" y1="26" x2="32" y2="56" stroke="var(--cyan)" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="50" cy="14" r="4" fill="var(--cyan)" opacity="0.6"/>
+          </svg>
+          <h3>Cricket</h3>
+          <p>Trajectory, boundaries, wickets, shot classification, swing &amp; spin analysis</p>
         </div>
-
-        <!-- Tennis -->
-        <div class="sport-card" data-sport="tennis">
-          <div class="sport-card-icon">
-            <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-              <circle cx="32" cy="32" r="18" stroke="#00eaff" stroke-width="2.5"/>
-              <path d="M14 32c0-10 8-18 18-18" stroke="#00eaff" stroke-width="2" opacity="0.5"/>
-              <path d="M50 32c0 10-8 18-18 18" stroke="#00eaff" stroke-width="2" opacity="0.5"/>
-              <line x1="14" y1="32" x2="50" y2="32" stroke="#00eaff" stroke-width="1.5" opacity="0.3"/>
-            </svg>
-          </div>
-          <div class="sport-card-content">
-            <h3>Tennis</h3>
-            <p>1 billion fans. Park and club players everywhere.</p>
-            <div class="sport-detects">
-              <h4>What Cosmos Detects</h4>
-              <ul>
-                <li>Ball position relative to court lines (in/out)</li>
-                <li>Shot type: forehand, backhand, serve, volley</li>
-                <li>Serve placement (wide, T, body)</li>
-                <li>Spin analysis (topspin, slice, flat)</li>
-                <li>Aces and double faults</li>
-                <li>Rally dynamics and court positioning</li>
-              </ul>
-            </div>
-          </div>
+        <div class="sports-grid-card" data-sport="tennis">
+          <svg width="40" height="40" viewBox="0 0 64 64" fill="none">
+            <circle cx="32" cy="32" r="18" stroke="var(--purple)" stroke-width="2.5"/>
+            <path d="M14 32c0-10 8-18 18-18" stroke="var(--purple)" stroke-width="2" opacity="0.5"/>
+            <path d="M50 32c0 10-8 18-18 18" stroke="var(--purple)" stroke-width="2" opacity="0.5"/>
+          </svg>
+          <h3>Tennis</h3>
+          <p>In/out calls, shot type detection, serve placement, spin &amp; rally analysis</p>
         </div>
-
-        <!-- Pickleball -->
-        <div class="sport-card" data-sport="pickleball">
-          <div class="sport-card-icon">
-            <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-              <rect x="16" y="10" width="18" height="30" rx="9" stroke="#00eaff" stroke-width="2.5"/>
-              <line x1="25" y1="40" x2="25" y2="56" stroke="#00eaff" stroke-width="2.5" stroke-linecap="round"/>
-              <circle cx="44" cy="20" r="5" stroke="#00eaff" stroke-width="2" stroke-dasharray="3 2"/>
-              <line x1="14" y1="48" x2="50" y2="48" stroke="#00eaff" stroke-width="1.5" opacity="0.3" stroke-dasharray="4 3"/>
-            </svg>
-          </div>
-          <div class="sport-card-content">
-            <h3>Pickleball</h3>
-            <p>Fastest growing sport in the US. Explosive community.</p>
-            <div class="sport-detects">
-              <h4>What Cosmos Detects</h4>
-              <ul>
-                <li>Kitchen (non-volley zone) violations</li>
-                <li>Dink shots vs drives vs lobs</li>
-                <li>Ball trajectory relative to boundaries</li>
-                <li>Serve legality (underhand, below waist)</li>
-                <li>Double-bounce rule compliance</li>
-                <li>Player positioning relative to kitchen line</li>
-              </ul>
-            </div>
-          </div>
+        <div class="sports-grid-card" data-sport="pickleball">
+          <svg width="40" height="40" viewBox="0 0 64 64" fill="none">
+            <rect x="16" y="10" width="18" height="30" rx="9" stroke="var(--green)" stroke-width="2.5"/>
+            <line x1="25" y1="40" x2="25" y2="56" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="44" cy="20" r="5" stroke="var(--green)" stroke-width="2" stroke-dasharray="3 2"/>
+          </svg>
+          <h3>Pickleball</h3>
+          <p>Kitchen violations, shot classification, serve legality, double-bounce rules</p>
         </div>
-
-        <!-- Badminton -->
-        <div class="sport-card" data-sport="badminton">
-          <div class="sport-card-icon">
-            <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-              <ellipse cx="25" cy="16" rx="8" ry="12" stroke="#00eaff" stroke-width="2.5"/>
-              <line x1="25" y1="28" x2="25" y2="56" stroke="#00eaff" stroke-width="2.5" stroke-linecap="round"/>
-              <circle cx="46" cy="12" r="3" fill="#00eaff" opacity="0.6"/>
-              <path d="M43 15 L49 9" stroke="#00eaff" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
-              <path d="M46 15 L46 9" stroke="#00eaff" stroke-width="1" stroke-linecap="round" opacity="0.3"/>
-            </svg>
-          </div>
-          <div class="sport-card-content">
-            <h3>Badminton</h3>
-            <p>Huge in Asia. Fast-paced rallies and smash speeds over 300 km/h.</p>
-            <div class="sport-detects">
-              <h4>What Cosmos Detects</h4>
-              <ul>
-                <li>Shuttlecock trajectory and deceleration</li>
-                <li>Smash vs clear vs drop shot classification</li>
-                <li>Court boundary detection (in/out)</li>
-                <li>Serve rule compliance</li>
-                <li>Net violations</li>
-                <li>Rally patterns and footwork analysis</li>
-              </ul>
-            </div>
-          </div>
+        <div class="sports-grid-card" data-sport="badminton">
+          <svg width="40" height="40" viewBox="0 0 64 64" fill="none">
+            <ellipse cx="25" cy="16" rx="8" ry="12" stroke="var(--orange)" stroke-width="2.5"/>
+            <line x1="25" y1="28" x2="25" y2="56" stroke="var(--orange)" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="46" cy="12" r="3" fill="var(--orange)" opacity="0.6"/>
+          </svg>
+          <h3>Badminton</h3>
+          <p>Shuttlecock trajectory, smash detection, boundary calls, serve compliance</p>
         </div>
-
-        <!-- Table Tennis -->
-        <div class="sport-card" data-sport="tabletennis">
-          <div class="sport-card-icon">
-            <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-              <circle cx="24" cy="20" r="12" stroke="#00eaff" stroke-width="2.5"/>
-              <line x1="24" y1="32" x2="24" y2="56" stroke="#00eaff" stroke-width="2.5" stroke-linecap="round"/>
-              <circle cx="46" cy="16" r="4" fill="#00eaff" opacity="0.6"/>
-              <rect x="10" y="44" width="44" height="2" rx="1" fill="#00eaff" opacity="0.2"/>
-              <line x1="32" y1="40" x2="32" y2="48" stroke="#00eaff" stroke-width="1.5" opacity="0.3"/>
-            </svg>
-          </div>
-          <div class="sport-card-content">
-            <h3>Table Tennis</h3>
-            <p>Popular worldwide. Spin analysis is everything.</p>
-            <div class="sport-detects">
-              <h4>What Cosmos Detects</h4>
-              <ul>
-                <li>Ball spin (topspin, backspin, sidespin) from paddle angle</li>
-                <li>Ball trajectory relative to table edges</li>
-                <li>Serve legality (open palm, toss height)</li>
-                <li>Let detection (net clips)</li>
-                <li>Edge balls vs clean hits</li>
-                <li>Rally speed and placement patterns</li>
-              </ul>
-            </div>
-          </div>
+        <div class="sports-grid-card" data-sport="tabletennis">
+          <svg width="40" height="40" viewBox="0 0 64 64" fill="none">
+            <circle cx="24" cy="20" r="12" stroke="var(--pink)" stroke-width="2.5"/>
+            <line x1="24" y1="32" x2="24" y2="56" stroke="var(--pink)" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="46" cy="16" r="4" fill="var(--pink)" opacity="0.6"/>
+          </svg>
+          <h3>Table Tennis</h3>
+          <p>Spin analysis, edge detection, serve legality, let calls, rally patterns</p>
         </div>
       </div>
     </div>

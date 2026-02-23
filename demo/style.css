@@ -652,7 +652,86 @@ img { max-width: 100%; display: block; }
 
 
 /* ═══════════════════════════════════════════════════════════════
-   SPORTS — Tabs & Cards
+   SPORTS — Grid Layout
+   ═══════════════════════════════════════════════════════════════ */
+.sports-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.sports-grid-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 32px 16px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+.sports-grid-card:hover {
+  border-color: var(--border-bright);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.sports-grid-card svg {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 16px;
+  opacity: 0.9;
+}
+
+.sports-grid-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+
+.sports-grid-card p {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* Per-sport accent colors */
+.sports-grid-card[data-sport="cricket"] h3    { color: var(--cyan); }
+.sports-grid-card[data-sport="tennis"] h3     { color: var(--purple); }
+.sports-grid-card[data-sport="pickleball"] h3 { color: var(--green); }
+.sports-grid-card[data-sport="badminton"] h3  { color: var(--orange); }
+.sports-grid-card[data-sport="tabletennis"] h3{ color: var(--pink); }
+
+.sports-grid-card[data-sport="cricket"]:hover    { border-color: rgba(0,217,255,.3); }
+.sports-grid-card[data-sport="tennis"]:hover     { border-color: rgba(102,126,234,.3); }
+.sports-grid-card[data-sport="pickleball"]:hover { border-color: rgba(52,211,153,.3); }
+.sports-grid-card[data-sport="badminton"]:hover  { border-color: rgba(251,146,60,.3); }
+.sports-grid-card[data-sport="tabletennis"]:hover{ border-color: rgba(240,147,251,.3); }
+
+@media (max-width: 768px) {
+  .sports-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .sports-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .sports-grid-card {
+    padding: 24px 12px;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   SPORTS — Legacy Tabs & Cards (unused)
    ═══════════════════════════════════════════════════════════════ */
 .sport-tabs {
   display: flex;
