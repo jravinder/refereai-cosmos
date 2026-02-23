@@ -696,12 +696,14 @@ img { max-width: 100%; display: block; }
 .sport-cards {
   position: relative;
   min-height: 320px;
+  display: flex;
+  justify-content: center;
 }
 
 .sport-card {
   display: none;
   gap: 36px;
-  padding: 32px;
+  padding: 40px;
   border-radius: 22px;
   border: 1px solid var(--border);
   backdrop-filter: blur(8px);
@@ -710,6 +712,9 @@ img { max-width: 100%; display: block; }
   position: relative;
   overflow: hidden;
   transition: border-color 0.4s, box-shadow 0.4s;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
 }
 /* Top accent line */
 .sport-card::after {
@@ -740,7 +745,7 @@ img { max-width: 100%; display: block; }
 
 .sport-card.active {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
 }
 
 @keyframes cardFadeIn {
