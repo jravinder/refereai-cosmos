@@ -2,29 +2,9 @@
    RefereAI x Cosmos Reason 2 — Demo SPA JavaScript
    ═══════════════════════════════════════════════════════════════ */
 
-// ── Sport Tab Switching ───────────────────────────────────────
+// ── Sport Tab Switching (legacy — grid layout, no tabs needed) ──
 function initSportTabs() {
-  const tabs = document.querySelectorAll('.sport-tab');
-  const cards = document.querySelectorAll('.sport-card');
-
-  tabs.forEach((tab) => {
-    tab.addEventListener('click', () => {
-      const sport = tab.dataset.sport;
-
-      // Update tab active state
-      tabs.forEach((t) => t.classList.remove('active'));
-      tab.classList.add('active');
-
-      // Show matching card, hide others
-      cards.forEach((card) => {
-        if (card.dataset.sport === sport) {
-          card.classList.add('active');
-        } else {
-          card.classList.remove('active');
-        }
-      });
-    });
-  });
+  // Sports section now uses a static grid — no tab switching required
 }
 
 
@@ -35,8 +15,7 @@ function initScrollAnimations() {
     ...document.querySelectorAll('.section-header'),
     ...document.querySelectorAll('.pipeline'),
     ...document.querySelectorAll('.pipeline-detail-bar'),
-    ...document.querySelectorAll('.sport-tabs'),
-    ...document.querySelectorAll('.sport-cards'),
+    ...document.querySelectorAll('.sports-grid'),
     ...document.querySelectorAll('.reasoning-panel'),
     ...document.querySelectorAll('.feature-card'),
     ...document.querySelectorAll('.hardware-visual'),
