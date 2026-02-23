@@ -35,9 +35,15 @@ export default async function handler(req, res) {
   console.log(`[${requestId}] REQ model=${model} msgs=${msgCount} max_tokens=${maxTokens} body=${(bodySize/1024).toFixed(1)}KB`);
 
   try {
+    const backendHeaders = { 'Content-Type': 'application/json' };
+    const backendKey = process.env.COSMOS_BACKEND_KEY;
+    if (backendKey) {
+      backendHeaders['Authorization'] = `Bearer ${backendKey}`;
+    }
+
     const response = await fetch(backendUrl, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: backendHeaders,
       body: JSON.stringify(req.body),
     });
 

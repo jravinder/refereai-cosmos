@@ -449,7 +449,7 @@ function initLiveInference() {
         method: 'POST',
         headers,
         body: JSON.stringify({
-          model: 'nvidia/cosmos-reason2-8b',
+          model: 'cosmos-reason2',
           messages: [
             { role: 'system', content: systemPrompt },
             { role: 'user', content: contentParts },
