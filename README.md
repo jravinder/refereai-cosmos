@@ -23,53 +23,47 @@ Cosmos Reason 2 doesn't just classify — it **reasons about physics**. When ana
 ```
 Camera → Jetson AGX Orin 64GB (everything on-device)
    ├── Frame capture + event detection
-   ├── Cosmos Reason 2-8B (NIM container on local GPU)
+   ├── Cosmos Reason 2-8B (HuggingFace Transformers on local GPU)
    │   ├── Scene understanding → what's happening?
    │   ├── Physical reasoning → ball physics, trajectories
    │   └── Commentary generation → context-aware play-by-play
+   ├── LiteLLM proxy (per-app API keys, usage tracking)
    ├── ScoringEngine → scoring decisions
    └── WebSocket → Mobile App (live scores + commentary)
 ```
 
-**Cloud fallback**: Same pipeline works with Nebius-hosted Cosmos for scalability.
+**Public access**: Tailscale Funnel exposes LiteLLM proxy, Vercel serverless function proxies requests from the demo site.
 
 ## Quick Start
 
 ### Prerequisites
 
-- GPU with 32GB+ VRAM (Jetson AGX Orin 64GB, H100, or similar)
-- Python 3.10+ with `pip install httpx python-dotenv`
-- One of: vLLM, NIM container, or HuggingFace transformers
+- GPU with 32GB+ VRAM (Jetson AGX Orin 64GB, or similar)
+- Python 3.10+ with `pip install torch transformers httpx python-dotenv`
 
-### Option A: vLLM (Recommended)
+### Option A: HuggingFace Transformers (Our Setup)
 
 ```bash
-# Install vLLM (>=0.11.0)
-pip install vllm
+# Download model from HuggingFace
+huggingface-cli download nvidia/Cosmos-Reason2-8B --local-dir ./models/cosmos-reason2-8b
 
-# Serve Cosmos Reason 2 (downloads from HuggingFace automatically)
+# Run the OpenAI-compatible server
+python cosmos_server.py
+# Serves at http://localhost:8000/v1/chat/completions
+```
+
+This is how RefereAI runs on Jetson AGX Orin — a custom FastAPI server wrapping
+`Qwen3VLForConditionalGeneration` with OpenAI-compatible endpoints, image and video support.
+
+### Option B: vLLM
+
+```bash
+pip install vllm
 vllm serve nvidia/Cosmos-Reason2-8B \
   --allowed-local-media-path "$(pwd)" \
   --max-model-len 16384 \
   --reasoning-parser qwen3 \
   --port 8000
-```
-
-### Option B: NIM Container (Jetson / Docker)
-
-```bash
-# Login to NGC
-docker login nvcr.io
-# Username: $oauthtoken
-# Password: <your NGC API key from build.nvidia.com>
-
-# Pull and run
-docker run -d --name cosmos-nim \
-  --gpus all --ipc host --shm-size=32GB \
-  -e NGC_API_KEY \
-  -v ~/.cache/nim:/opt/nim/.cache \
-  -p 8000:8000 \
-  nvcr.io/nim/nvidia/cosmos-reason2-8b:latest
 ```
 
 ### Option C: Local GGUF (Apple Silicon / CPU)
@@ -157,7 +151,7 @@ This reasoning chain is:
 
 ## Hardware
 
-**Jetson AGX Orin 64GB** — 64GB shared GPU/CPU memory runs Cosmos Reason 2-8B on-device alongside the full edge pipeline. True edge AI: no internet required for inference.
+**Jetson AGX Orin 64GB** — 64GB shared GPU/CPU memory runs Cosmos Reason 2-8B on-device via HuggingFace Transformers, fronted by LiteLLM proxy for per-app API keys and usage tracking. Tailscale Funnel exposes the endpoint publicly. True edge AI: no cloud compute required.
 
 ## Team
 

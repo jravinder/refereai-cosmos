@@ -5,9 +5,9 @@ NVIDIA's physical reasoning VLM — chain-of-thought reasoning about
 ball trajectories, player movements, and scoring decisions.
 
 Supports:
-- NVIDIA Build API (build.nvidia.com)
-- Nebius cloud deployment
-- Local vLLM/TensorRT on Jetson AGX Orin
+- HuggingFace Transformers on Jetson AGX Orin (primary)
+- vLLM serving
+- LiteLLM proxy for API key management and usage tracking
 
 All endpoints use OpenAI-compatible /v1/chat/completions format.
 """
