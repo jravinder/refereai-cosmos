@@ -399,25 +399,7 @@ function initLiveInference() {
     const sport = sportSelect.value;
     const customPrompt = promptInput.value.trim();
 
-    // Use cached results for sample images (no custom prompt)
-    if (!isCustomImage && !customPrompt && cachedResults && cachedResults[sport]) {
-      const cached = cachedResults[sport];
-      sendBtn.disabled = true;
-      btnText.textContent = 'Loading...';
-      overlay.style.display = 'flex';
-      errorDiv.style.display = 'none';
-
-      // Brief delay for visual feedback
-      await new Promise((r) => setTimeout(r, 600));
-      overlay.style.display = 'none';
-      sendBtn.disabled = false;
-      btnText.textContent = 'Analyze Frame';
-
-      displayResult(cached.thinking, cached.answer, cached.latency_s, cached.tokens, true, { source: 'cached' });
-      return;
-    }
-
-    // Live inference for custom images or custom prompts
+    // Always try live inference first
     sendBtn.disabled = true;
     btnText.style.display = 'none';
     btnSpinner.style.display = 'inline-flex';
@@ -486,6 +468,12 @@ function initLiveInference() {
 
       displayResult(thinking, answer, elapsed, usage.total_tokens || '?', true, { source: 'live', ...proxyMeta });
     } catch (err) {
+      // Fall back to cached results if live inference fails
+      if (!isCustomImage && !customPrompt && cachedResults && cachedResults[sport]) {
+        const cached = cachedResults[sport];
+        displayResult(cached.thinking, cached.answer, cached.latency_s, cached.tokens, true, { source: 'cached' });
+        return;
+      }
       const hint = isLocal
         ? `Ensure the Jetson is reachable at ${COSMOS_URL}`
         : 'Live inference requires Jetson AGX Orin. Try a sample image to see cached Cosmos reasoning.';
