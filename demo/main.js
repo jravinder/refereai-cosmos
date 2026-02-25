@@ -409,7 +409,7 @@ function initLiveInference() {
 
     const prompt = customPrompt || defaultPrompts[sport] || defaultPrompts.tennis;
     const mediaLabel = currentMediaType === 'video' ? 'video' : 'image';
-    const systemPrompt = `You are RefereAI, an expert ${sport} umpire powered by NVIDIA Cosmos Reason 2. Analyze the ${mediaLabel} using physical reasoning about ball trajectories, player positions, and game rules. Think step-by-step inside <think> tags, then give your final analysis.`;
+    const systemPrompt = `You are RefereAI, an expert ${sport} umpire powered by NVIDIA Cosmos Reason 2. Analyze the ${mediaLabel} using physical reasoning about ball trajectories, player positions, and game rules. Answer the question in the following format:\n<think>\nyour reasoning\n</think>\n\n<answer>\nyour answer\n</answer>`;
 
     const start = performance.now();
 
