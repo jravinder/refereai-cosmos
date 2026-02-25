@@ -452,7 +452,7 @@ and determine the scoring event.
                 <div class="live-preview-spinner">
                   <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" stroke="#00eaff" stroke-width="3" stroke-dasharray="80 40" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" from="0 24 24" to="360 24 24" dur="1s" repeatCount="indefinite"/></circle></svg>
                 </div>
-                <span class="live-preview-status">Analyzing with Cosmos Reason 2...</span>
+                <span class="live-preview-status" id="live-status-text">Analyzing with Cosmos Reason 2...</span>
               </div>
             </div>
             <div class="live-action-bar">
@@ -463,14 +463,18 @@ and determine the scoring event.
                 <option value="tabletennis">Table Tennis</option>
                 <option value="cricket">Cricket</option>
               </select>
-              <button id="live-send" class="btn btn--primary live-btn">
-                <span class="live-btn-text">Analyze</span>
-                <span class="live-btn-spinner" style="display:none;">
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="2" stroke-dasharray="30 14" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" from="0 9 9" to="360 9 9" dur="0.8s" repeatCount="indefinite"/></circle></svg>
-                </span>
-              </button>
+              <div class="live-mode-toggle">
+                <button class="live-mode-btn active" data-mode="cached" title="Instant pre-analyzed result">Cached</button>
+                <button class="live-mode-btn" data-mode="live" title="Live inference on Jetson AGX Orin (~30s)">Live <span class="live-mode-badge" id="live-credits-badge">5</span></button>
+              </div>
             </div>
             <textarea id="live-prompt" class="live-textarea" rows="1" placeholder="Custom prompt (optional)"></textarea>
+            <button id="live-send" class="btn btn--primary live-btn">
+              <span class="live-btn-text">Analyze</span>
+              <span class="live-btn-spinner" style="display:none;">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="2" stroke-dasharray="30 14" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" from="0 9 9" to="360 9 9" dur="0.8s" repeatCount="indefinite"/></circle></svg>
+              </span>
+            </button>
           </div>
 
           <div class="live-right">

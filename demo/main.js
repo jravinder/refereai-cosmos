@@ -189,9 +189,11 @@ function initLiveInference() {
   const tokensEl = document.getElementById('live-tokens-val');
   const previewImg = document.getElementById('live-preview-img');
   const overlay = document.getElementById('live-overlay');
+  const statusText = document.getElementById('live-status-text');
   const btnText = sendBtn?.querySelector('.live-btn-text');
   const btnSpinner = sendBtn?.querySelector('.live-btn-spinner');
   const fileInput = document.getElementById('live-upload');
+  const creditsBadge = document.getElementById('live-credits-badge');
 
   if (!sendBtn) return;
 
@@ -201,6 +203,52 @@ function initLiveInference() {
   let cachedResults = null;
   let isCustomImage = false;
   let currentMediaType = 'image'; // 'image' or 'video'
+  let inferenceMode = 'cached'; // 'cached' or 'live'
+
+  // ── Credits system (localStorage) ──
+  const CREDITS_KEY = 'refereai_live_credits';
+  const MAX_CREDITS = 5;
+
+  function getCredits() {
+    const stored = localStorage.getItem(CREDITS_KEY);
+    if (stored === null) return MAX_CREDITS;
+    return Math.max(0, parseInt(stored, 10));
+  }
+
+  function useCredit() {
+    const c = getCredits() - 1;
+    localStorage.setItem(CREDITS_KEY, String(Math.max(0, c)));
+    updateCreditsUI();
+    return c >= 0;
+  }
+
+  function updateCreditsUI() {
+    const c = getCredits();
+    if (creditsBadge) {
+      creditsBadge.textContent = c;
+      creditsBadge.classList.toggle('live-mode-badge--zero', c === 0);
+    }
+  }
+
+  updateCreditsUI();
+
+  // ── Mode toggle (cached / live) ──
+  document.querySelectorAll('.live-mode-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.live-mode-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      inferenceMode = btn.dataset.mode;
+      // Update button label
+      if (btnText) {
+        btnText.textContent = inferenceMode === 'live' ? 'Analyze (Live)' : 'Analyze';
+      }
+    });
+  });
+
+  // ── Status updates helper ──
+  function setStatus(msg) {
+    if (statusText) statusText.textContent = msg;
+  }
 
   // Load pre-cached results
   fetch('samples/cached_results.json')
@@ -401,13 +449,35 @@ function initLiveInference() {
     const sport = sportSelect.value;
     const customPrompt = promptInput.value.trim();
 
-    // Always try live inference first
+    errorDiv.style.display = 'none';
+    resultDiv.style.display = 'none';
+
+    // ── Cached mode: instant result ──
+    if (inferenceMode === 'cached') {
+      if (!isCustomImage && !customPrompt && cachedResults && cachedResults[sport]) {
+        const cached = cachedResults[sport];
+        displayResult(cached.thinking, cached.answer, cached.latency_s, cached.tokens, true, { source: 'cached' });
+      } else {
+        errorDiv.textContent = 'No cached result for this combination. Switch to Live mode or pick a sample image.';
+        errorDiv.style.display = 'block';
+      }
+      return;
+    }
+
+    // ── Live mode: check credits ──
+    const credits = getCredits();
+    if (credits <= 0) {
+      errorDiv.innerHTML = 'You\'ve used all 5 free live inferences. <a href="#" id="credits-register" style="color:var(--accent);text-decoration:underline;">Register</a> for unlimited access, or switch to <strong>Cached</strong> mode.';
+      errorDiv.style.display = 'block';
+      return;
+    }
+
+    // ── Live inference with status updates ──
     sendBtn.disabled = true;
     btnText.style.display = 'none';
     btnSpinner.style.display = 'inline-flex';
     overlay.style.display = 'flex';
-    errorDiv.style.display = 'none';
-    resultDiv.style.display = 'none';
+    setStatus('Preparing image data...');
 
     const prompt = customPrompt || defaultPrompts[sport] || defaultPrompts.tennis;
     const mediaLabel = currentMediaType === 'video' ? 'video' : 'image';
@@ -417,6 +487,7 @@ function initLiveInference() {
 
     try {
       const media = await getMediaContent();
+      setStatus('Connecting to Jetson AGX Orin...');
 
       // Build content parts based on media type
       const contentParts = [{ type: 'text', text: prompt }];
@@ -427,6 +498,20 @@ function initLiveInference() {
       }
 
       const headers = { 'Content-Type': 'application/json' };
+
+      setStatus('Sending to Cosmos Reason 2...');
+
+      // Start a timer to update status during long inference
+      let statusTimer = null;
+      let elapsed_s = 0;
+      statusTimer = setInterval(() => {
+        elapsed_s = ((performance.now() - start) / 1000).toFixed(0);
+        if (elapsed_s < 5) setStatus('Sending to Cosmos Reason 2...');
+        else if (elapsed_s < 12) setStatus('Model is reasoning about physics...');
+        else if (elapsed_s < 20) setStatus(`Chain-of-thought reasoning... ${elapsed_s}s`);
+        else if (elapsed_s < 35) setStatus(`Still thinking... ${elapsed_s}s`);
+        else setStatus(`Almost there... ${elapsed_s}s`);
+      }, 1500);
 
       const response = await fetch(COSMOS_URL, {
         method: 'POST',
@@ -441,6 +526,9 @@ function initLiveInference() {
           temperature: 0.0,
         }),
       });
+
+      clearInterval(statusTimer);
+      setStatus('Parsing response...');
 
       if (!response.ok) {
         const errText = await response.text().catch(() => '');
@@ -462,6 +550,9 @@ function initLiveInference() {
       const ansMatch = answer.match(/<answer>([\s\S]*?)<\/answer>/);
       if (ansMatch) answer = ansMatch[1].trim();
 
+      // Deduct a credit on success
+      useCredit();
+
       // Log observability metadata from proxy
       const proxyMeta = data._refereai || {};
       if (proxyMeta.request_id) {
@@ -470,21 +561,23 @@ function initLiveInference() {
 
       displayResult(thinking, answer, elapsed, usage.total_tokens || '?', true, { source: 'live', ...proxyMeta });
     } catch (err) {
-      // Fall back to cached results if live inference fails
+      // Fall back to cached on error (don't deduct credit)
       if (!isCustomImage && !customPrompt && cachedResults && cachedResults[sport]) {
         const cached = cachedResults[sport];
         displayResult(cached.thinking, cached.answer, cached.latency_s, cached.tokens, true, { source: 'cached' });
+        errorDiv.textContent = `Live inference failed — showing cached result instead.`;
+        errorDiv.style.display = 'block';
         return;
       }
       const hint = isLocal
         ? `Ensure the Jetson is reachable at ${COSMOS_URL}`
-        : 'Live inference requires Jetson AGX Orin. Try a sample image to see cached Cosmos reasoning.';
+        : 'Live inference requires Jetson AGX Orin. Switch to Cached mode to see pre-analyzed results.';
       errorDiv.textContent = `Inference failed: ${err.message}. ${hint}`;
       errorDiv.style.display = 'block';
     } finally {
       sendBtn.disabled = false;
       btnText.style.display = 'inline';
-      btnText.textContent = 'Analyze Frame';
+      btnText.textContent = inferenceMode === 'live' ? 'Analyze (Live)' : 'Analyze';
       btnSpinner.style.display = 'none';
       overlay.style.display = 'none';
     }
