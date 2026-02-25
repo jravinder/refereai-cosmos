@@ -435,7 +435,7 @@ function initLiveInference() {
             { role: 'system', content: systemPrompt },
             { role: 'user', content: contentParts },
           ],
-          max_tokens: 512,
+          max_tokens: 256,
           temperature: 0.0,
         }),
       });
