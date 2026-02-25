@@ -389,86 +389,73 @@ and determine the scoring event.
       </div>
 
       <div class="live-panel">
-        <!-- Image Selection -->
-        <div class="live-samples">
-          <div class="live-samples-label">Select a sports frame or video clip</div>
+        <!-- Thumbnail Strip -->
+        <div class="live-thumbnails">
+          <div class="live-thumb-strip">
 
-          <!-- Image samples -->
-          <div class="live-media-row">
-            <span class="live-media-type">Images</span>
-            <div class="live-samples-grid live-samples-grid--images">
-              <button class="live-sample active" data-sport="tennis" data-src="samples/tennis.jpg" data-type="image">
-                <img src="samples/tennis.jpg" alt="Tennis" loading="lazy" />
-                <span class="live-sample-label">Tennis</span>
-              </button>
-              <button class="live-sample" data-sport="pickleball" data-src="samples/pickleball.jpg" data-type="image">
-                <img src="samples/pickleball.jpg" alt="Pickleball" loading="lazy" />
-                <span class="live-sample-label">Pickleball</span>
-              </button>
-              <button class="live-sample" data-sport="badminton" data-src="samples/badminton.jpg" data-type="image">
-                <img src="samples/badminton.jpg" alt="Badminton" loading="lazy" />
-                <span class="live-sample-label">Badminton</span>
-              </button>
-              <button class="live-sample" data-sport="tabletennis" data-src="samples/tabletennis.jpg" data-type="image">
-                <img src="samples/tabletennis.jpg" alt="Table Tennis" loading="lazy" />
-                <span class="live-sample-label">Table Tennis</span>
-              </button>
-              <button class="live-sample" data-sport="cricket" data-src="samples/cricket.jpg" data-type="image">
-                <img src="samples/cricket.jpg" alt="Cricket" loading="lazy" />
-                <span class="live-sample-label">Cricket</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Video samples -->
-          <div class="live-media-row">
-            <span class="live-media-type">Video Clips <span class="live-badge">5s</span></span>
-            <div class="live-samples-grid live-samples-grid--videos">
-              <button class="live-sample live-sample--video" data-sport="tennis" data-src="samples/tennis_clip.mp4" data-type="video">
-                <video src="samples/tennis_clip.mp4" muted loop preload="metadata"></video>
-                <span class="live-sample-play">&#9654;</span>
-                <span class="live-sample-label">Tennis</span>
-              </button>
-              <button class="live-sample live-sample--video" data-sport="badminton" data-src="samples/badminton_clip.mp4" data-type="video">
-                <video src="samples/badminton_clip.mp4" muted loop preload="metadata"></video>
-                <span class="live-sample-play">&#9654;</span>
-                <span class="live-sample-label">Badminton</span>
-              </button>
-              <button class="live-sample live-sample--video" data-sport="tabletennis" data-src="samples/tabletennis_clip.mp4" data-type="video">
-                <video src="samples/tabletennis_clip.mp4" muted loop preload="metadata"></video>
-                <span class="live-sample-play">&#9654;</span>
-                <span class="live-sample-label">Table Tennis</span>
-              </button>
-              <button class="live-sample live-sample--video" data-sport="cricket" data-src="samples/cricket_clip.mp4" data-type="video">
-                <video src="samples/cricket_clip.mp4" muted loop preload="metadata"></video>
-                <span class="live-sample-play">&#9654;</span>
-                <span class="live-sample-label">Cricket</span>
-              </button>
-              <label class="live-sample live-sample--upload" tabindex="0">
-                <input type="file" id="live-upload" accept="image/*,video/mp4" hidden />
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="#00eaff" stroke-width="2"><path d="M16 22V10M10 16l6-6 6 6"/><rect x="4" y="4" width="24" height="24" rx="4"/></svg>
-                <span class="live-sample-label">Upload</span>
-              </label>
-            </div>
+            <button class="live-sample active" data-sport="tennis" data-src="samples/tennis.jpg" data-type="image">
+              <img src="samples/tennis.jpg" alt="Tennis" loading="lazy" />
+              <span class="live-sample-label">Tennis</span>
+            </button>
+            <button class="live-sample" data-sport="pickleball" data-src="samples/pickleball.jpg" data-type="image">
+              <img src="samples/pickleball.jpg" alt="Pickleball" loading="lazy" />
+              <span class="live-sample-label">Pickleball</span>
+            </button>
+            <button class="live-sample" data-sport="badminton" data-src="samples/badminton.jpg" data-type="image">
+              <img src="samples/badminton.jpg" alt="Badminton" loading="lazy" />
+              <span class="live-sample-label">Badminton</span>
+            </button>
+            <button class="live-sample" data-sport="tabletennis" data-src="samples/tabletennis.jpg" data-type="image">
+              <img src="samples/tabletennis.jpg" alt="Table Tennis" loading="lazy" />
+              <span class="live-sample-label">Table Tennis</span>
+            </button>
+            <button class="live-sample" data-sport="cricket" data-src="samples/cricket.jpg" data-type="image">
+              <img src="samples/cricket.jpg" alt="Cricket" loading="lazy" />
+              <span class="live-sample-label">Cricket</span>
+            </button>
+            <span class="live-thumb-divider"></span>
+            <button class="live-sample live-sample--video" data-sport="tennis" data-src="samples/tennis_clip.mp4" data-type="video">
+              <video src="samples/tennis_clip.mp4" muted loop preload="metadata"></video>
+              <span class="live-sample-play">&#9654;</span>
+              <span class="live-sample-label">Tennis</span>
+            </button>
+            <button class="live-sample live-sample--video" data-sport="badminton" data-src="samples/badminton_clip.mp4" data-type="video">
+              <video src="samples/badminton_clip.mp4" muted loop preload="metadata"></video>
+              <span class="live-sample-play">&#9654;</span>
+              <span class="live-sample-label">Badminton</span>
+            </button>
+            <button class="live-sample live-sample--video" data-sport="tabletennis" data-src="samples/tabletennis_clip.mp4" data-type="video">
+              <video src="samples/tabletennis_clip.mp4" muted loop preload="metadata"></video>
+              <span class="live-sample-play">&#9654;</span>
+              <span class="live-sample-label">Table Tennis</span>
+            </button>
+            <button class="live-sample live-sample--video" data-sport="cricket" data-src="samples/cricket_clip.mp4" data-type="video">
+              <video src="samples/cricket_clip.mp4" muted loop preload="metadata"></video>
+              <span class="live-sample-play">&#9654;</span>
+              <span class="live-sample-label">Cricket</span>
+            </button>
+            <label class="live-sample live-sample--upload" tabindex="0">
+              <input type="file" id="live-upload" accept="image/*,video/mp4" hidden />
+              <svg width="24" height="24" viewBox="0 0 32 32" fill="none" stroke="#00eaff" stroke-width="2"><path d="M16 22V10M10 16l6-6 6 6"/><rect x="4" y="4" width="24" height="24" rx="4"/></svg>
+              <span class="live-sample-label">Upload</span>
+            </label>
           </div>
         </div>
 
-        <!-- Preview + Controls -->
-        <div class="live-workspace">
-          <div class="live-preview">
-            <img id="live-preview-img" src="samples/tennis.jpg" alt="Selected frame" />
-            <video id="live-preview-video" muted loop playsinline style="display:none;"></video>
-            <div class="live-preview-overlay" id="live-overlay" style="display:none;">
-              <div class="live-preview-spinner">
-                <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" stroke="#00eaff" stroke-width="3" stroke-dasharray="80 40" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" from="0 24 24" to="360 24 24" dur="1s" repeatCount="indefinite"/></circle></svg>
+        <!-- Main: Preview + Results side by side -->
+        <div class="live-main">
+          <div class="live-left">
+            <div class="live-preview">
+              <img id="live-preview-img" src="samples/tennis.jpg" alt="Selected frame" />
+              <video id="live-preview-video" muted loop playsinline style="display:none;"></video>
+              <div class="live-preview-overlay" id="live-overlay" style="display:none;">
+                <div class="live-preview-spinner">
+                  <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" stroke="#00eaff" stroke-width="3" stroke-dasharray="80 40" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" from="0 24 24" to="360 24 24" dur="1s" repeatCount="indefinite"/></circle></svg>
+                </div>
+                <span class="live-preview-status">Analyzing with Cosmos Reason 2...</span>
               </div>
-              <span class="live-preview-status">Analyzing with Cosmos Reason 2...</span>
             </div>
-          </div>
-
-          <div class="live-controls">
-            <div class="live-sport-row">
-              <label class="live-control-label">Sport</label>
+            <div class="live-action-bar">
               <select id="live-sport" class="live-select">
                 <option value="tennis">Tennis</option>
                 <option value="pickleball">Pickleball</option>
@@ -476,58 +463,59 @@ and determine the scoring event.
                 <option value="tabletennis">Table Tennis</option>
                 <option value="cricket">Cricket</option>
               </select>
+              <button id="live-send" class="btn btn--primary live-btn">
+                <span class="live-btn-text">Analyze</span>
+                <span class="live-btn-spinner" style="display:none;">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="2" stroke-dasharray="30 14" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" from="0 9 9" to="360 9 9" dur="0.8s" repeatCount="indefinite"/></circle></svg>
+                </span>
+              </button>
             </div>
-            <div class="live-prompt-row">
-              <label class="live-control-label">Prompt <span class="live-optional">(optional override)</span></label>
-              <textarea id="live-prompt" class="live-textarea" rows="2" placeholder="Default: Analyze this frame for scoring events..."></textarea>
+            <textarea id="live-prompt" class="live-textarea" rows="1" placeholder="Custom prompt (optional)"></textarea>
+          </div>
+
+          <div class="live-right">
+            <div id="live-result" class="live-result" style="display:none;">
+              <div class="reasoning-panel">
+                <div class="reasoning-header">
+                  <div class="reasoning-dots"><span></span><span></span><span></span></div>
+                  <span class="reasoning-filename">cosmos_reason2 &mdash; live</span>
+                  <span class="reasoning-model" id="live-model">nvidia/cosmos-reason2-8b</span>
+                </div>
+                <div class="reasoning-body">
+                  <div class="reasoning-section reasoning-think">
+                    <div class="reasoning-tag">&lt;think&gt;</div>
+                    <div class="reasoning-content" id="live-thinking"></div>
+                    <div class="reasoning-tag">&lt;/think&gt;</div>
+                  </div>
+                  <div class="reasoning-section reasoning-answer">
+                    <div class="reasoning-tag reasoning-tag--answer">&lt;answer&gt;</div>
+                    <div class="reasoning-content" id="live-answer"></div>
+                    <div class="reasoning-tag reasoning-tag--answer">&lt;/answer&gt;</div>
+                  </div>
+                </div>
+                <div class="reasoning-footer">
+                  <span class="reasoning-stat">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5.5"/><path d="M7 4v3.5l2.5 1.5"/></svg>
+                    <span id="live-latency-val">—</span>
+                  </span>
+                  <span class="reasoning-stat">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="10" height="10" rx="2"/><path d="M5 7h4M7 5v4"/></svg>
+                    <span id="live-tokens-val">—</span>
+                  </span>
+                  <span class="reasoning-stat">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="6" width="10" height="6" rx="1"/><path d="M4 6V4a3 3 0 016 0v2"/></svg>
+                    <span id="live-device-val">Jetson AGX Orin</span>
+                  </span>
+                </div>
+              </div>
             </div>
-            <button id="live-send" class="btn btn--primary live-btn">
-              <span class="live-btn-text">Analyze Frame</span>
-              <span class="live-btn-spinner" style="display:none;">
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="2" stroke-dasharray="30 14" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" from="0 9 9" to="360 9 9" dur="0.8s" repeatCount="indefinite"/></circle></svg>
-              </span>
-            </button>
+            <div id="live-result-placeholder" class="live-result-placeholder">
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="var(--text-muted)" stroke-width="1.5" opacity="0.4"><rect x="6" y="6" width="36" height="36" rx="6"/><path d="M16 32l8-10 6 7 6-8"/><circle cx="18" cy="18" r="3"/></svg>
+              <p>Select a frame and click <strong>Analyze</strong> to see Cosmos Reason 2 in action</p>
+            </div>
+            <div id="live-error" class="live-error" style="display:none;"></div>
           </div>
         </div>
-
-        <!-- Results -->
-        <div id="live-result" class="live-result" style="display:none;">
-          <div class="reasoning-panel">
-            <div class="reasoning-header">
-              <div class="reasoning-dots"><span></span><span></span><span></span></div>
-              <span class="reasoning-filename">cosmos_reason2 &mdash; live inference</span>
-              <span class="reasoning-model" id="live-model">nvidia/cosmos-reason2-8b</span>
-            </div>
-            <div class="reasoning-body">
-              <div class="reasoning-section reasoning-think">
-                <div class="reasoning-tag">&lt;think&gt;</div>
-                <div class="reasoning-content" id="live-thinking"></div>
-                <div class="reasoning-tag">&lt;/think&gt;</div>
-              </div>
-              <div class="reasoning-section reasoning-answer">
-                <div class="reasoning-tag reasoning-tag--answer">&lt;answer&gt;</div>
-                <div class="reasoning-content" id="live-answer"></div>
-                <div class="reasoning-tag reasoning-tag--answer">&lt;/answer&gt;</div>
-              </div>
-            </div>
-            <div class="reasoning-footer">
-              <span class="reasoning-stat">
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5.5"/><path d="M7 4v3.5l2.5 1.5"/></svg>
-                <span id="live-latency-val">—</span>
-              </span>
-              <span class="reasoning-stat">
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="10" height="10" rx="2"/><path d="M5 7h4M7 5v4"/></svg>
-                <span id="live-tokens-val">—</span>
-              </span>
-              <span class="reasoning-stat">
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="6" width="10" height="6" rx="1"/><path d="M4 6V4a3 3 0 016 0v2"/></svg>
-                <span id="live-device-val">Jetson AGX Orin</span>
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <div id="live-error" class="live-error" style="display:none;"></div>
       </div>
     </div>
   </section>

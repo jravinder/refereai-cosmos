@@ -181,6 +181,7 @@ function initLiveInference() {
   const promptInput = document.getElementById('live-prompt');
   const sendBtn = document.getElementById('live-send');
   const resultDiv = document.getElementById('live-result');
+  const resultPlaceholder = document.getElementById('live-result-placeholder');
   const errorDiv = document.getElementById('live-error');
   const thinkingEl = document.getElementById('live-thinking');
   const answerEl = document.getElementById('live-answer');
@@ -238,6 +239,7 @@ function initLiveInference() {
     }
 
     resultDiv.style.display = 'block';
+    if (resultPlaceholder) resultPlaceholder.style.display = 'none';
 
     if (animated && thinking) {
       // Typing animation for thinking
