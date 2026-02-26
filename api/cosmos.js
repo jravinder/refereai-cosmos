@@ -11,7 +11,41 @@ export default async function handler(req, res) {
   }
 
   // Rate-limit logging (no client auth — backend key handles real auth)
-  console.log(`[${requestId}] ip=${req.headers['x-forwarded-for'] || 'unknown'}`);
+  const clientIp = req.headers['x-forwarded-for'] || 'unknown';
+  console.log(`[${requestId}] ip=${clientIp}`);
+
+  // ── Guardrails: payload validation ──
+  const bodyStr = JSON.stringify(req.body || {});
+  const bodySizeKB = bodyStr.length / 1024;
+
+  // Block oversized payloads (>10MB — base64 images can be large)
+  if (bodySizeKB > 10240) {
+    console.log(`[${requestId}] BLOCKED size=${bodySizeKB.toFixed(0)}KB`);
+    return res.status(413).json({ error: 'Payload too large. Max 10MB.' });
+  }
+
+  // Validate request structure
+  const messages = req.body?.messages;
+  if (!Array.isArray(messages) || messages.length === 0 || messages.length > 5) {
+    console.log(`[${requestId}] BLOCKED invalid_messages count=${messages?.length}`);
+    return res.status(400).json({ error: 'Invalid request: expected 1-5 messages.' });
+  }
+
+  // Block prompt injection attempts in user messages
+  const blockedPattern = /\b(ignore previous|forget instructions|disregard|you are now|new persona|system prompt|jailbreak)\b/i;
+  for (const msg of messages) {
+    const text = typeof msg.content === 'string' ? msg.content :
+      Array.isArray(msg.content) ? msg.content.filter(p => p.type === 'text').map(p => p.text).join(' ') : '';
+    if (msg.role === 'user' && blockedPattern.test(text)) {
+      console.log(`[${requestId}] BLOCKED prompt_injection ip=${clientIp}`);
+      return res.status(400).json({ error: 'Request blocked: please ask a sports-related question.' });
+    }
+  }
+
+  // Cap max_tokens to prevent resource abuse
+  if (req.body.max_tokens && req.body.max_tokens > 512) {
+    req.body.max_tokens = 512;
+  }
 
   const backendUrl = process.env.COSMOS_BACKEND_URL;
   if (!backendUrl) {

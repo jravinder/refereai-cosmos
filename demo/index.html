@@ -465,7 +465,7 @@ and determine the scoring event.
               </select>
               <div class="live-mode-toggle">
                 <button class="live-mode-btn active" data-mode="cached" title="Instant pre-analyzed result">Cached</button>
-                <button class="live-mode-btn" data-mode="live" title="Live inference on Jetson AGX Orin (~30s)">Live <span class="live-mode-badge" id="live-credits-badge">5</span></button>
+                <button class="live-mode-btn" data-mode="live" title="Live inference on Jetson AGX Orin (~30s)">Live <span class="live-mode-badge" id="live-credits-badge" data-tooltip="Free live inferences remaining. Each request runs on our Jetson AGX Orin GPU in real time. Register for unlimited access.">5</span></button>
               </div>
             </div>
             <textarea id="live-prompt" class="live-textarea" rows="1" placeholder="Custom prompt (optional)"></textarea>
@@ -731,25 +731,62 @@ and determine the scoring event.
   <!-- ════════════════════════════════════════════════════════ -->
   <section class="section section--dark section--team" id="team">
     <div class="container">
-      <div class="team-content">
-        <div class="team-info">
-          <span class="section-tag">Team</span>
-          <h2 class="section-title">Built by</h2>
-          <h3 class="team-name">Ravinder Jilkapally</h3>
-          <p class="team-org">RefereAI</p>
-          <p class="team-desc">
-            Building the future of sports officiating with physical AI.
-            RefereAI brings professional-grade analysis to every level of play &mdash;
-            your personal coach, referee, and guide, powered by NVIDIA Cosmos.
+      <div class="section-header">
+        <span class="section-tag">Team</span>
+      </div>
+
+      <!-- Lead -->
+      <div class="team-lead-card">
+        <div class="team-lead-avatar-wrap">
+          <div class="team-lead-glow"></div>
+          <img src="https://www.gravatar.com/avatar/07e9975093e352d88e8a43b95bbf3295?s=200" alt="Ravinder Jilkapally" class="team-lead-avatar" />
+        </div>
+        <div class="team-lead-info">
+          <h3 class="team-lead-name">Ravinder Jilkapally</h3>
+          <p class="team-lead-role">Product &amp; Engineering Lead</p>
+          <p class="team-lead-tagline">Scaling AI at Xpanse</p>
+          <p class="team-lead-bio">
+            Product, platform, and engineering leader with 18+ years building large-scale AI/ML platforms, GenAI products, and cloud-native data systems.
+            Building the future of sports officiating with physical AI &mdash; your personal coach, referee, and guide, powered by NVIDIA Cosmos.
           </p>
-          <div class="team-links">
-            <a href="https://github.com/jravinder" target="_blank" class="team-link">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M10 0C4.477 0 0 4.477 0 10c0 4.42 2.865 8.167 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0110 4.836a9.578 9.578 0 012.5.337c1.91-1.294 2.748-1.025 2.748-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C17.137 18.163 20 14.418 20 10c0-5.523-4.477-10-10-10z"/></svg>
+          <div class="team-lead-links">
+            <a href="https://linkedin.com/in/jravinder" target="_blank" rel="noopener noreferrer" class="team-link">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              LinkedIn
+            </a>
+            <a href="https://github.com/jravinder" target="_blank" rel="noopener noreferrer" class="team-link">
+              <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path d="M10 0C4.477 0 0 4.477 0 10c0 4.42 2.865 8.167 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0110 4.836a9.578 9.578 0 012.5.337c1.91-1.294 2.748-1.025 2.748-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C17.137 18.163 20 14.418 20 10c0-5.523-4.477-10-10-10z"/></svg>
               GitHub
             </a>
           </div>
         </div>
+      </div>
 
+      <!-- Harsha -->
+      <div class="team-lead-card">
+        <div class="team-lead-avatar-wrap">
+          <div class="team-lead-glow"></div>
+          <img src="https://ui-avatars.com/api/?name=Harsha+Kalapala&background=0ea5e9&color=fff&size=200&font-size=0.4" alt="Harsha Kalapala" class="team-lead-avatar" />
+        </div>
+        <div class="team-lead-info">
+          <h3 class="team-lead-name">Harsha Kalapala</h3>
+          <p class="team-lead-role">Growth &amp; Strategy</p>
+          <p class="team-lead-tagline">Sr. Director, Segment Marketing @ AlertMedia</p>
+          <p class="team-lead-bio">
+            Experienced marketing leader who makes complex things simple. Product marketing, go-to-market strategy, and building communities around technology products.
+          </p>
+          <div class="team-lead-links">
+            <a href="https://linkedin.com/in/harshakalapala" target="_blank" rel="noopener noreferrer" class="team-link">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              LinkedIn
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hackathon context -->
+      <div class="team-hackathon-card">
+        <p class="team-hackathon-text">Built for the <a href="https://luma.com/nvidia-cosmos-cookoff" target="_blank" rel="noopener noreferrer">NVIDIA Cosmos Cookoff</a> &mdash; a hackathon challenging developers to build physical AI applications with Cosmos Reason 2.</p>
       </div>
     </div>
   </section>
@@ -783,6 +820,19 @@ and determine the scoring event.
       </div>
     </div>
   </footer>
+
+  <!-- Sign-up gate modal -->
+  <div class="live-gate-overlay" id="live-gate">
+    <div class="live-gate-modal">
+      <h3>You've used your free tries</h3>
+      <div class="live-gate-credits">0 / 5 live inferences remaining</div>
+      <p>Each live request runs Cosmos Reason 2 on our Jetson AGX Orin in real time. Register to get unlimited access and help us improve RefereAI.</p>
+      <div class="live-gate-actions">
+        <a href="https://refereai.com/register" class="btn btn--primary">Register for Free</a>
+        <button class="btn--ghost" id="live-gate-close">Continue with cached results</button>
+      </div>
+    </div>
+  </div>
 
   <script type="module" src="/main.js"></script>
 </body>

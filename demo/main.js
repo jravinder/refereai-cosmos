@@ -168,14 +168,15 @@ function initNavbarScroll() {
 // ── Live Inference (Image-based) ──────────────────────────────
 function initLiveInference() {
   // Cosmos endpoint — configurable via ?endpoint= query param
-  // Local: http://192.168.4.124:8000/v1/chat/completions
-  // Tailscale: https://<jetson-hostname>:8000/v1/chat/completions
+  // Local dev: LiteLLM on Jetson (port 4000) with dev key
+  // Production: Vercel serverless proxy (handles auth server-side)
   const params = new URLSearchParams(window.location.search);
   const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
   const COSMOS_URL = params.get('endpoint')
     || (isLocal
-      ? 'http://192.168.4.124:8000/v1/chat/completions'
+      ? 'http://192.168.4.124:4000/v1/chat/completions'   // LiteLLM proxy
       : '/api/cosmos');  // Vercel proxy route (avoids mixed-content)
+  const LOCAL_API_KEY = 'sk-ewG476xn0655OEycrxxs5w'; // dev-local key (only used on localhost)
 
   const sportSelect = document.getElementById('live-sport');
   const promptInput = document.getElementById('live-prompt');
@@ -264,6 +265,26 @@ function initLiveInference() {
     badminton: 'Analyze this badminton frame. Identify shuttlecock position and trajectory, shot type (smash, clear, drop, drive, net shot), and player positioning. Check service legality if serving (contact below 1.15m). Assess whether the shuttle is in or out.',
     tabletennis: 'Analyze this table tennis frame. Identify the stroke type (loop, push, chop, flick, block, smash) and spin (topspin, backspin, sidespin). Check ball position relative to the table edge — edge ball vs side contact. If serving, verify open palm, 16cm toss, and visibility.',
   };
+
+  // ── Input validation ──
+  const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB
+  const MAX_PROMPT_LENGTH = 500;
+  const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'video/mp4'];
+  const BLOCKED_WORDS = /\b(ignore|forget|disregard|override|system prompt|you are now|pretend|jailbreak|bypass)\b/i;
+
+  function validatePrompt(text) {
+    if (!text) return null; // empty is fine, we use defaults
+    if (text.length > MAX_PROMPT_LENGTH) return `Prompt too long (${text.length}/${MAX_PROMPT_LENGTH} chars).`;
+    if (BLOCKED_WORDS.test(text)) return 'Prompt contains blocked content. Please ask a sports-related question.';
+    return null;
+  }
+
+  function validateFile(file) {
+    if (!file) return null;
+    if (!ALLOWED_TYPES.includes(file.type)) return `Unsupported file type: ${file.type}. Use JPEG, PNG, WebP, or MP4.`;
+    if (file.size > MAX_IMAGE_SIZE) return `File too large (${(file.size/1024/1024).toFixed(1)}MB). Max 5MB.`;
+    return null;
+  }
 
   const deviceEl = document.getElementById('live-device-val');
 
@@ -359,6 +380,14 @@ function initLiveInference() {
     const file = e.target.files[0];
     if (!file) return;
 
+    const fileErr = validateFile(file);
+    if (fileErr) {
+      errorDiv.textContent = fileErr;
+      errorDiv.style.display = 'block';
+      e.target.value = '';
+      return;
+    }
+
     const isVideo = file.type.startsWith('video/');
 
     if (isVideo) {
@@ -452,6 +481,14 @@ function initLiveInference() {
     errorDiv.style.display = 'none';
     resultDiv.style.display = 'none';
 
+    // ── Validate prompt ──
+    const promptErr = validatePrompt(customPrompt);
+    if (promptErr) {
+      errorDiv.textContent = promptErr;
+      errorDiv.style.display = 'block';
+      return;
+    }
+
     // ── Cached mode: instant result ──
     if (inferenceMode === 'cached') {
       if (!isCustomImage && !customPrompt && cachedResults && cachedResults[sport]) {
@@ -467,8 +504,8 @@ function initLiveInference() {
     // ── Live mode: check credits ──
     const credits = getCredits();
     if (credits <= 0) {
-      errorDiv.innerHTML = 'You\'ve used all 5 free live inferences. <a href="#" id="credits-register" style="color:var(--accent);text-decoration:underline;">Register</a> for unlimited access, or switch to <strong>Cached</strong> mode.';
-      errorDiv.style.display = 'block';
+      const gate = document.getElementById('live-gate');
+      if (gate) gate.classList.add('active');
       return;
     }
 
@@ -481,7 +518,7 @@ function initLiveInference() {
 
     const prompt = customPrompt || defaultPrompts[sport] || defaultPrompts.tennis;
     const mediaLabel = currentMediaType === 'video' ? 'video' : 'image';
-    const systemPrompt = `You are RefereAI, an expert ${sport} umpire powered by NVIDIA Cosmos Reason 2. Analyze the ${mediaLabel} using physical reasoning about ball trajectories, player positions, and game rules. Answer the question in the following format:\n<think>\nyour reasoning\n</think>\n\n<answer>\nyour answer\n</answer>`;
+    const systemPrompt = `You are RefereAI, an expert ${sport} umpire powered by NVIDIA Cosmos Reason 2. You ONLY analyze sports content. Analyze the ${mediaLabel} using physical reasoning about ball trajectories, player positions, and game rules. First reason step-by-step inside <think> tags about the physics, trajectories, and rules. Then give your final structured analysis after the </think> tag.`;
 
     const start = performance.now();
 
@@ -498,6 +535,7 @@ function initLiveInference() {
       }
 
       const headers = { 'Content-Type': 'application/json' };
+      if (isLocal) headers['Authorization'] = `Bearer ${LOCAL_API_KEY}`;
 
       setStatus('Sending to Cosmos Reason 2...');
 
@@ -522,7 +560,7 @@ function initLiveInference() {
             { role: 'system', content: systemPrompt },
             { role: 'user', content: contentParts },
           ],
-          max_tokens: 384,
+          max_tokens: 1024,
           temperature: 0.0,
         }),
       });
@@ -540,15 +578,56 @@ function initLiveInference() {
       const raw = data.choices[0].message.content;
       const usage = data.usage || {};
 
+      // Robust parser: handles Cosmos quirks (double <think>, missing </think>, nested tags)
       let thinking = '';
       let answer = raw;
-      const thinkMatch = raw.match(/<think>([\s\S]*?)<\/think>/);
-      if (thinkMatch) {
-        thinking = thinkMatch[1].trim();
-        answer = raw.slice(thinkMatch.index + thinkMatch[0].length).trim();
+
+      // Cosmos Reason 2 sometimes uses <think> as both open AND close tag
+      // Pattern: <think>reasoning<think> or <think>reasoning</think>
+      // Find first <think> and last <think> or </think> to extract reasoning block
+      const firstOpen = raw.indexOf('<think>');
+      if (firstOpen !== -1) {
+        const afterFirst = firstOpen + 7; // length of '<think>'
+        // Find the closing: either </think> or a second <think>
+        const closeTag = raw.indexOf('</think>', afterFirst);
+        const secondOpen = raw.indexOf('<think>', afterFirst);
+
+        let thinkEnd = -1;
+        let answerStart = -1;
+
+        if (closeTag !== -1 && (secondOpen === -1 || closeTag < secondOpen)) {
+          // Proper </think> found first
+          thinkEnd = closeTag;
+          answerStart = closeTag + 8; // length of '</think>'
+        } else if (secondOpen !== -1) {
+          // Second <think> used as closing tag
+          thinkEnd = secondOpen;
+          answerStart = secondOpen + 7;
+        }
+
+        if (thinkEnd !== -1) {
+          thinking = raw.slice(afterFirst, thinkEnd).trim();
+          answer = raw.slice(answerStart).trim();
+        } else {
+          // Only one <think> with no close — everything after is thinking, try to split on double newline
+          const rest = raw.slice(afterFirst);
+          const splitIdx = rest.search(/\n\n(?=[A-Z*#-])/);
+          if (splitIdx !== -1) {
+            thinking = rest.slice(0, splitIdx).trim();
+            answer = rest.slice(splitIdx).trim();
+          } else {
+            thinking = rest.trim();
+            answer = '';
+          }
+        }
       }
+
+      // Clean up <answer> wrapper if present
       const ansMatch = answer.match(/<answer>([\s\S]*?)<\/answer>/);
       if (ansMatch) answer = ansMatch[1].trim();
+      // Strip any remaining tags
+      answer = answer.replace(/<\/?(?:think|answer)>/g, '').trim();
+      thinking = thinking.replace(/<\/?(?:think|answer)>/g, '').trim();
 
       // Deduct a credit on success
       useCredit();
@@ -585,6 +664,29 @@ function initLiveInference() {
 }
 
 
+// ── Sign-up gate modal ──
+function initGateModal() {
+  const gate = document.getElementById('live-gate');
+  const closeBtn = document.getElementById('live-gate-close');
+  if (!gate || !closeBtn) return;
+
+  closeBtn.addEventListener('click', () => {
+    gate.classList.remove('active');
+    // Switch to cached mode
+    document.querySelectorAll('.live-mode-btn').forEach(b => b.classList.remove('active'));
+    const cachedBtn = document.querySelector('.live-mode-btn[data-mode="cached"]');
+    if (cachedBtn) cachedBtn.classList.add('active');
+    // Update the inferenceMode variable inside initLiveInference scope
+    // We dispatch a click on the cached button to trigger the mode change
+    cachedBtn?.click();
+  });
+
+  // Close on overlay click
+  gate.addEventListener('click', (e) => {
+    if (e.target === gate) gate.classList.remove('active');
+  });
+}
+
 // ── Init ──────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   initSportTabs();
@@ -593,4 +695,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initSmoothScroll();
   initNavbarScroll();
   initLiveInference();
+  initGateModal();
 });
