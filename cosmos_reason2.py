@@ -28,7 +28,58 @@ except ImportError:
     _HAS_HTTPX = False
     httpx = None
 
-from ai.vision_commentary import VisionBackend, VisionConfig
+# Try importing from the parent sports-ai repo first, fall back to
+# standalone-compatible base classes defined here.
+try:
+    from ai.vision_commentary import VisionBackend, VisionConfig
+except ImportError:
+    try:
+        from vision_commentary import VisionBackend, VisionConfig
+    except ImportError:
+        # Standalone mode — define minimal base classes so this module
+        # works without the full sports-ai tree.
+        from abc import ABC, abstractmethod
+        from enum import Enum
+
+        class VisionProvider(str, Enum):
+            """Supported vision backends."""
+            OLLAMA = "ollama"
+            VILA = "vila"
+            GROQ = "groq"
+            COSMOS_REASON2 = "cosmos_reason2"
+
+        @dataclass
+        class VisionConfig:
+            """Configuration for a vision backend."""
+            provider: str = "cosmos_reason2"
+            endpoint: str = ""
+            model: str = ""
+            sport: str = "general"
+            max_tokens: int = 1024
+            temperature: float = 0.3
+
+        class VisionBackend(ABC):
+            """Abstract base class for vision analysis backends."""
+
+            @abstractmethod
+            async def analyze_frame(
+                self,
+                frame_base64: str,
+                prompt: str,
+                system_prompt: Optional[str] = None,
+            ) -> str:
+                """Analyze a single frame and return the answer text."""
+                ...
+
+            @abstractmethod
+            async def health_check(self) -> bool:
+                """Check if the backend is reachable."""
+                ...
+
+            @abstractmethod
+            async def close(self):
+                """Close any open connections."""
+                ...
 
 logger = logging.getLogger(__name__)
 

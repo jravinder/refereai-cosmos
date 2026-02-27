@@ -4,6 +4,8 @@
 
 Built for the [NVIDIA Cosmos Cookoff](https://luma.com/nvidia-cosmos-cookoff) hackathon.
 
+**[Live Demo](https://refereai-cosmos.vercel.app/)** | **[Demo Video](#)** *(coming soon)*
+
 ## What It Does
 
 RefereAI uses **NVIDIA Cosmos Reason 2** to bring professional-level AI analysis to any sports match with just a camera and a phone:
@@ -39,7 +41,11 @@ Camera → Jetson AGX Orin 64GB (everything on-device)
 ### Prerequisites
 
 - GPU with 32GB+ VRAM (Jetson AGX Orin 64GB, or similar)
-- Python 3.10+ with `pip install torch transformers httpx python-dotenv`
+- Python 3.10+
+
+```bash
+pip install -r requirements.txt
+```
 
 ### Option A: HuggingFace Transformers (Our Setup)
 
@@ -48,7 +54,7 @@ Camera → Jetson AGX Orin 64GB (everything on-device)
 huggingface-cli download nvidia/Cosmos-Reason2-8B --local-dir ./models/cosmos-reason2-8b
 
 # Run the OpenAI-compatible server
-python cosmos_server.py
+python cosmos_server.py --model-path ./models/cosmos-reason2-8b
 # Serves at http://localhost:8000/v1/chat/completions
 ```
 
@@ -93,8 +99,6 @@ llama-mtmd-cli \
 cp .env.example .env
 # Edit .env — default endpoint is http://localhost:8000/v1
 
-pip install httpx python-dotenv
-
 # Analyze a cricket frame
 python demo.py --image cricket_frame.jpg --sport cricket --all-modes
 
@@ -106,17 +110,23 @@ python demo.py --image frame.jpg --sport cricket --mode physics --save-output ou
 
 # List supported sports
 python demo.py --list-sports
+
+# Run tests
+python -m pytest tests/ -v
 ```
 
 ## Files
 
 | File | Purpose |
 |------|---------|
-| `cosmos_reason2.py` | `CosmosReason2Backend` — VisionBackend implementation with chain-of-thought parsing, video clip support, observability |
+| `cosmos_server.py` | FastAPI server wrapping Qwen3VL with OpenAI-compatible API — runs on Jetson AGX Orin |
+| `cosmos_reason2.py` | `CosmosReason2Backend` — vision backend with chain-of-thought parsing, video support, observability |
 | `cosmos_prompts.py` | Sport-specific physical reasoning prompts (5 sports x 3 modes) |
 | `cosmos_sports_agent.py` | `CosmosScorePipeline` — agentic loop: frame → Cosmos → GameEvent → ScoringEngine → WebSocket |
-| `demo.py` | CLI demo script for testing |
-| `index.html` | Submission showcase page (open in browser) |
+| `demo.py` | CLI demo script for testing inference |
+| `api/cosmos.js` | Vercel serverless proxy with guardrails (payload validation, prompt injection blocking) |
+| `demo/` | Interactive demo page — [try it live](https://refereai-cosmos.vercel.app/) |
+| `tests/` | Tests for the chain-of-thought parser |
 | `.env.example` | Configuration template |
 
 ## How the Reasoning Works
@@ -153,9 +163,20 @@ This reasoning chain is:
 
 **Jetson AGX Orin 64GB** — 64GB shared GPU/CPU memory runs Cosmos Reason 2-8B on-device via HuggingFace Transformers, fronted by LiteLLM proxy for per-app API keys and usage tracking. Tailscale Funnel exposes the endpoint publicly. True edge AI: no cloud compute required.
 
+| Spec | Value |
+|------|-------|
+| GPU | 2048 CUDA cores + 64 Tensor cores (Ampere) |
+| Memory | 64 GB LPDDR5 (204.8 GB/s) |
+| AI Performance | 275 TOPS (INT8) |
+| CPU | 12-core Arm Cortex-A78AE |
+| Power | 15W - 60W (configurable) |
+| Serving | HuggingFace Transformers + LiteLLM |
+| Access | FastAPI + Tailscale Funnel |
+
 ## Team
 
-Built by [Ravinder Jilkapally](https://github.com/jravinder).
+- **[Ravinder Jilkapally](https://linkedin.com/in/jravinder)** — Product & Engineering Lead
+- **[Harsha Kalapala](https://linkedin.com/in/harshakalapala)** — Growth & Strategy
 
 ---
 

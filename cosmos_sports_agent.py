@@ -18,16 +18,117 @@ import time
 from dataclasses import dataclass, field
 from typing import Optional, Dict, Any, List, Callable
 
-from ai.cosmos_reason2 import CosmosReason2Backend, CosmosReasoningResult, parse_cosmos_response
-from ai.cosmos_prompts import (
-    get_system_prompt,
-    get_scene_prompt,
-    get_physical_reasoning_prompt,
-    get_commentary_prompt,
-    SUPPORTED_SPORTS,
-)
-from ai.vision_commentary import VisionConfig, VisionProvider, VisionBackend
-from scoring.engine import ScoringEngine, GameEvent, EventType
+# --- Cosmos Reason 2 backend ---
+try:
+    from ai.cosmos_reason2 import CosmosReason2Backend, CosmosReasoningResult, parse_cosmos_response
+except ImportError:
+    from cosmos_reason2 import CosmosReason2Backend, CosmosReasoningResult, parse_cosmos_response
+
+# --- Sport-specific prompts ---
+try:
+    from ai.cosmos_prompts import (
+        get_system_prompt,
+        get_scene_prompt,
+        get_physical_reasoning_prompt,
+        get_commentary_prompt,
+        SUPPORTED_SPORTS,
+    )
+except ImportError:
+    from cosmos_prompts import (
+        get_system_prompt,
+        get_scene_prompt,
+        get_physical_reasoning_prompt,
+        get_commentary_prompt,
+        SUPPORTED_SPORTS,
+    )
+
+# --- Vision backend base classes ---
+try:
+    from ai.vision_commentary import VisionConfig, VisionProvider, VisionBackend
+except ImportError:
+    try:
+        from vision_commentary import VisionConfig, VisionProvider, VisionBackend
+    except ImportError:
+        # Standalone mode — pull from cosmos_reason2 which defines its own
+        # fallback VisionConfig / VisionBackend / VisionProvider.
+        from cosmos_reason2 import VisionConfig, VisionBackend
+        from enum import Enum as _Enum
+
+        class VisionProvider(str, _Enum):
+            OLLAMA = "ollama"
+            VILA = "vila"
+            GROQ = "groq"
+            COSMOS_REASON2 = "cosmos_reason2"
+
+# --- Scoring engine (optional — pipeline can detect events without scoring) ---
+try:
+    from scoring.engine import ScoringEngine, GameEvent, EventType
+except ImportError:
+    try:
+        # Try a direct import for flat layouts
+        from engine import ScoringEngine, GameEvent, EventType
+    except ImportError:
+        # Define minimal stubs so the pipeline works without the scoring engine.
+        # Events are still detected and broadcast; they just aren't accumulated
+        # into a live score.
+        from enum import Enum as _Enum2
+        from dataclasses import dataclass as _dataclass, field as _field
+
+        class EventType(_Enum2):
+            """Scoring event types (stub for standalone use)."""
+            # Cricket
+            BOUNDARY_4 = "boundary_4"
+            BOUNDARY_6 = "boundary_6"
+            WICKET = "wicket"
+            DOT_BALL = "dot_ball"
+            RUN = "run"
+            WIDE = "wide"
+            NO_BALL = "no_ball"
+            # Tennis / Racket sports
+            POINT = "point"
+            ACE = "ace"
+            DOUBLE_FAULT = "double_fault"
+            WINNER = "winner"
+            UNFORCED_ERROR = "unforced_error"
+            IN = "in"
+            OUT = "out"
+            LET = "let"
+
+        @_dataclass
+        class GameEvent:
+            """A single scoring event (stub for standalone use)."""
+            event_type: EventType
+            player: Optional[int] = None
+            confidence: float = 1.0
+            metadata: Dict[str, Any] = _field(default_factory=dict)
+
+            def to_dict(self) -> Dict[str, Any]:
+                return {
+                    "event_type": self.event_type.value,
+                    "player": self.player,
+                    "confidence": self.confidence,
+                    "metadata": self.metadata,
+                }
+
+        class ScoringEngine:
+            """Minimal scoring engine stub (standalone use).
+
+            Real scoring engines (CricketScorer, TennisScorer, etc.) live
+            in the parent sports-ai repo under scoring/. This stub allows
+            the pipeline to instantiate without them.
+            """
+
+            def start_game(self, **kwargs):
+                pass
+
+            def process_event(self, event: GameEvent) -> Dict[str, Any]:
+                return {"event": event.to_dict(), "note": "stub scorer — no live score"}
+
+            def get_score(self) -> Dict[str, Any]:
+                return {"status": "no_scorer"}
+
+            def on_score_change(self, callback):
+                pass
 
 logger = logging.getLogger(__name__)
 

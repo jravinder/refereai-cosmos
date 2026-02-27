@@ -176,7 +176,8 @@ function initLiveInference() {
     || (isLocal
       ? 'http://192.168.4.124:4000/v1/chat/completions'   // LiteLLM proxy
       : '/api/cosmos');  // Vercel proxy route (avoids mixed-content)
-  const LOCAL_API_KEY = 'sk-ewG476xn0655OEycrxxs5w'; // dev-local key (only used on localhost)
+  // Local dev only — set your LiteLLM key here
+  const LOCAL_API_KEY = 'sk-dev-local';
 
   const sportSelect = document.getElementById('live-sport');
   const promptInput = document.getElementById('live-prompt');
