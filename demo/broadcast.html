@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RefereAI — Live Broadcast View</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #050508;
+      --surface: rgba(8, 8, 16, 0.85);
+      --surface-solid: #0a0a14;
+      --border: rgba(0, 234, 255, 0.15);
+      --accent: #00eaff;
+      --accent-dim: rgba(0, 234, 255, 0.1);
+      --green: #34d399;
+      --red: #ef4444;
+      --text: #f0f0f0;
+      --text-muted: rgba(255,255,255,0.5);
+      --font: 'Plus Jakarta Sans', system-ui, sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Top Bar ─────────────────────────────────── */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 16px;
+      background: var(--surface-solid);
+      border-bottom: 1px solid var(--border);
+      z-index: 10;
+      flex-shrink: 0;
+    }
+    .top-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo {
+      font-weight: 800;
+      font-size: 17px;
+      color: var(--accent);
+      letter-spacing: -0.5px;
+    }
+    .live-badge {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--red);
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      padding: 3px 10px;
+      border-radius: 3px;
+    }
+    .live-dot {
+      width: 6px; height: 6px;
+      background: var(--red);
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    .sport-tabs {
+      display: flex;
+      gap: 2px;
+    }
+    .sport-tab {
+      padding: 5px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .sport-tab:hover {
+      color: var(--text);
+      background: rgba(255,255,255,0.05);
+    }
+    .sport-tab.active {
+      color: var(--accent);
+      background: var(--accent-dim);
+      border-color: var(--border);
+    }
+    .top-bar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .model-tag {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--accent);
+      background: var(--accent-dim);
+      padding: 3px 8px;
+      border-radius: 3px;
+    }
+    .yt-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .yt-input {
+      width: 200px;
+      padding: 4px 8px;
+      font-size: 11px;
+      font-family: var(--mono);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text);
+      outline: none;
+    }
+    .yt-input::placeholder { color: var(--text-muted); }
+    .yt-input:focus { border-color: var(--accent); }
+    .yt-btn {
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    /* ── Main 4-Panel Layout ────────────────────── */
+    .broadcast {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 240px 1fr 280px;
+      grid-template-rows: 1fr auto;
+      gap: 0;
+      overflow: hidden;
+    }
+
+    /* ── Left Panel — AI Answer ──────────────────── */
+    .left-panel {
+      background: var(--surface-solid);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .left-header {
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .left-header-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .left-header-label .icon { width: 14px; height: 14px; }
+    .left-headline {
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+    .left-detail {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Inference stats row */
+    .inference-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.06);
+      flex-shrink: 0;
+    }
+    .inf-stat {
+      background: var(--surface-solid);
+      padding: 8px 8px;
+      text-align: center;
+    }
+    .inf-stat .val {
+      font-family: var(--mono);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .inf-stat .lbl {
+      font-size: 9px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+    }
+
+    /* Answer content in left panel */
+    .left-answer {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 14px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(0,234,255,0.2) transparent;
+    }
+    .left-answer-content {
+      font-size: 12px;
+      line-height: 1.6;
+      color: var(--text);
+      white-space: pre-wrap;
+    }
+    .left-answer-content strong { color: var(--accent); }
+
+    /* Hardware badge */
+    .hw-badge {
+      padding: 10px 14px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      flex-shrink: 0;
+    }
+    .hw-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 3px 0;
+      font-size: 11px;
+    }
+    .hw-row .hw-label { color: var(--text-muted); }
+    .hw-row .hw-val { font-family: var(--mono); font-size: 10px; color: var(--text); }
+
+    /* ── Center — Video Area ────────────────────── */
+    .video-area {
+      position: relative;
+      background: #000;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .video-area video,
+    .video-area img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transform: rotate(180deg);
+    }
+    .video-area iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Score Bug overlay */
+    .score-bug {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--surface);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 14px;
+      min-width: 180px;
+      z-index: 5;
+    }
+    .score-bug-sport {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent);
+      margin-bottom: 3px;
+    }
+    .score-bug-event {
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+    .score-bug-detail {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    /* Latency pills overlay */
+    .latency-bug {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      display: flex;
+      gap: 8px;
+      z-index: 5;
+    }
+    .latency-pill {
+      background: var(--surface);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 5px 10px;
+      font-family: var(--mono);
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .latency-pill .label { color: var(--text-muted); font-size: 9px; }
+    .latency-pill .value { color: var(--accent); font-weight: 600; }
+
+    .cosmos-watermark {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      font-size: 10px;
+      font-family: var(--mono);
+      color: rgba(255,255,255,0.25);
+      z-index: 5;
+    }
+
+    /* Source badge — bottom left of video */
+    .source-badge {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      font-size: 10px;
+      font-family: var(--mono);
+      color: rgba(255,255,255,0.4);
+      background: rgba(0,0,0,0.5);
+      padding: 3px 8px;
+      border-radius: 3px;
+      z-index: 5;
+    }
+
+    /* Inference source badge — LIVE vs CACHED */
+    .inference-source {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 10px;
+      border-radius: 3px;
+    }
+    .inference-source.live {
+      color: var(--green);
+      background: rgba(52, 211, 153, 0.1);
+      border: 1px solid rgba(52, 211, 153, 0.3);
+    }
+    .inference-source.live .src-dot {
+      width: 6px; height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+    .inference-source.cached {
+      color: #f59e0b;
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    /* ── Right Panel — Chain-of-Thought ──────────── */
+    .analysis-panel {
+      background: var(--surface-solid);
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .panel-section {
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .panel-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .panel-label .icon { width: 14px; height: 14px; }
+    .thinking-section {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 14px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(0,234,255,0.2) transparent;
+    }
+    .thinking-section .panel-label { margin-bottom: 10px; }
+    .thinking-content {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.6);
+      white-space: pre-wrap;
+    }
+    .cursor-blink::after {
+      content: '\25CA';
+      color: var(--accent);
+      animation: blink 0.6s infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* Processing indicator */
+    .processing-badge {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      background: rgba(0, 234, 255, 0.04);
+    }
+    .processing-badge.active { display: flex; }
+    .processing-spinner {
+      width: 14px; height: 14px;
+      border: 2px solid var(--accent);
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .processing-text {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .processing-detail {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-left: auto;
+      font-family: var(--mono);
+    }
+
+    /* Step highlight animation */
+    .step-highlight {
+      color: var(--accent);
+      font-weight: 600;
+      background: rgba(0, 234, 255, 0.08);
+      padding: 0 2px;
+      border-radius: 2px;
+    }
+
+    /* Model info in right panel */
+    .model-info {
+      padding: 10px 14px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      flex-shrink: 0;
+    }
+    .model-info-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 3px 0;
+      font-size: 11px;
+    }
+    .model-info-row .mi-label { color: var(--text-muted); }
+    .model-info-row .mi-val { font-family: var(--mono); font-size: 10px; color: var(--text); }
+
+    /* ── Bottom — Commentary Ticker ──────────────── */
+    .commentary-bar {
+      grid-column: 1 / -1;
+      background: var(--surface-solid);
+      border-top: 1px solid var(--border);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .commentary-label {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--bg);
+      background: var(--accent);
+      padding: 2px 8px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .commentary-text {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.4;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .commentary-text.typing::after {
+      content: '\25CA';
+      color: var(--accent);
+      animation: blink 0.6s infinite;
+    }
+    .powered-by {
+      margin-left: auto;
+      font-size: 10px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+    .powered-by span { color: var(--green); }
+
+    /* ── Transitions ────────────────────────────── */
+    .fade-in { animation: fadeIn 0.5s ease forwards; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .panel-section.waiting { opacity: 0.3; }
+    .panel-section.active { opacity: 1; transition: opacity 0.4s; }
+
+    /* ── Responsive ─────────────────────────────── */
+    @media (max-width: 768px) {
+      .broadcast {
+        grid-template-columns: 1fr;
+        grid-template-rows: 50vh auto auto auto;
+      }
+      .left-panel {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        max-height: 30vh;
+        order: 2;
+      }
+      .video-area { order: 1; }
+      .analysis-panel {
+        border-left: none;
+        border-top: 1px solid var(--border);
+        max-height: 30vh;
+        order: 3;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <span class="logo">RefereAI</span>
+      <span class="live-badge"><span class="live-dot"></span> LIVE</span>
+    </div>
+    <div class="sport-tabs" id="sport-tabs">
+      <button class="sport-tab active" data-sport="tennis">Tennis</button>
+      <button class="sport-tab" data-sport="cricket">Cricket</button>
+      <button class="sport-tab" data-sport="pickleball">Pickleball</button>
+      <button class="sport-tab" data-sport="badminton">Badminton</button>
+      <button class="sport-tab" data-sport="tabletennis">Table Tennis</button>
+    </div>
+    <div class="top-bar-right">
+      <div class="yt-input-wrap">
+        <input class="yt-input" id="yt-url" type="text" placeholder="Paste YouTube URL..." />
+        <button class="yt-btn" id="yt-go">Stream</button>
+      </div>
+      <button class="yt-btn" id="reanalyze-btn" title="Re-run live inference">Re-analyze</button>
+      <span class="model-tag">cosmos-reason2-8b</span>
+    </div>
+  </div>
+
+  <!-- 4-Panel Broadcast Layout -->
+  <div class="broadcast">
+
+    <!-- LEFT — AI Analysis (real Cosmos output) -->
+    <div class="left-panel">
+      <div class="left-header" id="left-header">
+        <div class="left-header-label">
+          <svg class="icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="10" height="10" rx="2"/><path d="M5 7h4M7 5v4"/></svg>
+          Cosmos Reason 2 Analysis
+          <span class="inference-source" id="inference-source"></span>
+        </div>
+        <div class="left-headline" id="left-headline"></div>
+        <div class="left-detail" id="left-detail"></div>
+      </div>
+
+      <div class="inference-stats">
+        <div class="inf-stat">
+          <div class="val" id="stat-latency">--</div>
+          <div class="lbl">Latency</div>
+        </div>
+        <div class="inf-stat">
+          <div class="val" id="stat-tokens">--</div>
+          <div class="lbl">Tokens</div>
+        </div>
+        <div class="inf-stat">
+          <div class="val">Orin</div>
+          <div class="lbl">Device</div>
+        </div>
+      </div>
+
+      <div class="processing-badge" id="left-processing">
+        <div class="processing-spinner"></div>
+        <span class="processing-text">Processing</span>
+        <span class="processing-detail" id="left-proc-status">Waiting for CoT...</span>
+      </div>
+
+      <div class="left-answer">
+        <div class="left-answer-content" id="answer-text"></div>
+      </div>
+
+      <div class="hw-badge">
+        <div class="hw-row">
+          <span class="hw-label">Hardware</span>
+          <span class="hw-val">Jetson AGX Orin 64GB</span>
+        </div>
+        <div class="hw-row">
+          <span class="hw-label">Model</span>
+          <span class="hw-val">Cosmos-Reason2-8B</span>
+        </div>
+        <div class="hw-row">
+          <span class="hw-label">Backend</span>
+          <span class="hw-val">HuggingFace Transformers</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CENTER — Video -->
+    <div class="video-area">
+      <video id="broadcast-video" muted loop playsinline autoplay>
+        <source src="samples/tennis_clip.mp4" type="video/mp4" />
+      </video>
+      <img id="broadcast-img" src="samples/tennis.jpg" alt="" style="display:none;" />
+      <iframe id="broadcast-yt" style="display:none;" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+      <div class="score-bug" id="score-bug">
+        <div class="score-bug-sport" id="bug-sport">Tennis</div>
+        <div class="score-bug-event" id="bug-event">--</div>
+        <div class="score-bug-detail" id="bug-detail"></div>
+      </div>
+
+      <div class="latency-bug">
+        <div class="latency-pill">
+          <span class="label">Latency</span>
+          <span class="value" id="bug-latency">--</span>
+        </div>
+        <div class="latency-pill">
+          <span class="label">Tokens</span>
+          <span class="value" id="bug-tokens">--</span>
+        </div>
+      </div>
+
+      <div class="source-badge" id="source-badge">Sample clip</div>
+      <div class="cosmos-watermark">NVIDIA Cosmos Reason 2 &middot; Jetson AGX Orin 64GB</div>
+    </div>
+
+    <!-- RIGHT — Chain-of-Thought (real Cosmos output) -->
+    <div class="analysis-panel">
+      <div class="panel-section" id="thinking-header">
+        <div class="panel-label">
+          <svg class="icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5.5"/><path d="M7 4v3.5l2.5 1.5"/></svg>
+          Chain-of-Thought Reasoning
+        </div>
+        <div style="font-size:11px; color:var(--text-muted); line-height:1.4;">
+          Real-time reasoning from Cosmos Reason 2 running on Jetson AGX Orin. The model thinks step-by-step about physics, trajectories, and rules before making decisions.
+        </div>
+      </div>
+
+      <div class="processing-badge" id="right-processing">
+        <div class="processing-spinner"></div>
+        <span class="processing-text">Cosmos Reasoning</span>
+        <span class="processing-detail" id="right-proc-status">Step 0/5</span>
+      </div>
+
+      <div class="thinking-section" id="thinking-section">
+        <div class="thinking-content" id="thinking-text"></div>
+      </div>
+
+      <div class="model-info">
+        <div class="model-info-row">
+          <span class="mi-label">Architecture</span>
+          <span class="mi-val">Qwen3VL + CoT</span>
+        </div>
+        <div class="model-info-row">
+          <span class="mi-label">Precision</span>
+          <span class="mi-val">bfloat16</span>
+        </div>
+        <div class="model-info-row">
+          <span class="mi-label">VRAM</span>
+          <span class="mi-val">~18GB / 64GB</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTTOM — Commentary Ticker -->
+    <div class="commentary-bar">
+      <span class="commentary-label">AI</span>
+      <span class="commentary-text" id="commentary-text">Select a sport to watch AI analysis in real time.</span>
+      <span class="powered-by"><span>&#9679;</span> Cosmos Reason 2 on Jetson AGX Orin</span>
+    </div>
+
+  </div>
+
+  <script>
+    // ══════════════════════════════════════════════
+    // RefereAI Broadcast — Live Cosmos Reason 2 Inference
+    // ══════════════════════════════════════════════
+
+    // ── API Configuration (same as demo main.js) ──
+    const params = new URLSearchParams(window.location.search);
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    // Direct to cosmos_server.py (port 8000) for local — bypasses LiteLLM cache
+    // Production goes through Vercel proxy → LiteLLM → cosmos_server
+    const COSMOS_URL = params.get('endpoint')
+      || (isLocal
+        ? 'http://192.168.4.124:8000/v1/chat/completions'
+        : '/api/cosmos');
+    const API_KEY = 'sk-admin-239d6633e1bd990e63c288070575bec1';
+
+    // ── Sport-specific prompts (real prompts used for inference) ──
+    const sportPrompts = {
+      tennis: 'Analyze this tennis frame step by step.\n\nStep 1: Identify the player stance, court position (deuce/ad side), and what phase of play (serve, rally, volley).\nStep 2: Locate the ball — is it airborne, at toss apex, post-bounce? Estimate height and trajectory direction.\nStep 3: Check ball position relative to court lines (baseline, service line, sidelines). Make any in/out line calls using Hawk-Eye principles.\nStep 4: Identify the shot type (flat serve, kick serve, forehand, backhand, volley) based on racket angle and body mechanics.\nStep 5: Estimate serve speed or shot speed from body mechanics and weight transfer. Check for foot faults.\n\nAfter reasoning, give a structured final analysis with bold headers for: Shot type, Ball position, Court position, Line calls, Speed estimate, and Scoring event.',
+      cricket: 'Analyze this cricket frame step by step using DRS protocol.\n\nStep 1: Identify the ball — is it in the air, pitching, or post-bounce? Estimate line and length (short, good length, full, yorker).\nStep 2: Check seam position and delivery angle. Is it seam-up, cross-seam, or spin?\nStep 3: Assess DRS parameters — pitching (in line or outside leg?), impact zone, hitting stumps prediction.\nStep 4: Identify the batsman shot type (defensive, drive, pull, cut, sweep) from stance and bat angle.\nStep 5: Determine scoring event — dot ball, runs, boundary 4/6, wicket, wide, no-ball. Assess field positions.\n\nAfter reasoning, give a structured final analysis with bold headers for: Delivery type, Ball position, Pitching, Shot type, LBW assessment, and Scoring event.',
+      pickleball: 'Analyze this pickleball frame step by step.\n\nStep 1: Identify player positions relative to the kitchen (Non-Volley Zone) line. Are feet touching or inside the NVZ?\nStep 2: Identify the shot type — dink, drive, lob, drop shot, or serve. Check paddle angle and wrist position.\nStep 3: Track ball trajectory — low arc (dink), flat (drive), or high (lob)? Estimate clearance over net.\nStep 4: Check double bounce rule compliance — has the serve and return both bounced?\nStep 5: Assess rally state and partner positioning for doubles formation.\n\nAfter reasoning, give a structured final analysis with bold headers for: Shot type, NVZ check, Ball trajectory, Double bounce rule, Player positioning, and Scoring event.',
+      badminton: 'Analyze this badminton frame step by step.\n\nStep 1: Locate the shuttlecock position — is it above the net, descending, or at contact point?\nStep 2: Identify the shot type — smash, clear, drop, net shot, drive, or serve. Check racket position and body stance.\nStep 3: Assess player court positioning — front court, mid court, or rear court. Is the stance offensive or defensive?\nStep 4: Check for service legality if applicable — contact point below 1.15m, continuous forward motion.\nStep 5: Check boundary status — is play within singles/doubles sidelines?\n\nAfter reasoning, give a structured final analysis with bold headers for: Shot type, Shuttlecock position, Player positioning, Service check, Boundary status, and Scoring event.',
+      tabletennis: 'Analyze this table tennis frame step by step.\n\nStep 1: Locate the ball — is it mid-air, on the table, or at contact with paddle? Check position relative to table edges and net.\nStep 2: Identify the stroke type — forehand loop, backhand push, block, smash, or chop. Check paddle angle and body rotation.\nStep 3: Assess spin from paddle angle and stroke direction — topspin, backspin, sidespin, or flat.\nStep 4: Check for edge balls or net clips based on ball trajectory.\nStep 5: If service, check legality — open palm toss of 16cm minimum, ball visible to opponent.\n\nAfter reasoning, give a structured final analysis with bold headers for: Stroke type, Spin assessment, Ball position, Edge/net check, Service check, and Scoring event.',
+    };
+
+    // ── Sport config ──
+    const sportMedia = {
+      tennis:      { video: 'samples/tennis_clip.mp4',      image: 'samples/tennis.jpg' },
+      cricket:     { video: 'samples/cricket_clip.mp4',     image: 'samples/cricket.jpg' },
+      pickleball:  { video: null,                            image: 'samples/pickleball.jpg' },
+      badminton:   { video: 'samples/badminton_clip.mp4',   image: 'samples/badminton.jpg' },
+      tabletennis: { video: 'samples/tabletennis_clip.mp4', image: 'samples/tabletennis.jpg' },
+    };
+
+    const sportYouTube = {
+      tennis:      'V0SogtjRfmw',
+      cricket:     '8MWMvoZqt0E',
+      pickleball:  'KQ_GkVIk6QM',
+      badminton:   '7q6Ur1sL7-0',
+      tabletennis: 'iIIr0rzQqTQ',
+    };
+
+    const sportLabels = {
+      tennis: 'Tennis', cricket: 'Cricket', pickleball: 'Pickleball',
+      badminton: 'Badminton', tabletennis: 'Table Tennis',
+    };
+
+    // ── Cached results (fallback if Jetson is unreachable) ──
+    let cachedResults = null;
+    fetch('samples/cached_results.json')
+      .then(r => r.json())
+      .then(data => { cachedResults = data; });
+
+    // ── DOM ──
+    const videoEl = document.getElementById('broadcast-video');
+    const imgEl = document.getElementById('broadcast-img');
+    const ytEl = document.getElementById('broadcast-yt');
+    const bugSport = document.getElementById('bug-sport');
+    const bugEvent = document.getElementById('bug-event');
+    const bugDetail = document.getElementById('bug-detail');
+    const bugLatency = document.getElementById('bug-latency');
+    const bugTokens = document.getElementById('bug-tokens');
+    const answerText = document.getElementById('answer-text');
+    const thinkingText = document.getElementById('thinking-text');
+    const commentaryText = document.getElementById('commentary-text');
+    const statLatency = document.getElementById('stat-latency');
+    const statTokens = document.getElementById('stat-tokens');
+    const leftHeadline = document.getElementById('left-headline');
+    const leftDetail = document.getElementById('left-detail');
+    const sourceBadge = document.getElementById('source-badge');
+    const leftProc = document.getElementById('left-processing');
+    const leftProcStatus = document.getElementById('left-proc-status');
+    const rightProc = document.getElementById('right-processing');
+    const rightProcStatus = document.getElementById('right-proc-status');
+    const inferenceSource = document.getElementById('inference-source');
+
+    function setSourceBadge(type) {
+      if (type === 'live') {
+        inferenceSource.className = 'inference-source live';
+        inferenceSource.innerHTML = '<span class="src-dot"></span> Live Inference';
+      } else if (type === 'cached') {
+        inferenceSource.className = 'inference-source cached';
+        inferenceSource.innerHTML = 'Cached Result';
+      } else {
+        inferenceSource.className = 'inference-source';
+        inferenceSource.innerHTML = '';
+      }
+    }
+
+    let currentTyping = null;
+    let currentSport = 'tennis';
+    let isInferring = false;
+
+    // ── Processing indicators ──
+    function showProcessing(active) {
+      leftProc.classList.toggle('active', active);
+      rightProc.classList.toggle('active', active);
+    }
+
+    // ── Frame capture from local video ──
+    function captureVideoFrame() {
+      if (videoEl.style.display !== 'none' && videoEl.readyState >= 2) {
+        const canvas = document.createElement('canvas');
+        canvas.width = videoEl.videoWidth || 480;
+        canvas.height = videoEl.videoHeight || 360;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(videoEl, 0, 0, canvas.width, canvas.height);
+        return canvas.toDataURL('image/jpeg', 0.85).split(',')[1];
+      }
+      return null;
+    }
+
+    // ── Get sample image as base64 ──
+    async function getSampleImageBase64(sport) {
+      const imgSrc = sportMedia[sport].image;
+      const resp = await fetch(imgSrc);
+      const blob = await resp.blob();
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result.split(',')[1]);
+        reader.readAsDataURL(blob);
+      });
+    }
+
+    // ── Parse Cosmos response (handles <think> tag quirks) ──
+    function parseCosmosResponse(raw) {
+      let thinking = '', answer = '';
+      const firstOpen = raw.indexOf('<think>');
+      if (firstOpen !== -1) {
+        const afterFirst = firstOpen + 7;
+        const closeTag = raw.indexOf('</think>', afterFirst);
+        const secondOpen = raw.indexOf('<think>', afterFirst);
+        let thinkEnd = -1, answerStart = -1;
+        if (closeTag !== -1 && (secondOpen === -1 || closeTag < secondOpen)) {
+          thinkEnd = closeTag;
+          answerStart = closeTag + 8;
+        } else if (secondOpen !== -1) {
+          thinkEnd = secondOpen;
+          answerStart = secondOpen + 7;
+        }
+        if (thinkEnd !== -1) {
+          thinking = raw.slice(afterFirst, thinkEnd).trim();
+          answer = raw.slice(answerStart).trim();
+        } else {
+          const rest = raw.slice(afterFirst);
+          const splitIdx = rest.search(/\n\n(?=[A-Z*#-])/);
+          if (splitIdx !== -1) {
+            thinking = rest.slice(0, splitIdx).trim();
+            answer = rest.slice(splitIdx).trim();
+          } else {
+            thinking = rest.trim();
+          }
+        }
+      } else {
+        answer = raw.trim();
+      }
+      const ansMatch = answer.match(/<answer>([\s\S]*?)<\/answer>/);
+      if (ansMatch) answer = ansMatch[1].trim();
+      answer = answer.replace(/<\/?(?:think|answer)>/g, '').trim();
+      return { thinking, answer };
+    }
+
+    // ── YouTube ──
+    function parseYouTubeId(url) {
+      if (!url) return null;
+      const patterns = [
+        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/,
+        /^([a-zA-Z0-9_-]{11})$/,
+      ];
+      for (const p of patterns) { const m = url.match(p); if (m) return m[1]; }
+      return null;
+    }
+
+    document.getElementById('yt-go').addEventListener('click', () => {
+      const id = parseYouTubeId(document.getElementById('yt-url').value.trim());
+      if (id) { showYouTube(id); sourceBadge.textContent = 'YouTube stream'; }
+    });
+    document.getElementById('yt-url').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') document.getElementById('yt-go').click();
+    });
+
+    function showYouTube(videoId) {
+      videoEl.style.display = 'none'; videoEl.pause();
+      imgEl.style.display = 'none';
+      ytEl.style.display = 'block';
+      ytEl.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&controls=1&modestbranding=1&rel=0&playlist=${videoId}`;
+    }
+
+    function showSportYouTube(sport) {
+      const ytId = sportYouTube[sport];
+      if (ytId) { showYouTube(ytId); sourceBadge.textContent = 'YouTube \u2022 Official channel'; }
+    }
+
+    // ── Helpers ──
+    function extractHeadline(answer) {
+      const m = answer.match(/\*\*(.+?)\*\*/);
+      if (m) { const p = m[1].split('\u2014').map(s => s.trim()); return { event: p[0]||'', detail: p[1]||'' }; }
+      const first = answer.split('\n')[0].replace(/[*#]/g, '').trim();
+      return { event: first.slice(0, 40), detail: '' };
+    }
+
+    function formatAnswer(answer) {
+      return answer.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+    }
+
+    function randInt(a, b) { return Math.floor(Math.random() * (b - a + 1)) + a; }
+
+    // ── Typing animation ──
+    function typeText(el, text, speed, onDone, onStep) {
+      el.textContent = '';
+      el.classList.add('cursor-blink');
+      let i = 0, stepCount = 0;
+      const id = {};
+      currentTyping = id;
+      function tick() {
+        if (currentTyping !== id) return;
+        if (i >= text.length) { el.classList.remove('cursor-blink'); if (onDone) onDone(); return; }
+        const chunk = text.slice(i, i + randInt(1, 2));
+        el.textContent += chunk;
+        i += chunk.length;
+        const steps = (el.textContent.match(/Step \d/g) || []).length;
+        if (steps > stepCount) { stepCount = steps; if (onStep) onStep(stepCount); }
+        if (el.parentElement) el.parentElement.scrollTop = el.parentElement.scrollHeight;
+        let delay = speed + randInt(0, 12);
+        if (chunk.includes('\n')) delay += 80;
+        if (chunk.includes('.')) delay += 30;
+        setTimeout(tick, delay);
+      }
+      tick();
+    }
+
+    // ══════════════════════════════════════════════
+    // LIVE INFERENCE — calls Cosmos Reason 2 on Jetson
+    // ══════════════════════════════════════════════
+
+    async function runLiveInference(sport) {
+      if (isInferring) return;
+      isInferring = true;
+      currentTyping = null;
+
+      const label = sportLabels[sport];
+
+      // Reset UI
+      setSourceBadge(null);
+      answerText.innerHTML = '';
+      thinkingText.textContent = '';
+      leftHeadline.textContent = 'Analyzing...';
+      leftDetail.textContent = '';
+      bugSport.textContent = label;
+      bugEvent.textContent = 'Analyzing...';
+      bugDetail.textContent = '';
+      bugLatency.textContent = '--';
+      bugTokens.textContent = '--';
+      statLatency.textContent = '--';
+      statTokens.textContent = '--';
+
+      // Show processing
+      showProcessing(true);
+      leftProcStatus.textContent = 'Capturing frame...';
+      rightProcStatus.textContent = 'Connecting...';
+
+      commentaryText.textContent = '';
+      commentaryText.classList.add('typing');
+      commentaryText.textContent = `Connecting to Cosmos Reason 2 on Jetson AGX Orin...`;
+
+      // Get frame — try local video first, fall back to sample image
+      let base64 = captureVideoFrame();
+      if (!base64) {
+        leftProcStatus.textContent = 'Loading sample image...';
+        base64 = await getSampleImageBase64(sport);
+      }
+
+      if (!base64) {
+        showProcessing(false);
+        commentaryText.textContent = 'Error: Could not capture frame.';
+        commentaryText.classList.remove('typing');
+        isInferring = false;
+        return;
+      }
+
+      // Build request
+      leftProcStatus.textContent = 'Sending to Jetson...';
+      rightProcStatus.textContent = 'Waiting for GPU...';
+      commentaryText.textContent = `Sending ${label} frame to Cosmos Reason 2-8B on Jetson AGX Orin (64GB)...`;
+
+      const systemPrompt = `You are RefereAI, an expert ${label} umpire powered by NVIDIA Cosmos Reason 2. You ONLY analyze sports content. Analyze the image using physical reasoning about ball trajectories, player positions, and game rules. First reason step-by-step inside <think> tags about the physics, trajectories, and rules. Then give your final structured analysis after the </think> tag.`;
+
+      const payload = {
+        model: 'cosmos-reason2',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: [
+            { type: 'text', text: sportPrompts[sport] },
+            { type: 'image_url', image_url: { url: 'data:image/jpeg;base64,' + base64 } },
+          ]},
+        ],
+        max_tokens: 4096,
+        temperature: 0.0,
+      };
+
+      const headers = { 'Content-Type': 'application/json' };
+      if (isLocal) headers['Authorization'] = `Bearer ${API_KEY}`;
+
+      const startTime = Date.now();
+      leftProcStatus.textContent = 'GPU inference running...';
+      rightProcStatus.textContent = 'Model thinking...';
+      commentaryText.textContent = `Cosmos Reason 2 is running on Jetson AGX Orin GPU — analyzing ${label} physics, trajectories, rules...`;
+
+      // Elapsed time counter
+      const elapsedInterval = setInterval(() => {
+        const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+        rightProcStatus.textContent = `Inferring... ${elapsed}s`;
+        bugLatency.textContent = elapsed + 's';
+        statLatency.textContent = elapsed + 's';
+      }, 500);
+
+      try {
+        const response = await fetch(COSMOS_URL, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify(payload),
+        });
+
+        clearInterval(elapsedInterval);
+
+        if (!response.ok) {
+          throw new Error(`API returned ${response.status}: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+        const msg = data.choices[0].message;
+        // LiteLLM may extract <think> into reasoning_content, leaving content as just the answer
+        const reasoningContent = msg.reasoning_content || '';
+        const mainContent = msg.content || '';
+        const raw = reasoningContent
+          ? '<think>' + reasoningContent + '</think>' + mainContent
+          : mainContent;
+        console.log('[RefereAI DEBUG] content:', mainContent.slice(0, 100), 'reasoning:', reasoningContent.slice(0, 100));
+        const usage = data.usage || {};
+        const totalTokens = usage.total_tokens || usage.completion_tokens || 0;
+
+        // Parse chain-of-thought
+        const parsed = parseCosmosResponse(raw);
+        const headline = extractHeadline(parsed.answer);
+
+        // Update stats with real data
+        bugLatency.textContent = elapsed + 's';
+        bugTokens.textContent = totalTokens.toLocaleString();
+        statLatency.textContent = elapsed + 's';
+        statTokens.textContent = totalTokens.toLocaleString();
+        leftHeadline.textContent = headline.event;
+        leftDetail.textContent = headline.detail;
+        bugEvent.textContent = headline.event;
+        bugDetail.textContent = headline.detail;
+
+        // Mark as LIVE
+        setSourceBadge('live');
+
+        // Log observability
+        const meta = data._refereai || {};
+        console.log(`[RefereAI LIVE] sport=${sport} latency=${elapsed}s tokens=${totalTokens} request_id=${meta.request_id || 'local'} source=${meta.source || 'direct'}`);
+
+        // Type out the real chain-of-thought
+        leftProcStatus.textContent = 'Reasoning...';
+        rightProcStatus.textContent = 'Streaming...';
+        commentaryText.textContent = `LIVE INFERENCE complete (${elapsed}s, ${totalTokens} tokens) — streaming reasoning...`;
+
+        typeText(thinkingText, parsed.thinking, 12, () => {
+          showProcessing(false);
+          answerText.innerHTML = formatAnswer(parsed.answer);
+          answerText.parentElement.classList.add('fade-in');
+          commentaryText.classList.remove('typing');
+          commentaryText.textContent = `[LIVE] ${headline.event}${headline.detail ? ' \u2014 ' + headline.detail : ''} (${elapsed}s on Jetson AGX Orin)`;
+          isInferring = false;
+        }, (step) => {
+          rightProcStatus.textContent = `Step ${step}`;
+          leftProcStatus.textContent = `Step ${step}`;
+        });
+
+      } catch (err) {
+        clearInterval(elapsedInterval);
+        console.error('[RefereAI] Live inference failed:', err.message);
+
+        // Fall back to cached results
+        if (cachedResults && cachedResults[sport]) {
+          setSourceBadge('cached');
+          commentaryText.textContent = `[CACHED] Jetson unreachable — showing previously cached inference result`;
+          commentaryText.classList.remove('typing');
+          const data = cachedResults[sport];
+          const headline = extractHeadline(data.answer);
+
+          leftHeadline.textContent = headline.event;
+          leftDetail.textContent = headline.detail;
+          bugEvent.textContent = headline.event;
+          bugDetail.textContent = headline.detail;
+          bugLatency.textContent = data.latency_s + 's';
+          bugTokens.textContent = data.tokens.toLocaleString();
+          statLatency.textContent = data.latency_s + 's';
+          statTokens.textContent = data.tokens.toLocaleString();
+          leftProcStatus.textContent = 'Cached fallback';
+          rightProcStatus.textContent = 'Cached';
+
+          typeText(thinkingText, data.thinking, 12, () => {
+            showProcessing(false);
+            answerText.innerHTML = formatAnswer(data.answer);
+            answerText.parentElement.classList.add('fade-in');
+            isInferring = false;
+          }, (step) => {
+            rightProcStatus.textContent = `Step ${step}`;
+            leftProcStatus.textContent = `Step ${step}`;
+          });
+        } else {
+          showProcessing(false);
+          commentaryText.textContent = `Error: ${err.message}`;
+          commentaryText.classList.remove('typing');
+          isInferring = false;
+        }
+      }
+    }
+
+    // ── Load sport: show video + run live inference ──
+    function loadSport(sport) {
+      currentSport = sport;
+      currentTyping = null;
+
+      // Show YouTube video
+      showSportYouTube(sport);
+
+      // Run live inference
+      runLiveInference(sport);
+    }
+
+    // ── Tab switching ──
+    document.querySelectorAll('.sport-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        if (isInferring) return; // Don't switch while inferring
+        document.querySelectorAll('.sport-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        loadSport(tab.dataset.sport);
+      });
+    });
+
+    // ── Re-analyze button ──
+    document.getElementById('reanalyze-btn').addEventListener('click', () => {
+      if (!isInferring) runLiveInference(currentSport);
+    });
+
+    // ── Auto-start on load ──
+    loadSport('tennis');
+  </script>
+</body>
+</html>

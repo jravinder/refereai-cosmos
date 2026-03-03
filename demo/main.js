@@ -174,10 +174,10 @@ function initLiveInference() {
   const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
   const COSMOS_URL = params.get('endpoint')
     || (isLocal
-      ? 'http://192.168.4.124:4000/v1/chat/completions'   // LiteLLM proxy
+      ? 'http://192.168.4.124:8000/v1/chat/completions'   // Direct to cosmos_server.py on Jetson
       : '/api/cosmos');  // Vercel proxy route (avoids mixed-content)
-  // Local dev only — set your LiteLLM key here
-  const LOCAL_API_KEY = 'sk-dev-local';
+  // LiteLLM admin key
+  const LOCAL_API_KEY = 'sk-admin-239d6633e1bd990e63c288070575bec1';
 
   const sportSelect = document.getElementById('live-sport');
   const promptInput = document.getElementById('live-prompt');
@@ -561,7 +561,7 @@ function initLiveInference() {
             { role: 'system', content: systemPrompt },
             { role: 'user', content: contentParts },
           ],
-          max_tokens: 1024,
+          max_tokens: 4096,
           temperature: 0.0,
         }),
       });
@@ -576,7 +576,13 @@ function initLiveInference() {
 
       const data = await response.json();
       const elapsed = ((performance.now() - start) / 1000).toFixed(1);
-      const raw = data.choices[0].message.content;
+      // LiteLLM may extract <think> into reasoning_content, leaving content as just the answer
+      const msg = data.choices[0].message;
+      const reasoningContent = msg.reasoning_content || '';
+      const mainContent = msg.content || '';
+      const raw = reasoningContent
+        ? '<think>' + reasoningContent + '</think>' + mainContent
+        : mainContent;
       const usage = data.usage || {};
 
       // Robust parser: handles Cosmos quirks (double <think>, missing </think>, nested tags)

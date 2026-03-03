@@ -43,8 +43,8 @@ export default async function handler(req, res) {
   }
 
   // Cap max_tokens to prevent resource abuse
-  if (req.body.max_tokens && req.body.max_tokens > 1024) {
-    req.body.max_tokens = 1024;
+  if (req.body.max_tokens && req.body.max_tokens > 4096) {
+    req.body.max_tokens = 4096;
   }
 
   const backendUrl = process.env.COSMOS_BACKEND_URL;
