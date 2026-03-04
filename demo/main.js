@@ -177,7 +177,7 @@ function initLiveInference() {
       ? 'http://192.168.4.124:8000/v1/chat/completions'   // Direct to cosmos_server.py on Jetson
       : '/api/cosmos');  // Vercel proxy route (avoids mixed-content)
   // LiteLLM admin key
-  const LOCAL_API_KEY = 'sk-admin-239d6633e1bd990e63c288070575bec1';
+  const LOCAL_API_KEY = window.__COSMOS_KEY || '';
 
   const sportSelect = document.getElementById('live-sport');
   const promptInput = document.getElementById('live-prompt');

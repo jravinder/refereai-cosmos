@@ -1,8 +1,13 @@
 .env
+.env.*
+.env.local
 __pycache__/
 *.pyc
+*.pem
+*.key
 .DS_Store
 node_modules/
 demo/dist/
 demo/node_modules/
 .vercel
+.claude/

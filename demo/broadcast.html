@@ -3,24 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RefereAI — Live Broadcast View</title>
+  <title>RefereAI — Cosmos Reason 2 Demo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --bg: #050508;
-      --surface: rgba(8, 8, 16, 0.85);
-      --surface-solid: #0a0a14;
-      --border: rgba(0, 234, 255, 0.15);
+      --bg: #030306;
+      --surface: #08080f;
+      --surface-2: #0d0d18;
+      --border: rgba(255,255,255,0.06);
+      --border-accent: rgba(118,185,0,0.15);
+      --nvidia: #76B900;
+      --nvidia-dim: rgba(118,185,0,0.08);
+      --nvidia-glow: rgba(118,185,0,0.25);
       --accent: #00eaff;
-      --accent-dim: rgba(0, 234, 255, 0.1);
+      --accent-dim: rgba(0,234,255,0.06);
       --green: #34d399;
-      --red: #ef4444;
-      --text: #f0f0f0;
-      --text-muted: rgba(255,255,255,0.5);
+      --green-dim: rgba(52,211,153,0.08);
+      --amber: #f59e0b;
+      --amber-dim: rgba(245,158,11,0.08);
+      --text: #eaeaea;
+      --text-dim: rgba(255,255,255,0.5);
+      --text-muted: rgba(255,255,255,0.3);
       --font: 'Plus Jakarta Sans', system-ui, sans-serif;
       --mono: 'JetBrains Mono', monospace;
     }
@@ -35,977 +42,1098 @@
       flex-direction: column;
     }
 
-    /* ── Top Bar ─────────────────────────────────── */
-    .top-bar {
+    /* ═══════════════════════════════════════════
+       TOP HEADER
+       ═══════════════════════════════════════════ */
+    .header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 8px 16px;
-      background: var(--surface-solid);
+      padding: 0 20px;
+      height: 52px;
+      background: var(--surface);
       border-bottom: 1px solid var(--border);
-      z-index: 10;
       flex-shrink: 0;
     }
-    .top-bar-left {
+
+    .header-left {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 16px;
     }
-    .logo {
+
+    /* RefereAI logo mark */
+    .logo-mark {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+    .logo-icon {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, var(--accent), #0088aa);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
       font-weight: 800;
-      font-size: 17px;
-      color: var(--accent);
+      color: #fff;
+      letter-spacing: -1px;
+      box-shadow: 0 0 12px rgba(0,234,255,0.15);
+    }
+    .logo-text {
+      font-weight: 800;
+      font-size: 16px;
+      color: var(--text);
       letter-spacing: -0.5px;
     }
-    .live-badge {
+    .logo-text span { color: var(--accent); }
+
+    .header-sep {
+      width: 1px;
+      height: 24px;
+      background: var(--border);
+    }
+
+    /* NVIDIA + Cosmos badge */
+    .nvidia-badge {
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
+      padding: 4px 12px 4px 8px;
+      background: var(--nvidia-dim);
+      border: 1px solid var(--border-accent);
+      border-radius: 4px;
+    }
+    .nvidia-eye {
+      display: flex;
+      align-items: center;
+    }
+    .nvidia-label {
       font-size: 10px;
       font-weight: 700;
-      text-transform: uppercase;
+      color: var(--nvidia);
       letter-spacing: 0.5px;
-      color: var(--red);
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      padding: 3px 10px;
-      border-radius: 3px;
     }
-    .live-dot {
-      width: 6px; height: 6px;
-      background: var(--red);
-      border-radius: 50%;
-      animation: pulse 1.5s infinite;
+    .cosmos-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--text-dim);
     }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-    .sport-tabs {
+
+    /* Hardware badge */
+    .hw-badge {
       display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: var(--accent-dim);
+      border: 1px solid rgba(0,234,255,0.08);
+      border-radius: 4px;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text-dim);
+    }
+    .hw-badge .chip { color: var(--accent); font-weight: 600; }
+
+    /* Sport tabs */
+    .header-right {
+      display: flex;
+      align-items: center;
       gap: 2px;
     }
     .sport-tab {
-      padding: 5px 14px;
-      font-size: 12px;
+      padding: 6px 14px;
+      font-size: 11px;
       font-weight: 600;
+      font-family: var(--font);
       color: var(--text-muted);
       background: transparent;
       border: 1px solid transparent;
       border-radius: 4px;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.15s;
+      position: relative;
     }
-    .sport-tab:hover {
-      color: var(--text);
-      background: rgba(255,255,255,0.05);
-    }
+    .sport-tab:hover { color: var(--text-dim); background: rgba(255,255,255,0.03); }
     .sport-tab.active {
-      color: var(--accent);
-      background: var(--accent-dim);
-      border-color: var(--border);
-    }
-    .top-bar-right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-    .model-tag {
-      font-family: var(--mono);
-      font-size: 10px;
-      color: var(--accent);
-      background: var(--accent-dim);
-      padding: 3px 8px;
-      border-radius: 3px;
-    }
-    .yt-input-wrap {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .yt-input {
-      width: 200px;
-      padding: 4px 8px;
-      font-size: 11px;
-      font-family: var(--mono);
-      background: rgba(255,255,255,0.06);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      color: var(--text);
-      outline: none;
-    }
-    .yt-input::placeholder { color: var(--text-muted); }
-    .yt-input:focus { border-color: var(--accent); }
-    .yt-btn {
-      padding: 4px 10px;
-      font-size: 11px;
-      font-weight: 600;
-      background: var(--accent);
-      color: var(--bg);
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
+      color: var(--nvidia);
+      background: var(--nvidia-dim);
+      border-color: var(--border-accent);
     }
 
-    /* ── Main 4-Panel Layout ────────────────────── */
-    .broadcast {
+    /* ═══════════════════════════════════════════
+       MAIN SPLIT LAYOUT
+       ═══════════════════════════════════════════ */
+    .main {
       flex: 1;
       display: grid;
-      grid-template-columns: 240px 1fr 280px;
-      grid-template-rows: 1fr auto;
-      gap: 0;
+      grid-template-columns: 1fr 1fr;
       overflow: hidden;
     }
 
-    /* ── Left Panel — AI Answer ──────────────────── */
-    .left-panel {
-      background: var(--surface-solid);
-      border-right: 1px solid var(--border);
+    /* ── LEFT: Video / Image ────────────────── */
+    .media-panel {
       display: flex;
       flex-direction: column;
+      border-right: 1px solid var(--border);
       overflow: hidden;
-    }
-    .left-header {
-      padding: 12px 14px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    .left-header-label {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--accent);
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .left-header-label .icon { width: 14px; height: 14px; }
-    .left-headline {
-      font-size: 15px;
-      font-weight: 700;
-      line-height: 1.3;
-    }
-    .left-detail {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
-
-    /* Inference stats row */
-    .inference-stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: rgba(255,255,255,0.06);
-      flex-shrink: 0;
-    }
-    .inf-stat {
-      background: var(--surface-solid);
-      padding: 8px 8px;
-      text-align: center;
-    }
-    .inf-stat .val {
-      font-family: var(--mono);
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--accent);
-    }
-    .inf-stat .lbl {
-      font-size: 9px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-top: 2px;
-    }
-
-    /* Answer content in left panel */
-    .left-answer {
-      flex: 1;
-      overflow-y: auto;
-      padding: 12px 14px;
-      scrollbar-width: thin;
-      scrollbar-color: rgba(0,234,255,0.2) transparent;
-    }
-    .left-answer-content {
-      font-size: 12px;
-      line-height: 1.6;
-      color: var(--text);
-      white-space: pre-wrap;
-    }
-    .left-answer-content strong { color: var(--accent); }
-
-    /* Hardware badge */
-    .hw-badge {
-      padding: 10px 14px;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      flex-shrink: 0;
-    }
-    .hw-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 3px 0;
-      font-size: 11px;
-    }
-    .hw-row .hw-label { color: var(--text-muted); }
-    .hw-row .hw-val { font-family: var(--mono); font-size: 10px; color: var(--text); }
-
-    /* ── Center — Video Area ────────────────────── */
-    .video-area {
-      position: relative;
       background: #000;
-      overflow: hidden;
+    }
+
+    .frame-viewport {
+      flex: 1;
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
     }
-    .video-area video,
-    .video-area img {
-      width: 100%;
-      height: 100%;
+    .frame-viewport img {
+      max-width: 100%;
+      max-height: 100%;
       object-fit: contain;
-      transform: rotate(180deg);
-    }
-    .video-area iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
     }
 
-    /* Score Bug overlay */
-    .score-bug {
+    /* Overlays on frame */
+    .frame-counter {
       position: absolute;
-      top: 12px;
-      left: 12px;
-      background: var(--surface);
-      backdrop-filter: blur(16px);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 8px 14px;
-      min-width: 180px;
-      z-index: 5;
-    }
-    .score-bug-sport {
-      font-size: 9px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--accent);
-      margin-bottom: 3px;
-    }
-    .score-bug-event {
-      font-size: 14px;
-      font-weight: 700;
-      line-height: 1.2;
-    }
-    .score-bug-detail {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 3px;
-    }
-
-    /* Latency pills overlay */
-    .latency-bug {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      display: flex;
-      gap: 8px;
-      z-index: 5;
-    }
-    .latency-pill {
-      background: var(--surface);
-      backdrop-filter: blur(16px);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 5px 10px;
+      top: 10px;
+      left: 10px;
       font-family: var(--mono);
-      font-size: 11px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .latency-pill .label { color: var(--text-muted); font-size: 9px; }
-    .latency-pill .value { color: var(--accent); font-weight: 600; }
-
-    .cosmos-watermark {
-      position: absolute;
-      bottom: 12px;
-      right: 12px;
       font-size: 10px;
-      font-family: var(--mono);
-      color: rgba(255,255,255,0.25);
-      z-index: 5;
+      color: rgba(255,255,255,0.5);
+      background: rgba(0,0,0,0.7);
+      padding: 3px 10px;
+      border-radius: 3px;
+      backdrop-filter: blur(4px);
     }
-
-    /* Source badge — bottom left of video */
     .source-badge {
       position: absolute;
-      bottom: 12px;
-      left: 12px;
-      font-size: 10px;
-      font-family: var(--mono);
-      color: rgba(255,255,255,0.4);
-      background: rgba(0,0,0,0.5);
-      padding: 3px 8px;
-      border-radius: 3px;
-      z-index: 5;
-    }
-
-    /* Inference source badge — LIVE vs CACHED */
-    .inference-source {
-      display: inline-flex;
+      top: 10px;
+      right: 10px;
+      display: none;
       align-items: center;
       gap: 5px;
       font-size: 9px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      padding: 3px 10px;
+      padding: 4px 10px;
       border-radius: 3px;
+      backdrop-filter: blur(4px);
     }
-    .inference-source.live {
+    .source-badge.live {
+      display: inline-flex;
       color: var(--green);
-      background: rgba(52, 211, 153, 0.1);
-      border: 1px solid rgba(52, 211, 153, 0.3);
+      background: rgba(52,211,153,0.12);
+      border: 1px solid rgba(52,211,153,0.25);
     }
-    .inference-source.live .src-dot {
-      width: 6px; height: 6px;
+    .source-badge.live .dot {
+      width: 5px; height: 5px;
       background: var(--green);
       border-radius: 50%;
       animation: pulse 1.5s infinite;
     }
-    .inference-source.cached {
-      color: #f59e0b;
-      background: rgba(245, 158, 11, 0.1);
-      border: 1px solid rgba(245, 158, 11, 0.3);
+    .source-badge.cached {
+      display: inline-flex;
+      color: var(--amber);
+      background: rgba(245,158,11,0.12);
+      border: 1px solid rgba(245,158,11,0.25);
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    /* Transport controls */
+    .transport {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .transport-btn {
+      width: 30px; height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: all 0.15s;
+      font-size: 12px;
+    }
+    .transport-btn:hover { background: rgba(255,255,255,0.08); color: var(--text); }
+    .transport-btn.active { background: var(--nvidia-dim); color: var(--nvidia); border-color: var(--border-accent); }
+    .transport-btn svg { width: 14px; height: 14px; }
+
+    .timeline {
+      flex: 1;
+      height: 4px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 2px;
+      position: relative;
+      cursor: pointer;
+    }
+    .timeline-fill {
+      height: 100%;
+      background: var(--nvidia);
+      border-radius: 2px;
+      transition: width 0.2s;
+      box-shadow: 0 0 6px var(--nvidia-glow);
+    }
+    .timeline-dots {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      transform: translateY(-50%);
+      display: flex;
+      justify-content: space-between;
+      padding: 0 2px;
+      pointer-events: none;
+    }
+    .timeline-dot {
+      width: 6px; height: 6px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 50%;
+      transition: all 0.2s;
+    }
+    .timeline-dot.active { background: var(--nvidia); box-shadow: 0 0 4px var(--nvidia-glow); }
+    .timeline-dot.has-analysis { background: rgba(118,185,0,0.4); }
+
+    .frame-info {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+    .frame-info .current { color: var(--text); font-weight: 600; }
+
+    /* Action bar */
+    .action-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .analyze-btn {
+      padding: 8px 22px;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: var(--font);
+      color: #000;
+      background: linear-gradient(135deg, var(--nvidia), #8cd100);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.2px;
+      box-shadow: 0 2px 8px rgba(118,185,0,0.2);
+    }
+    .analyze-btn:hover { filter: brightness(1.1); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(118,185,0,0.3); }
+    .analyze-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; filter: none; box-shadow: none; }
+
+    .action-status {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      flex: 1;
+    }
+    .action-status .elapsed { color: var(--nvidia); font-weight: 600; }
+
+    /* Stats row */
+    .stats-row {
+      display: flex;
+      gap: 1px;
+      background: rgba(255,255,255,0.02);
+      flex-shrink: 0;
+    }
+    .stat {
+      flex: 1;
+      background: var(--surface);
+      padding: 6px 10px;
+      text-align: center;
+    }
+    .stat .val {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--nvidia);
+    }
+    .stat .lbl {
+      font-size: 8px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 1px;
     }
 
-    /* ── Right Panel — Chain-of-Thought ──────────── */
+    /* ── RIGHT: Analysis Panel ──────────────── */
     .analysis-panel {
-      background: var(--surface-solid);
-      border-left: 1px solid var(--border);
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      background: var(--surface);
     }
-    .panel-section {
-      padding: 12px 14px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+
+    .analysis-header {
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      background: linear-gradient(180deg, var(--surface-2) 0%, var(--surface) 100%);
     }
-    .panel-label {
-      font-size: 10px;
+    .analysis-header-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .analysis-model-tag {
+      font-family: var(--mono);
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--nvidia);
+      background: var(--nvidia-dim);
+      border: 1px solid var(--border-accent);
+      padding: 2px 8px;
+      border-radius: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .analysis-type-tag {
+      font-family: var(--mono);
+      font-size: 9px;
+      color: var(--text-muted);
+      padding: 2px 8px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+    }
+    .analysis-headline {
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--text);
+    }
+    .analysis-detail {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Empty state */
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex: 1;
+      text-align: center;
+      padding: 40px 32px;
+      color: var(--text-muted);
+    }
+    .empty-icon {
+      width: 48px; height: 48px;
+      background: var(--nvidia-dim);
+      border: 1px solid var(--border-accent);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .empty-state h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-dim);
+    }
+    .empty-state p { font-size: 12px; line-height: 1.6; max-width: 300px; }
+    .empty-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+      margin-top: 4px;
+    }
+    .empty-feature {
+      font-family: var(--mono);
+      font-size: 9px;
+      color: var(--text-muted);
+      padding: 3px 10px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+    }
+
+    /* Processing overlay */
+    .processing-overlay {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      flex: 1;
+      text-align: center;
+      padding: 40px;
+    }
+    .processing-overlay.active { display: flex; }
+    .processing-ring {
+      width: 48px; height: 48px;
+      border: 2px solid rgba(118,185,0,0.15);
+      border-top-color: var(--nvidia);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .processing-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--nvidia);
+    }
+    .processing-elapsed {
+      font-family: var(--mono);
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--nvidia);
+      text-shadow: 0 0 20px var(--nvidia-glow);
+    }
+    .processing-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Chain-of-thought section */
+    .thinking-section {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px 18px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(118,185,0,0.15) transparent;
+    }
+    .section-label {
+      font-family: var(--mono);
+      font-size: 9px;
       text-transform: uppercase;
       letter-spacing: 1px;
-      color: var(--accent);
-      margin-bottom: 8px;
+      color: var(--nvidia);
+      margin-bottom: 10px;
       display: flex;
       align-items: center;
       gap: 6px;
     }
-    .panel-label .icon { width: 14px; height: 14px; }
-    .thinking-section {
+    .section-label .line {
       flex: 1;
-      overflow-y: auto;
-      padding: 12px 14px;
-      scrollbar-width: thin;
-      scrollbar-color: rgba(0,234,255,0.2) transparent;
+      height: 1px;
+      background: var(--border-accent);
     }
-    .thinking-section .panel-label { margin-bottom: 10px; }
     .thinking-content {
       font-family: var(--mono);
       font-size: 10.5px;
-      line-height: 1.65;
-      color: rgba(255,255,255,0.6);
+      line-height: 1.7;
+      color: rgba(255,255,255,0.5);
       white-space: pre-wrap;
     }
     .cursor-blink::after {
-      content: '\25CA';
-      color: var(--accent);
-      animation: blink 0.6s infinite;
+      content: '\25CF';
+      color: var(--nvidia);
+      animation: blink 0.5s infinite;
+      font-size: 8px;
     }
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
-    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
-    /* Processing indicator */
-    .processing-badge {
-      display: none;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 14px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      background: rgba(0, 234, 255, 0.04);
-    }
-    .processing-badge.active { display: flex; }
-    .processing-spinner {
-      width: 14px; height: 14px;
-      border: 2px solid var(--accent);
-      border-top-color: transparent;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    .processing-text {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--accent);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .processing-detail {
-      font-size: 10px;
-      color: var(--text-muted);
-      margin-left: auto;
-      font-family: var(--mono);
-    }
-
-    /* Step highlight animation */
-    .step-highlight {
-      color: var(--accent);
-      font-weight: 600;
-      background: rgba(0, 234, 255, 0.08);
-      padding: 0 2px;
-      border-radius: 2px;
-    }
-
-    /* Model info in right panel */
-    .model-info {
-      padding: 10px 14px;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      flex-shrink: 0;
-    }
-    .model-info-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 3px 0;
-      font-size: 11px;
-    }
-    .model-info-row .mi-label { color: var(--text-muted); }
-    .model-info-row .mi-val { font-family: var(--mono); font-size: 10px; color: var(--text); }
-
-    /* ── Bottom — Commentary Ticker ──────────────── */
-    .commentary-bar {
-      grid-column: 1 / -1;
-      background: var(--surface-solid);
+    /* Final analysis section */
+    .answer-section {
+      padding: 14px 18px;
       border-top: 1px solid var(--border);
-      padding: 10px 16px;
+      flex-shrink: 0;
+      max-height: 40%;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(118,185,0,0.15) transparent;
+      background: linear-gradient(180deg, var(--surface-2) 0%, var(--surface) 100%);
+    }
+    .answer-content {
+      font-size: 11.5px;
+      line-height: 1.65;
+      color: var(--text);
+    }
+    .answer-content strong { color: var(--nvidia); font-weight: 700; }
+
+    /* ═══════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════ */
+    .footer {
       display: flex;
       align-items: center;
+      padding: 6px 20px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
       gap: 12px;
       flex-shrink: 0;
     }
-    .commentary-label {
-      font-size: 9px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--bg);
-      background: var(--accent);
-      padding: 2px 8px;
-      border-radius: 2px;
-      flex-shrink: 0;
-    }
-    .commentary-text {
-      font-size: 13px;
-      color: var(--text);
-      line-height: 1.4;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    }
-    .commentary-text.typing::after {
-      content: '\25CA';
-      color: var(--accent);
-      animation: blink 0.6s infinite;
-    }
-    .powered-by {
-      margin-left: auto;
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 6px;
       font-size: 10px;
+      font-weight: 700;
+      color: var(--nvidia);
+    }
+    .footer-sep {
+      width: 1px;
+      height: 14px;
+      background: var(--border);
+    }
+    .footer-tags {
+      display: flex;
+      gap: 4px;
+      flex: 1;
+    }
+    .footer-tag {
+      font-family: var(--mono);
+      font-size: 9px;
       color: var(--text-muted);
-      flex-shrink: 0;
-      white-space: nowrap;
+      padding: 2px 8px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: 2px;
     }
-    .powered-by span { color: var(--green); }
-
-    /* ── Transitions ────────────────────────────── */
-    .fade-in { animation: fadeIn 0.5s ease forwards; }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
+    .footer-status {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--mono);
+      font-size: 9px;
+      color: var(--text-muted);
     }
-    .panel-section.waiting { opacity: 0.3; }
-    .panel-section.active { opacity: 1; transition: opacity 0.4s; }
+    .footer-status .dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+    }
+    .footer-status .dot.online { background: var(--green); }
+    .footer-status .dot.offline { background: var(--amber); }
 
-    /* ── Responsive ─────────────────────────────── */
+    /* Utils */
+    .fade-in { animation: fadeIn 0.4s ease forwards; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
+
     @media (max-width: 768px) {
-      .broadcast {
-        grid-template-columns: 1fr;
-        grid-template-rows: 50vh auto auto auto;
-      }
-      .left-panel {
-        border-right: none;
-        border-bottom: 1px solid var(--border);
-        max-height: 30vh;
-        order: 2;
-      }
-      .video-area { order: 1; }
-      .analysis-panel {
-        border-left: none;
-        border-top: 1px solid var(--border);
-        max-height: 30vh;
-        order: 3;
-      }
+      .main { grid-template-columns: 1fr; grid-template-rows: 50vh 1fr; }
+      .media-panel { border-right: none; border-bottom: 1px solid var(--border); }
+      .header { flex-wrap: wrap; height: auto; padding: 8px 12px; gap: 8px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Bar -->
-  <div class="top-bar">
-    <div class="top-bar-left">
-      <span class="logo">RefereAI</span>
-      <span class="live-badge"><span class="live-dot"></span> LIVE</span>
+  <!-- ═══ HEADER ═══ -->
+  <div class="header">
+    <div class="header-left">
+      <div class="logo-mark">
+        <div class="logo-icon">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="8" r="6" stroke="white" stroke-width="1.5" fill="none"/>
+            <circle cx="8" cy="8" r="2" fill="white"/>
+            <line x1="8" y1="2" x2="8" y2="5" stroke="white" stroke-width="1.5"/>
+            <line x1="8" y1="11" x2="8" y2="14" stroke="white" stroke-width="1.5"/>
+            <line x1="2" y1="8" x2="5" y2="8" stroke="white" stroke-width="1.5"/>
+            <line x1="11" y1="8" x2="14" y2="8" stroke="white" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="logo-text">Refere<span>AI</span></div>
+      </div>
+
+      <div class="header-sep"></div>
+
+      <div class="nvidia-badge">
+        <div class="nvidia-eye">
+          <svg width="20" height="14" viewBox="0 0 20 14" fill="none">
+            <path d="M7.5 3.5C8.2 2.8 9.1 2.4 10 2.4c3.2 0 5.8 3.3 5.8 3.3s-1 1.2-2.2 2.1" stroke="#76B900" stroke-width="1.2" fill="none"/>
+            <path d="M12.5 10.5c-.7.7-1.6 1.1-2.5 1.1-3.2 0-5.8-3.3-5.8-3.3s1-1.2 2.2-2.1" stroke="#76B900" stroke-width="1.2" fill="none"/>
+            <circle cx="10" cy="7" r="2" stroke="#76B900" stroke-width="1.2" fill="none"/>
+          </svg>
+        </div>
+        <span class="nvidia-label">NVIDIA</span>
+        <span class="cosmos-label">Cosmos Reason 2-8B</span>
+      </div>
+
+      <div class="hw-badge">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2">
+          <rect x="2" y="2" width="8" height="8" rx="1"/>
+          <line x1="4" y1="0" x2="4" y2="2"/><line x1="8" y1="0" x2="8" y2="2"/>
+          <line x1="4" y1="10" x2="4" y2="12"/><line x1="8" y1="10" x2="8" y2="12"/>
+          <line x1="0" y1="4" x2="2" y2="4"/><line x1="0" y1="8" x2="2" y2="8"/>
+          <line x1="10" y1="4" x2="12" y2="4"/><line x1="10" y1="8" x2="12" y2="8"/>
+        </svg>
+        <span class="chip">Jetson AGX Orin</span>
+        <span>64GB</span>
+      </div>
     </div>
-    <div class="sport-tabs" id="sport-tabs">
+
+    <div class="header-right" id="sport-tabs">
       <button class="sport-tab active" data-sport="tennis">Tennis</button>
       <button class="sport-tab" data-sport="cricket">Cricket</button>
       <button class="sport-tab" data-sport="pickleball">Pickleball</button>
       <button class="sport-tab" data-sport="badminton">Badminton</button>
       <button class="sport-tab" data-sport="tabletennis">Table Tennis</button>
     </div>
-    <div class="top-bar-right">
-      <div class="yt-input-wrap">
-        <input class="yt-input" id="yt-url" type="text" placeholder="Paste YouTube URL..." />
-        <button class="yt-btn" id="yt-go">Stream</button>
-      </div>
-      <button class="yt-btn" id="reanalyze-btn" title="Re-run live inference">Re-analyze</button>
-      <span class="model-tag">cosmos-reason2-8b</span>
-    </div>
   </div>
 
-  <!-- 4-Panel Broadcast Layout -->
-  <div class="broadcast">
+  <!-- ═══ MAIN SPLIT ═══ -->
+  <div class="main">
 
-    <!-- LEFT — AI Analysis (real Cosmos output) -->
-    <div class="left-panel">
-      <div class="left-header" id="left-header">
-        <div class="left-header-label">
-          <svg class="icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="10" height="10" rx="2"/><path d="M5 7h4M7 5v4"/></svg>
-          Cosmos Reason 2 Analysis
-          <span class="inference-source" id="inference-source"></span>
-        </div>
-        <div class="left-headline" id="left-headline"></div>
-        <div class="left-detail" id="left-detail"></div>
+    <!-- LEFT: Frame Viewer -->
+    <div class="media-panel">
+      <div class="frame-viewport">
+        <img id="frame-img" src="samples/tennis.jpg" alt="Frame" />
+        <div class="frame-counter" id="frame-counter">Frame 1 / 1</div>
+        <div class="source-badge" id="source-badge"></div>
       </div>
 
-      <div class="inference-stats">
-        <div class="inf-stat">
-          <div class="val" id="stat-latency">--</div>
-          <div class="lbl">Latency</div>
+      <!-- Transport -->
+      <div class="transport" id="transport">
+        <button class="transport-btn" id="btn-prev" title="Previous frame">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 3L5 7l4 4"/></svg>
+        </button>
+        <button class="transport-btn" id="btn-play" title="Play / Pause">
+          <svg viewBox="0 0 14 14" fill="currentColor" id="play-icon"><polygon points="4,2 12,7 4,12"/></svg>
+        </button>
+        <button class="transport-btn" id="btn-next" title="Next frame">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 3l4 4-4 4"/></svg>
+        </button>
+
+        <div class="timeline" id="timeline">
+          <div class="timeline-fill" id="timeline-fill" style="width:0%"></div>
+          <div class="timeline-dots" id="timeline-dots"></div>
         </div>
-        <div class="inf-stat">
-          <div class="val" id="stat-tokens">--</div>
-          <div class="lbl">Tokens</div>
-        </div>
-        <div class="inf-stat">
-          <div class="val">Orin</div>
-          <div class="lbl">Device</div>
+
+        <div class="frame-info" id="frame-info">
+          <span class="current">1</span> / <span id="frame-total">1</span>
         </div>
       </div>
 
-      <div class="processing-badge" id="left-processing">
-        <div class="processing-spinner"></div>
-        <span class="processing-text">Processing</span>
-        <span class="processing-detail" id="left-proc-status">Waiting for CoT...</span>
+      <!-- Action bar -->
+      <div class="action-bar">
+        <button class="analyze-btn" id="analyze-btn">Analyze with Cosmos</button>
+        <span class="action-status" id="action-status">Select a sport, then click Analyze</span>
       </div>
 
-      <div class="left-answer">
-        <div class="left-answer-content" id="answer-text"></div>
-      </div>
-
-      <div class="hw-badge">
-        <div class="hw-row">
-          <span class="hw-label">Hardware</span>
-          <span class="hw-val">Jetson AGX Orin 64GB</span>
-        </div>
-        <div class="hw-row">
-          <span class="hw-label">Model</span>
-          <span class="hw-val">Cosmos-Reason2-8B</span>
-        </div>
-        <div class="hw-row">
-          <span class="hw-label">Backend</span>
-          <span class="hw-val">HuggingFace Transformers</span>
-        </div>
+      <!-- Stats -->
+      <div class="stats-row">
+        <div class="stat"><div class="val" id="stat-latency">--</div><div class="lbl">Latency</div></div>
+        <div class="stat"><div class="val" id="stat-tokens">--</div><div class="lbl">Tokens</div></div>
+        <div class="stat"><div class="val" id="stat-device">Orin 64GB</div><div class="lbl">Device</div></div>
+        <div class="stat"><div class="val" id="stat-source">--</div><div class="lbl">Source</div></div>
       </div>
     </div>
 
-    <!-- CENTER — Video -->
-    <div class="video-area">
-      <video id="broadcast-video" muted loop playsinline autoplay>
-        <source src="samples/tennis_clip.mp4" type="video/mp4" />
-      </video>
-      <img id="broadcast-img" src="samples/tennis.jpg" alt="" style="display:none;" />
-      <iframe id="broadcast-yt" style="display:none;" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-
-      <div class="score-bug" id="score-bug">
-        <div class="score-bug-sport" id="bug-sport">Tennis</div>
-        <div class="score-bug-event" id="bug-event">--</div>
-        <div class="score-bug-detail" id="bug-detail"></div>
-      </div>
-
-      <div class="latency-bug">
-        <div class="latency-pill">
-          <span class="label">Latency</span>
-          <span class="value" id="bug-latency">--</span>
-        </div>
-        <div class="latency-pill">
-          <span class="label">Tokens</span>
-          <span class="value" id="bug-tokens">--</span>
-        </div>
-      </div>
-
-      <div class="source-badge" id="source-badge">Sample clip</div>
-      <div class="cosmos-watermark">NVIDIA Cosmos Reason 2 &middot; Jetson AGX Orin 64GB</div>
-    </div>
-
-    <!-- RIGHT — Chain-of-Thought (real Cosmos output) -->
+    <!-- RIGHT: Analysis -->
     <div class="analysis-panel">
-      <div class="panel-section" id="thinking-header">
-        <div class="panel-label">
-          <svg class="icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5.5"/><path d="M7 4v3.5l2.5 1.5"/></svg>
-          Chain-of-Thought Reasoning
+      <div class="analysis-header">
+        <div class="analysis-header-top">
+          <span class="analysis-model-tag">Cosmos Reason 2</span>
+          <span class="analysis-type-tag">Physical AI Analysis</span>
         </div>
-        <div style="font-size:11px; color:var(--text-muted); line-height:1.4;">
-          Real-time reasoning from Cosmos Reason 2 running on Jetson AGX Orin. The model thinks step-by-step about physics, trajectories, and rules before making decisions.
+        <div class="analysis-headline" id="analysis-headline">Ready</div>
+        <div class="analysis-detail" id="analysis-detail">Click "Analyze with Cosmos" to run inference</div>
+      </div>
+
+      <!-- Empty state -->
+      <div class="empty-state" id="empty-state">
+        <div class="empty-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#76B900" stroke-width="1.5">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M12 8v4l3 2"/>
+          </svg>
+        </div>
+        <h3>Physical Reasoning Engine</h3>
+        <p>Cosmos Reason 2 analyzes sports physics frame-by-frame — ball trajectories, player mechanics, court geometry, and rule violations.</p>
+        <div class="empty-features">
+          <span class="empty-feature">Hawk-Eye line calls</span>
+          <span class="empty-feature">DRS protocol</span>
+          <span class="empty-feature">NVZ detection</span>
+          <span class="empty-feature">Spin analysis</span>
+          <span class="empty-feature">Speed estimation</span>
         </div>
       </div>
 
-      <div class="processing-badge" id="right-processing">
-        <div class="processing-spinner"></div>
-        <span class="processing-text">Cosmos Reasoning</span>
-        <span class="processing-detail" id="right-proc-status">Step 0/5</span>
+      <!-- Processing -->
+      <div class="processing-overlay" id="processing-overlay">
+        <div class="processing-ring"></div>
+        <div class="processing-title">Cosmos Reason 2 is thinking...</div>
+        <div class="processing-elapsed" id="proc-elapsed">0.0s</div>
+        <div class="processing-sub">Running on Jetson AGX Orin GPU<br>Reasoning about physics, trajectories, rules</div>
       </div>
 
-      <div class="thinking-section" id="thinking-section">
+      <!-- Chain-of-thought -->
+      <div class="thinking-section" id="thinking-section" style="display:none;">
+        <div class="section-label">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="6" cy="6" r="4.5"/><path d="M6 3.5v3l2 1.5"/></svg>
+          Chain-of-Thought
+          <span class="line"></span>
+        </div>
         <div class="thinking-content" id="thinking-text"></div>
       </div>
 
-      <div class="model-info">
-        <div class="model-info-row">
-          <span class="mi-label">Architecture</span>
-          <span class="mi-val">Qwen3VL + CoT</span>
+      <!-- Answer -->
+      <div class="answer-section" id="answer-section" style="display:none;">
+        <div class="section-label">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="1.5" y="1.5" width="9" height="9" rx="2"/><path d="M4 6h4M6 4v4"/></svg>
+          Final Analysis
+          <span class="line"></span>
         </div>
-        <div class="model-info-row">
-          <span class="mi-label">Precision</span>
-          <span class="mi-val">bfloat16</span>
-        </div>
-        <div class="model-info-row">
-          <span class="mi-label">VRAM</span>
-          <span class="mi-val">~18GB / 64GB</span>
-        </div>
+        <div class="answer-content" id="answer-text"></div>
       </div>
     </div>
+  </div>
 
-    <!-- BOTTOM — Commentary Ticker -->
-    <div class="commentary-bar">
-      <span class="commentary-label">AI</span>
-      <span class="commentary-text" id="commentary-text">Select a sport to watch AI analysis in real time.</span>
-      <span class="powered-by"><span>&#9679;</span> Cosmos Reason 2 on Jetson AGX Orin</span>
+  <!-- ═══ FOOTER ═══ -->
+  <div class="footer">
+    <div class="footer-brand">
+      <svg width="16" height="12" viewBox="0 0 20 14" fill="none">
+        <path d="M7.5 3.5C8.2 2.8 9.1 2.4 10 2.4c3.2 0 5.8 3.3 5.8 3.3s-1 1.2-2.2 2.1" stroke="#76B900" stroke-width="1.2" fill="none"/>
+        <path d="M12.5 10.5c-.7.7-1.6 1.1-2.5 1.1-3.2 0-5.8-3.3-5.8-3.3s1-1.2 2.2-2.1" stroke="#76B900" stroke-width="1.2" fill="none"/>
+        <circle cx="10" cy="7" r="2" stroke="#76B900" stroke-width="1.2" fill="none"/>
+      </svg>
+      Powered by NVIDIA Cosmos
     </div>
-
+    <div class="footer-sep"></div>
+    <div class="footer-tags">
+      <span class="footer-tag">Jetson AGX Orin 64GB</span>
+      <span class="footer-tag">HuggingFace Transformers</span>
+      <span class="footer-tag">PyTorch 2.8</span>
+      <span class="footer-tag">bfloat16</span>
+      <span class="footer-tag">Qwen3-VL</span>
+    </div>
+    <div class="footer-status" id="footer-status">
+      <span class="dot offline"></span>
+      <span>Jetson offline</span>
+    </div>
   </div>
 
   <script>
-    // ══════════════════════════════════════════════
-    // RefereAI Broadcast — Live Cosmos Reason 2 Inference
-    // ══════════════════════════════════════════════
+    // ══════════════════════════════════════════════════════════
+    // RefereAI — Cosmos Reason 2 Demo
+    // ══════════════════════════════════════════════════════════
 
-    // ── API Configuration (same as demo main.js) ──
     const params = new URLSearchParams(window.location.search);
-    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-    // Direct to cosmos_server.py (port 8000) for local — bypasses LiteLLM cache
-    // Production goes through Vercel proxy → LiteLLM → cosmos_server
+    const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
     const COSMOS_URL = params.get('endpoint')
-      || (isLocal
-        ? 'http://192.168.4.124:8000/v1/chat/completions'
-        : '/api/cosmos');
-    const API_KEY = 'sk-admin-239d6633e1bd990e63c288070575bec1';
+      || (isLocal ? 'http://192.168.4.124:8000/v1/chat/completions' : '/api/cosmos');
+    const API_KEY = window.__COSMOS_KEY || '';
 
-    // ── Sport-specific prompts (real prompts used for inference) ──
+    // ── Sport config with frame sequences ──
+    const sports = {
+      tennis: {
+        label: 'Tennis',
+        frames: Array.from({length: 8}, (_, i) => `samples/frames/tennis/frame_${String(i+1).padStart(2,'0')}.jpg`),
+        fallback: 'samples/tennis.jpg',
+      },
+      cricket: {
+        label: 'Cricket',
+        frames: Array.from({length: 8}, (_, i) => `samples/frames/cricket/frame_${String(i+1).padStart(2,'0')}.jpg`),
+        fallback: 'samples/cricket.jpg',
+      },
+      pickleball: {
+        label: 'Pickleball',
+        frames: [],
+        fallback: 'samples/pickleball.jpg',
+      },
+      badminton: {
+        label: 'Badminton',
+        frames: Array.from({length: 8}, (_, i) => `samples/frames/badminton/frame_${String(i+1).padStart(2,'0')}.jpg`),
+        fallback: 'samples/badminton.jpg',
+      },
+      tabletennis: {
+        label: 'Table Tennis',
+        frames: Array.from({length: 7}, (_, i) => `samples/frames/tabletennis/frame_${String(i+1).padStart(2,'0')}.jpg`),
+        fallback: 'samples/tabletennis.jpg',
+      },
+    };
+
     const sportPrompts = {
-      tennis: 'Analyze this tennis frame step by step.\n\nStep 1: Identify the player stance, court position (deuce/ad side), and what phase of play (serve, rally, volley).\nStep 2: Locate the ball — is it airborne, at toss apex, post-bounce? Estimate height and trajectory direction.\nStep 3: Check ball position relative to court lines (baseline, service line, sidelines). Make any in/out line calls using Hawk-Eye principles.\nStep 4: Identify the shot type (flat serve, kick serve, forehand, backhand, volley) based on racket angle and body mechanics.\nStep 5: Estimate serve speed or shot speed from body mechanics and weight transfer. Check for foot faults.\n\nAfter reasoning, give a structured final analysis with bold headers for: Shot type, Ball position, Court position, Line calls, Speed estimate, and Scoring event.',
-      cricket: 'Analyze this cricket frame step by step using DRS protocol.\n\nStep 1: Identify the ball — is it in the air, pitching, or post-bounce? Estimate line and length (short, good length, full, yorker).\nStep 2: Check seam position and delivery angle. Is it seam-up, cross-seam, or spin?\nStep 3: Assess DRS parameters — pitching (in line or outside leg?), impact zone, hitting stumps prediction.\nStep 4: Identify the batsman shot type (defensive, drive, pull, cut, sweep) from stance and bat angle.\nStep 5: Determine scoring event — dot ball, runs, boundary 4/6, wicket, wide, no-ball. Assess field positions.\n\nAfter reasoning, give a structured final analysis with bold headers for: Delivery type, Ball position, Pitching, Shot type, LBW assessment, and Scoring event.',
-      pickleball: 'Analyze this pickleball frame step by step.\n\nStep 1: Identify player positions relative to the kitchen (Non-Volley Zone) line. Are feet touching or inside the NVZ?\nStep 2: Identify the shot type — dink, drive, lob, drop shot, or serve. Check paddle angle and wrist position.\nStep 3: Track ball trajectory — low arc (dink), flat (drive), or high (lob)? Estimate clearance over net.\nStep 4: Check double bounce rule compliance — has the serve and return both bounced?\nStep 5: Assess rally state and partner positioning for doubles formation.\n\nAfter reasoning, give a structured final analysis with bold headers for: Shot type, NVZ check, Ball trajectory, Double bounce rule, Player positioning, and Scoring event.',
-      badminton: 'Analyze this badminton frame step by step.\n\nStep 1: Locate the shuttlecock position — is it above the net, descending, or at contact point?\nStep 2: Identify the shot type — smash, clear, drop, net shot, drive, or serve. Check racket position and body stance.\nStep 3: Assess player court positioning — front court, mid court, or rear court. Is the stance offensive or defensive?\nStep 4: Check for service legality if applicable — contact point below 1.15m, continuous forward motion.\nStep 5: Check boundary status — is play within singles/doubles sidelines?\n\nAfter reasoning, give a structured final analysis with bold headers for: Shot type, Shuttlecock position, Player positioning, Service check, Boundary status, and Scoring event.',
-      tabletennis: 'Analyze this table tennis frame step by step.\n\nStep 1: Locate the ball — is it mid-air, on the table, or at contact with paddle? Check position relative to table edges and net.\nStep 2: Identify the stroke type — forehand loop, backhand push, block, smash, or chop. Check paddle angle and body rotation.\nStep 3: Assess spin from paddle angle and stroke direction — topspin, backspin, sidespin, or flat.\nStep 4: Check for edge balls or net clips based on ball trajectory.\nStep 5: If service, check legality — open palm toss of 16cm minimum, ball visible to opponent.\n\nAfter reasoning, give a structured final analysis with bold headers for: Stroke type, Spin assessment, Ball position, Edge/net check, Service check, and Scoring event.',
+      tennis: 'Analyze this tennis frame step by step.\n\nStep 1: Identify the player stance, court position (deuce/ad side), and phase of play (serve, rally, volley).\nStep 2: Locate the ball — airborne, toss apex, post-bounce? Estimate height and trajectory.\nStep 3: Check ball vs court lines (baseline, service line, sidelines). Make Hawk-Eye line calls.\nStep 4: Identify shot type (flat serve, kick, forehand, backhand, volley) from racket angle and body mechanics.\nStep 5: Estimate speed from body mechanics. Check for foot faults.\n\nGive structured analysis with bold headers: Shot type, Ball position, Court position, Line calls, Speed estimate, Scoring event.',
+      cricket: 'Analyze this cricket frame using DRS protocol.\n\nStep 1: Identify ball — in air, pitching, post-bounce? Estimate line and length.\nStep 2: Check seam position and delivery angle. Seam-up, cross-seam, or spin?\nStep 3: Assess DRS — pitching in line? Impact zone? Hitting stumps?\nStep 4: Identify batsman shot from stance and bat angle.\nStep 5: Determine scoring event — dot, runs, boundary, wicket, wide, no-ball.\n\nGive structured analysis with bold headers: Delivery type, Ball position, Pitching, Shot type, LBW assessment, Scoring event.',
+      pickleball: 'Analyze this pickleball frame step by step.\n\nStep 1: Check player positions relative to NVZ (kitchen) line. Feet touching/inside?\nStep 2: Identify shot — dink, drive, lob, drop, serve. Check paddle angle.\nStep 3: Track ball trajectory — low arc, flat, or high? Net clearance?\nStep 4: Check double bounce rule compliance.\nStep 5: Assess rally state and partner positioning.\n\nGive structured analysis with bold headers: Shot type, NVZ check, Ball trajectory, Double bounce, Positioning, Scoring event.',
+      badminton: 'Analyze this badminton frame step by step.\n\nStep 1: Locate shuttlecock — above net, descending, at contact?\nStep 2: Identify shot — smash, clear, drop, net shot, drive, serve.\nStep 3: Assess court positioning — front, mid, rear court. Offensive or defensive?\nStep 4: Check service legality if applicable.\nStep 5: Check boundary status — singles/doubles sidelines.\n\nGive structured analysis with bold headers: Shot type, Shuttlecock position, Positioning, Service check, Boundary, Scoring event.',
+      tabletennis: 'Analyze this table tennis frame step by step.\n\nStep 1: Locate ball — mid-air, on table, at paddle contact? Position vs edges/net.\nStep 2: Identify stroke — forehand loop, backhand push, block, smash, chop.\nStep 3: Assess spin from paddle angle and stroke direction.\nStep 4: Check for edge balls or net clips.\nStep 5: If service, check legality — 16cm toss, visible to opponent.\n\nGive structured analysis with bold headers: Stroke type, Spin, Ball position, Edge/net check, Service check, Scoring event.',
     };
 
-    // ── Sport config ──
-    const sportMedia = {
-      tennis:      { video: 'samples/tennis_clip.mp4',      image: 'samples/tennis.jpg' },
-      cricket:     { video: 'samples/cricket_clip.mp4',     image: 'samples/cricket.jpg' },
-      pickleball:  { video: null,                            image: 'samples/pickleball.jpg' },
-      badminton:   { video: 'samples/badminton_clip.mp4',   image: 'samples/badminton.jpg' },
-      tabletennis: { video: 'samples/tabletennis_clip.mp4', image: 'samples/tabletennis.jpg' },
-    };
-
-    const sportYouTube = {
-      tennis:      'V0SogtjRfmw',
-      cricket:     '8MWMvoZqt0E',
-      pickleball:  'KQ_GkVIk6QM',
-      badminton:   '7q6Ur1sL7-0',
-      tabletennis: 'iIIr0rzQqTQ',
-    };
-
-    const sportLabels = {
-      tennis: 'Tennis', cricket: 'Cricket', pickleball: 'Pickleball',
-      badminton: 'Badminton', tabletennis: 'Table Tennis',
-    };
-
-    // ── Cached results (fallback if Jetson is unreachable) ──
+    // ── State ──
+    let currentSport = 'tennis';
+    let currentFrameIdx = 0;
+    let isPlaying = false;
+    let playInterval = null;
+    let isInferring = false;
+    let currentTyping = null;
     let cachedResults = null;
-    fetch('samples/cached_results.json')
-      .then(r => r.json())
-      .then(data => { cachedResults = data; });
+    let frameCacheData = null;
 
-    // ── DOM ──
-    const videoEl = document.getElementById('broadcast-video');
-    const imgEl = document.getElementById('broadcast-img');
-    const ytEl = document.getElementById('broadcast-yt');
-    const bugSport = document.getElementById('bug-sport');
-    const bugEvent = document.getElementById('bug-event');
-    const bugDetail = document.getElementById('bug-detail');
-    const bugLatency = document.getElementById('bug-latency');
-    const bugTokens = document.getElementById('bug-tokens');
-    const answerText = document.getElementById('answer-text');
-    const thinkingText = document.getElementById('thinking-text');
-    const commentaryText = document.getElementById('commentary-text');
+    // Load cached results
+    fetch('samples/cached_results.json').then(r => r.json()).then(d => { cachedResults = d; });
+    fetch('samples/frames_cache.json').then(r => r.json()).then(d => { frameCacheData = d; }).catch(() => {});
+
+    // ── DOM refs ──
+    const frameImg = document.getElementById('frame-img');
+    const frameCounter = document.getElementById('frame-counter');
+    const sourceBadge = document.getElementById('source-badge');
+    const analyzeBtn = document.getElementById('analyze-btn');
+    const actionStatus = document.getElementById('action-status');
     const statLatency = document.getElementById('stat-latency');
     const statTokens = document.getElementById('stat-tokens');
-    const leftHeadline = document.getElementById('left-headline');
-    const leftDetail = document.getElementById('left-detail');
-    const sourceBadge = document.getElementById('source-badge');
-    const leftProc = document.getElementById('left-processing');
-    const leftProcStatus = document.getElementById('left-proc-status');
-    const rightProc = document.getElementById('right-processing');
-    const rightProcStatus = document.getElementById('right-proc-status');
-    const inferenceSource = document.getElementById('inference-source');
-
-    function setSourceBadge(type) {
-      if (type === 'live') {
-        inferenceSource.className = 'inference-source live';
-        inferenceSource.innerHTML = '<span class="src-dot"></span> Live Inference';
-      } else if (type === 'cached') {
-        inferenceSource.className = 'inference-source cached';
-        inferenceSource.innerHTML = 'Cached Result';
-      } else {
-        inferenceSource.className = 'inference-source';
-        inferenceSource.innerHTML = '';
-      }
-    }
-
-    let currentTyping = null;
-    let currentSport = 'tennis';
-    let isInferring = false;
-
-    // ── Processing indicators ──
-    function showProcessing(active) {
-      leftProc.classList.toggle('active', active);
-      rightProc.classList.toggle('active', active);
-    }
-
-    // ── Frame capture from local video ──
-    function captureVideoFrame() {
-      if (videoEl.style.display !== 'none' && videoEl.readyState >= 2) {
-        const canvas = document.createElement('canvas');
-        canvas.width = videoEl.videoWidth || 480;
-        canvas.height = videoEl.videoHeight || 360;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(videoEl, 0, 0, canvas.width, canvas.height);
-        return canvas.toDataURL('image/jpeg', 0.85).split(',')[1];
-      }
-      return null;
-    }
-
-    // ── Get sample image as base64 ──
-    async function getSampleImageBase64(sport) {
-      const imgSrc = sportMedia[sport].image;
-      const resp = await fetch(imgSrc);
-      const blob = await resp.blob();
-      return new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result.split(',')[1]);
-        reader.readAsDataURL(blob);
-      });
-    }
-
-    // ── Parse Cosmos response (handles <think> tag quirks) ──
-    function parseCosmosResponse(raw) {
-      let thinking = '', answer = '';
-      const firstOpen = raw.indexOf('<think>');
-      if (firstOpen !== -1) {
-        const afterFirst = firstOpen + 7;
-        const closeTag = raw.indexOf('</think>', afterFirst);
-        const secondOpen = raw.indexOf('<think>', afterFirst);
-        let thinkEnd = -1, answerStart = -1;
-        if (closeTag !== -1 && (secondOpen === -1 || closeTag < secondOpen)) {
-          thinkEnd = closeTag;
-          answerStart = closeTag + 8;
-        } else if (secondOpen !== -1) {
-          thinkEnd = secondOpen;
-          answerStart = secondOpen + 7;
-        }
-        if (thinkEnd !== -1) {
-          thinking = raw.slice(afterFirst, thinkEnd).trim();
-          answer = raw.slice(answerStart).trim();
-        } else {
-          const rest = raw.slice(afterFirst);
-          const splitIdx = rest.search(/\n\n(?=[A-Z*#-])/);
-          if (splitIdx !== -1) {
-            thinking = rest.slice(0, splitIdx).trim();
-            answer = rest.slice(splitIdx).trim();
-          } else {
-            thinking = rest.trim();
-          }
-        }
-      } else {
-        answer = raw.trim();
-      }
-      const ansMatch = answer.match(/<answer>([\s\S]*?)<\/answer>/);
-      if (ansMatch) answer = ansMatch[1].trim();
-      answer = answer.replace(/<\/?(?:think|answer)>/g, '').trim();
-      return { thinking, answer };
-    }
-
-    // ── YouTube ──
-    function parseYouTubeId(url) {
-      if (!url) return null;
-      const patterns = [
-        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/,
-        /^([a-zA-Z0-9_-]{11})$/,
-      ];
-      for (const p of patterns) { const m = url.match(p); if (m) return m[1]; }
-      return null;
-    }
-
-    document.getElementById('yt-go').addEventListener('click', () => {
-      const id = parseYouTubeId(document.getElementById('yt-url').value.trim());
-      if (id) { showYouTube(id); sourceBadge.textContent = 'YouTube stream'; }
-    });
-    document.getElementById('yt-url').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') document.getElementById('yt-go').click();
-    });
-
-    function showYouTube(videoId) {
-      videoEl.style.display = 'none'; videoEl.pause();
-      imgEl.style.display = 'none';
-      ytEl.style.display = 'block';
-      ytEl.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&controls=1&modestbranding=1&rel=0&playlist=${videoId}`;
-    }
-
-    function showSportYouTube(sport) {
-      const ytId = sportYouTube[sport];
-      if (ytId) { showYouTube(ytId); sourceBadge.textContent = 'YouTube \u2022 Official channel'; }
-    }
+    const statSource = document.getElementById('stat-source');
+    const headline = document.getElementById('analysis-headline');
+    const detailEl = document.getElementById('analysis-detail');
+    const emptyState = document.getElementById('empty-state');
+    const procOverlay = document.getElementById('processing-overlay');
+    const procElapsed = document.getElementById('proc-elapsed');
+    const thinkingSection = document.getElementById('thinking-section');
+    const thinkingText = document.getElementById('thinking-text');
+    const answerSection = document.getElementById('answer-section');
+    const answerText = document.getElementById('answer-text');
+    const timelineFill = document.getElementById('timeline-fill');
+    const timelineDots = document.getElementById('timeline-dots');
+    const frameInfo = document.getElementById('frame-info');
+    const frameTotal = document.getElementById('frame-total');
+    const footerStatus = document.getElementById('footer-status');
 
     // ── Helpers ──
-    function extractHeadline(answer) {
-      const m = answer.match(/\*\*(.+?)\*\*/);
-      if (m) { const p = m[1].split('\u2014').map(s => s.trim()); return { event: p[0]||'', detail: p[1]||'' }; }
-      const first = answer.split('\n')[0].replace(/[*#]/g, '').trim();
-      return { event: first.slice(0, 40), detail: '' };
+    function getFrames() {
+      const s = sports[currentSport];
+      return s.frames.length > 0 ? s.frames : [s.fallback];
     }
 
-    function formatAnswer(answer) {
-      return answer.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+    function extractHeadline(answer) {
+      const m = answer.match(/\*\*(.+?)\*\*/);
+      if (m) {
+        const p = m[1].split('\u2014').map(s => s.trim());
+        return { event: p[0] || '', detail: p[1] || '' };
+      }
+      return { event: answer.split('\n')[0].replace(/[*#]/g, '').trim().slice(0, 50), detail: '' };
+    }
+
+    function formatAnswer(a) {
+      return a.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
     }
 
     function randInt(a, b) { return Math.floor(Math.random() * (b - a + 1)) + a; }
 
-    // ── Typing animation ──
+    function parseCosmosResponse(raw) {
+      let thinking = '', answer = '';
+      const open = raw.indexOf('<think>');
+      if (open !== -1) {
+        const after = open + 7;
+        const close = raw.indexOf('</think>', after);
+        const second = raw.indexOf('<think>', after);
+        let te = -1, as = -1;
+        if (close !== -1 && (second === -1 || close < second)) { te = close; as = close + 8; }
+        else if (second !== -1) { te = second; as = second + 7; }
+        if (te !== -1) { thinking = raw.slice(after, te).trim(); answer = raw.slice(as).trim(); }
+        else { thinking = raw.slice(after).trim(); }
+      } else { answer = raw.trim(); }
+      const am = answer.match(/<answer>([\s\S]*?)<\/answer>/);
+      if (am) answer = am[1].trim();
+      answer = answer.replace(/<\/?(?:think|answer)>/g, '').trim();
+      return { thinking, answer };
+    }
+
     function typeText(el, text, speed, onDone, onStep) {
       el.textContent = '';
       el.classList.add('cursor-blink');
-      let i = 0, stepCount = 0;
+      let i = 0, steps = 0;
       const id = {};
       currentTyping = id;
       function tick() {
         if (currentTyping !== id) return;
         if (i >= text.length) { el.classList.remove('cursor-blink'); if (onDone) onDone(); return; }
-        const chunk = text.slice(i, i + randInt(1, 2));
+        const chunk = text.slice(i, i + randInt(1, 3));
         el.textContent += chunk;
         i += chunk.length;
-        const steps = (el.textContent.match(/Step \d/g) || []).length;
-        if (steps > stepCount) { stepCount = steps; if (onStep) onStep(stepCount); }
+        const s = (el.textContent.match(/Step \d/g) || []).length;
+        if (s > steps) { steps = s; if (onStep) onStep(steps); }
         if (el.parentElement) el.parentElement.scrollTop = el.parentElement.scrollHeight;
-        let delay = speed + randInt(0, 12);
-        if (chunk.includes('\n')) delay += 80;
-        if (chunk.includes('.')) delay += 30;
-        setTimeout(tick, delay);
+        let d = speed + randInt(0, 6);
+        if (chunk.includes('\n')) d += 40;
+        setTimeout(tick, d);
       }
       tick();
     }
 
-    // ══════════════════════════════════════════════
-    // LIVE INFERENCE — calls Cosmos Reason 2 on Jetson
-    // ══════════════════════════════════════════════
+    // ── Frame navigation ──
+    function buildTimeline() {
+      const frames = getFrames();
+      timelineDots.innerHTML = '';
+      frames.forEach((_, i) => {
+        const d = document.createElement('div');
+        d.className = 'timeline-dot' + (i === 0 ? ' active' : '');
+        // Mark dots that have cached analysis
+        if (frameCacheData && frameCacheData[currentSport] && frameCacheData[currentSport][i]) {
+          d.classList.add('has-analysis');
+        }
+        timelineDots.appendChild(d);
+      });
+      frameTotal.textContent = frames.length;
+      updateFrameUI();
+    }
 
-    async function runLiveInference(sport) {
+    function updateFrameUI() {
+      const frames = getFrames();
+      const n = frames.length;
+      frameImg.src = frames[currentFrameIdx];
+      frameCounter.textContent = `Frame ${currentFrameIdx + 1} / ${n}`;
+      frameInfo.querySelector('.current').textContent = currentFrameIdx + 1;
+      timelineFill.style.width = n > 1 ? ((currentFrameIdx / (n - 1)) * 100) + '%' : '100%';
+      timelineDots.querySelectorAll('.timeline-dot').forEach((d, i) => {
+        d.classList.toggle('active', i === currentFrameIdx);
+      });
+    }
+
+    function goToFrame(idx) {
+      const frames = getFrames();
+      currentFrameIdx = Math.max(0, Math.min(frames.length - 1, idx));
+      updateFrameUI();
+    }
+
+    function prevFrame() { goToFrame(currentFrameIdx - 1); }
+    function nextFrame() {
+      const frames = getFrames();
+      if (currentFrameIdx >= frames.length - 1) { stopPlayback(); return; }
+      goToFrame(currentFrameIdx + 1);
+    }
+
+    function togglePlayback() {
+      if (isPlaying) { stopPlayback(); }
+      else { startPlayback(); }
+    }
+
+    function startPlayback() {
+      isPlaying = true;
+      document.getElementById('btn-play').classList.add('active');
+      document.getElementById('play-icon').innerHTML = '<rect x="3" y="2" width="3" height="10" rx="0.5"/><rect x="8" y="2" width="3" height="10" rx="0.5"/>';
+      playInterval = setInterval(() => nextFrame(), 1000);
+    }
+
+    function stopPlayback() {
+      isPlaying = false;
+      document.getElementById('btn-play').classList.remove('active');
+      document.getElementById('play-icon').innerHTML = '<polygon points="4,2 12,7 4,12"/>';
+      if (playInterval) { clearInterval(playInterval); playInterval = null; }
+    }
+
+    // Timeline click
+    document.getElementById('timeline').addEventListener('click', (e) => {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const pct = (e.clientX - rect.left) / rect.width;
+      const frames = getFrames();
+      goToFrame(Math.round(pct * (frames.length - 1)));
+    });
+
+    document.getElementById('btn-prev').addEventListener('click', prevFrame);
+    document.getElementById('btn-next').addEventListener('click', nextFrame);
+    document.getElementById('btn-play').addEventListener('click', togglePlayback);
+
+    // ── Source badge ──
+    function setSourceBadge(type) {
+      sourceBadge.style.display = 'none';
+      sourceBadge.className = 'source-badge';
+      if (type === 'live') {
+        sourceBadge.className = 'source-badge live';
+        sourceBadge.innerHTML = '<span class="dot"></span> Live GPU';
+        statSource.textContent = 'LIVE';
+        statSource.style.color = 'var(--green)';
+      } else if (type === 'cached') {
+        sourceBadge.className = 'source-badge cached';
+        sourceBadge.innerHTML = 'Cached';
+        statSource.textContent = 'CACHED';
+        statSource.style.color = 'var(--amber)';
+      }
+    }
+
+    // ── Show results ──
+    function showResults(parsed, elapsed, tokens, source) {
+      const hl = extractHeadline(parsed.answer);
+      headline.textContent = hl.event || sports[currentSport].label + ' Analysis';
+      detailEl.textContent = hl.detail;
+      statLatency.textContent = elapsed + 's';
+      statTokens.textContent = tokens.toLocaleString();
+      setSourceBadge(source);
+
+      procOverlay.classList.remove('active');
+      emptyState.style.display = 'none';
+      thinkingSection.style.display = '';
+      answerSection.style.display = 'none';
+
+      typeText(thinkingText, parsed.thinking, 8, () => {
+        answerSection.style.display = '';
+        answerSection.classList.add('fade-in');
+        answerText.innerHTML = formatAnswer(parsed.answer);
+        actionStatus.textContent = `Done \u2014 ${elapsed}s, ${tokens} tokens`;
+        analyzeBtn.disabled = false;
+        isInferring = false;
+      }, (step) => {
+        actionStatus.innerHTML = `Reasoning... <span class="elapsed">Step ${step}</span>`;
+      });
+    }
+
+    // ── Get frame as base64 ──
+    async function getFrameBase64() {
+      const frames = getFrames();
+      const resp = await fetch(frames[currentFrameIdx]);
+      const blob = await resp.blob();
+      return new Promise(r => {
+        const reader = new FileReader();
+        reader.onloadend = () => r(reader.result.split(',')[1]);
+        reader.readAsDataURL(blob);
+      });
+    }
+
+    // ── Run inference ──
+    async function runInference() {
       if (isInferring) return;
       isInferring = true;
       currentTyping = null;
+      analyzeBtn.disabled = true;
+      stopPlayback();
 
-      const label = sportLabels[sport];
+      const sport = currentSport;
+      const label = sports[sport].label;
 
-      // Reset UI
-      setSourceBadge(null);
-      answerText.innerHTML = '';
-      thinkingText.textContent = '';
-      leftHeadline.textContent = 'Analyzing...';
-      leftDetail.textContent = '';
-      bugSport.textContent = label;
-      bugEvent.textContent = 'Analyzing...';
-      bugDetail.textContent = '';
-      bugLatency.textContent = '--';
-      bugTokens.textContent = '--';
-      statLatency.textContent = '--';
-      statTokens.textContent = '--';
-
-      // Show processing
-      showProcessing(true);
-      leftProcStatus.textContent = 'Capturing frame...';
-      rightProcStatus.textContent = 'Connecting...';
-
-      commentaryText.textContent = '';
-      commentaryText.classList.add('typing');
-      commentaryText.textContent = `Connecting to Cosmos Reason 2 on Jetson AGX Orin...`;
-
-      // Get frame — try local video first, fall back to sample image
-      let base64 = captureVideoFrame();
-      if (!base64) {
-        leftProcStatus.textContent = 'Loading sample image...';
-        base64 = await getSampleImageBase64(sport);
-      }
-
-      if (!base64) {
-        showProcessing(false);
-        commentaryText.textContent = 'Error: Could not capture frame.';
-        commentaryText.classList.remove('typing');
-        isInferring = false;
+      // Check for per-frame cached result first
+      if (frameCacheData && frameCacheData[sport] && frameCacheData[sport][currentFrameIdx]) {
+        const data = frameCacheData[sport][currentFrameIdx];
+        const parsed = { thinking: data.thinking, answer: data.answer };
+        showResults(parsed, data.latency_s, data.tokens, 'cached');
         return;
       }
 
-      // Build request
-      leftProcStatus.textContent = 'Sending to Jetson...';
-      rightProcStatus.textContent = 'Waiting for GPU...';
-      commentaryText.textContent = `Sending ${label} frame to Cosmos Reason 2-8B on Jetson AGX Orin (64GB)...`;
+      setSourceBadge(null);
+      statLatency.textContent = '--';
+      statTokens.textContent = '--';
+      statSource.textContent = '--';
+      statSource.style.color = '';
+      headline.textContent = 'Analyzing...';
+      detailEl.textContent = `Sending ${label} frame ${currentFrameIdx + 1} to Cosmos Reason 2`;
+      thinkingSection.style.display = 'none';
+      answerSection.style.display = 'none';
+      emptyState.style.display = 'none';
+      procOverlay.classList.add('active');
+      procElapsed.textContent = '0.0s';
+      actionStatus.innerHTML = 'Loading frame...';
 
-      const systemPrompt = `You are RefereAI, an expert ${label} umpire powered by NVIDIA Cosmos Reason 2. You ONLY analyze sports content. Analyze the image using physical reasoning about ball trajectories, player positions, and game rules. First reason step-by-step inside <think> tags about the physics, trajectories, and rules. Then give your final structured analysis after the </think> tag.`;
+      const base64 = await getFrameBase64();
+
+      const systemPrompt = `You are RefereAI, an expert ${label} umpire powered by NVIDIA Cosmos Reason 2. Analyze the image using physical reasoning about ball trajectories, player positions, and game rules. Reason step-by-step inside <think> tags, then give your structured analysis.`;
 
       const payload = {
         model: 'cosmos-reason2',
@@ -1023,153 +1151,93 @@
       const headers = { 'Content-Type': 'application/json' };
       if (isLocal) headers['Authorization'] = `Bearer ${API_KEY}`;
 
-      const startTime = Date.now();
-      leftProcStatus.textContent = 'GPU inference running...';
-      rightProcStatus.textContent = 'Model thinking...';
-      commentaryText.textContent = `Cosmos Reason 2 is running on Jetson AGX Orin GPU — analyzing ${label} physics, trajectories, rules...`;
+      const t0 = Date.now();
+      actionStatus.innerHTML = 'GPU inference... <span class="elapsed">0.0s</span>';
+      footerStatus.innerHTML = '<span class="dot online"></span> Jetson running';
 
-      // Elapsed time counter
-      const elapsedInterval = setInterval(() => {
-        const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
-        rightProcStatus.textContent = `Inferring... ${elapsed}s`;
-        bugLatency.textContent = elapsed + 's';
-        statLatency.textContent = elapsed + 's';
-      }, 500);
+      const tick = setInterval(() => {
+        const s = ((Date.now() - t0) / 1000).toFixed(1);
+        procElapsed.textContent = s + 's';
+        actionStatus.innerHTML = `GPU inference... <span class="elapsed">${s}s</span>`;
+      }, 200);
 
       try {
-        const response = await fetch(COSMOS_URL, {
-          method: 'POST',
-          headers,
-          body: JSON.stringify(payload),
-        });
+        const resp = await fetch(COSMOS_URL, { method: 'POST', headers, body: JSON.stringify(payload) });
+        clearInterval(tick);
+        if (!resp.ok) throw new Error(`API ${resp.status}`);
+        const data = await resp.json();
+        const elapsed = ((Date.now() - t0) / 1000).toFixed(1);
 
-        clearInterval(elapsedInterval);
-
-        if (!response.ok) {
-          throw new Error(`API returned ${response.status}: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
         const msg = data.choices[0].message;
-        // LiteLLM may extract <think> into reasoning_content, leaving content as just the answer
-        const reasoningContent = msg.reasoning_content || '';
-        const mainContent = msg.content || '';
-        const raw = reasoningContent
-          ? '<think>' + reasoningContent + '</think>' + mainContent
-          : mainContent;
-        console.log('[RefereAI DEBUG] content:', mainContent.slice(0, 100), 'reasoning:', reasoningContent.slice(0, 100));
+        const rc = msg.reasoning_content || '';
+        const mc = msg.content || '';
+        const raw = rc ? '<think>' + rc + '</think>' + mc : mc;
         const usage = data.usage || {};
-        const totalTokens = usage.total_tokens || usage.completion_tokens || 0;
+        const tokens = usage.total_tokens || usage.completion_tokens || 0;
 
-        // Parse chain-of-thought
-        const parsed = parseCosmosResponse(raw);
-        const headline = extractHeadline(parsed.answer);
-
-        // Update stats with real data
-        bugLatency.textContent = elapsed + 's';
-        bugTokens.textContent = totalTokens.toLocaleString();
-        statLatency.textContent = elapsed + 's';
-        statTokens.textContent = totalTokens.toLocaleString();
-        leftHeadline.textContent = headline.event;
-        leftDetail.textContent = headline.detail;
-        bugEvent.textContent = headline.event;
-        bugDetail.textContent = headline.detail;
-
-        // Mark as LIVE
-        setSourceBadge('live');
-
-        // Log observability
-        const meta = data._refereai || {};
-        console.log(`[RefereAI LIVE] sport=${sport} latency=${elapsed}s tokens=${totalTokens} request_id=${meta.request_id || 'local'} source=${meta.source || 'direct'}`);
-
-        // Type out the real chain-of-thought
-        leftProcStatus.textContent = 'Reasoning...';
-        rightProcStatus.textContent = 'Streaming...';
-        commentaryText.textContent = `LIVE INFERENCE complete (${elapsed}s, ${totalTokens} tokens) — streaming reasoning...`;
-
-        typeText(thinkingText, parsed.thinking, 12, () => {
-          showProcessing(false);
-          answerText.innerHTML = formatAnswer(parsed.answer);
-          answerText.parentElement.classList.add('fade-in');
-          commentaryText.classList.remove('typing');
-          commentaryText.textContent = `[LIVE] ${headline.event}${headline.detail ? ' \u2014 ' + headline.detail : ''} (${elapsed}s on Jetson AGX Orin)`;
-          isInferring = false;
-        }, (step) => {
-          rightProcStatus.textContent = `Step ${step}`;
-          leftProcStatus.textContent = `Step ${step}`;
-        });
-
+        showResults(parseCosmosResponse(raw), elapsed, tokens, 'live');
+        footerStatus.innerHTML = '<span class="dot online"></span> Jetson connected';
       } catch (err) {
-        clearInterval(elapsedInterval);
-        console.error('[RefereAI] Live inference failed:', err.message);
+        clearInterval(tick);
+        footerStatus.innerHTML = '<span class="dot offline"></span> Jetson offline';
 
-        // Fall back to cached results
-        if (cachedResults && cachedResults[sport]) {
-          setSourceBadge('cached');
-          commentaryText.textContent = `[CACHED] Jetson unreachable — showing previously cached inference result`;
-          commentaryText.classList.remove('typing');
-          const data = cachedResults[sport];
-          const headline = extractHeadline(data.answer);
-
-          leftHeadline.textContent = headline.event;
-          leftDetail.textContent = headline.detail;
-          bugEvent.textContent = headline.event;
-          bugDetail.textContent = headline.detail;
-          bugLatency.textContent = data.latency_s + 's';
-          bugTokens.textContent = data.tokens.toLocaleString();
-          statLatency.textContent = data.latency_s + 's';
-          statTokens.textContent = data.tokens.toLocaleString();
-          leftProcStatus.textContent = 'Cached fallback';
-          rightProcStatus.textContent = 'Cached';
-
-          typeText(thinkingText, data.thinking, 12, () => {
-            showProcessing(false);
-            answerText.innerHTML = formatAnswer(data.answer);
-            answerText.parentElement.classList.add('fade-in');
-            isInferring = false;
-          }, (step) => {
-            rightProcStatus.textContent = `Step ${step}`;
-            leftProcStatus.textContent = `Step ${step}`;
-          });
+        // Fallback: per-sport cached result
+        if (cachedResults && cachedResults[currentSport]) {
+          const d = cachedResults[currentSport];
+          showResults({ thinking: d.thinking, answer: d.answer }, d.latency_s, d.tokens, 'cached');
         } else {
-          showProcessing(false);
-          commentaryText.textContent = `Error: ${err.message}`;
-          commentaryText.classList.remove('typing');
+          procOverlay.classList.remove('active');
+          emptyState.style.display = '';
+          actionStatus.textContent = `Error: ${err.message}`;
+          analyzeBtn.disabled = false;
           isInferring = false;
         }
       }
     }
 
-    // ── Load sport: show video + run live inference ──
-    function loadSport(sport) {
+    // ── Sport switching ──
+    function selectSport(sport) {
+      if (isInferring) return;
       currentSport = sport;
+      currentFrameIdx = 0;
       currentTyping = null;
+      stopPlayback();
 
-      // Show YouTube video
-      showSportYouTube(sport);
+      document.querySelectorAll('.sport-tab').forEach(t => t.classList.remove('active'));
+      document.querySelector(`[data-sport="${sport}"]`).classList.add('active');
 
-      // Run live inference
-      runLiveInference(sport);
+      buildTimeline();
+
+      setSourceBadge(null);
+      statLatency.textContent = '--';
+      statTokens.textContent = '--';
+      statSource.textContent = '--';
+      statSource.style.color = '';
+      headline.textContent = 'Ready';
+      detailEl.textContent = `${sports[sport].label} \u2014 ${getFrames().length} frames available`;
+      thinkingSection.style.display = 'none';
+      answerSection.style.display = 'none';
+      procOverlay.classList.remove('active');
+      emptyState.style.display = '';
+      actionStatus.textContent = `${sports[sport].label} loaded`;
     }
 
-    // ── Tab switching ──
+    // ── Event listeners ──
     document.querySelectorAll('.sport-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        if (isInferring) return; // Don't switch while inferring
-        document.querySelectorAll('.sport-tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        loadSport(tab.dataset.sport);
-      });
+      tab.addEventListener('click', () => selectSport(tab.dataset.sport));
+    });
+    analyzeBtn.addEventListener('click', runInference);
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') prevFrame();
+      else if (e.key === 'ArrowRight') nextFrame();
+      else if (e.key === ' ') { e.preventDefault(); togglePlayback(); }
+      else if (e.key === 'Enter') runInference();
     });
 
-    // ── Re-analyze button ──
-    document.getElementById('reanalyze-btn').addEventListener('click', () => {
-      if (!isInferring) runLiveInference(currentSport);
-    });
-
-    // ── Auto-start on load ──
-    loadSport('tennis');
+    // ── Init ──
+    buildTimeline();
   </script>
 </body>
 </html>
