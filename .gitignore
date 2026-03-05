@@ -11,3 +11,5 @@ demo/dist/
 demo/node_modules/
 .vercel
 .claude/
+demo/samples/frames/
+demo/public/samples/frames/

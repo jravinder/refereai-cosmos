@@ -28,7 +28,7 @@ except ImportError:
     _HAS_HTTPX = False
     httpx = None
 
-# Try importing from the parent sports-ai repo first, fall back to
+# Try importing optional dependencies, fall back to
 # standalone-compatible base classes defined here.
 try:
     from ai.vision_commentary import VisionBackend, VisionConfig
@@ -37,7 +37,7 @@ except ImportError:
         from vision_commentary import VisionBackend, VisionConfig
     except ImportError:
         # Standalone mode — define minimal base classes so this module
-        # works without the full sports-ai tree.
+        # Standalone mode — define minimal base classes.
         from abc import ABC, abstractmethod
         from enum import Enum
 

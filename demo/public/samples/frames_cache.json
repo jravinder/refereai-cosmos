@@ -1,0 +1,252 @@
+{
+  "tennis": {
+    "0": {
+      "thinking": "Analyzing the frame for key elements, player positions, and game state...",
+      "answer": "Clay court rally with players near baseline and net, no visible ball, estimated speed 100-150 km/h",
+      "latency_s": 21.4,
+      "tokens": 161
+    },
+    "1": {
+      "thinking": "Analyzing the frame... 1. The sport being played is tennis, specifically on a clay court, as indicated by the reddish-brown surface and the players' attire.",
+      "answer": "1. The sport being played is tennis, specifically on a clay court, as indicated by the reddish-brown surface and the players' attire.\n\n2. There are two players on the court. One player, wearing a red shirt and black shorts, is positioned near the baseline on the right side of the court, ready to receive the ball. The other player, dressed in yellow shorts and a dark shirt, is at the far end of the court, having just served the ball.\n\n3. The action happening is a serve. The player in yellow shorts has just tossed the ball into the air and is in the process of hitting it with his racket. The player in red is preparing to return the serve.\n\n4. Visible equipment includes tennis rackets, a tennis ball, and the net. The net has a white top and is supported by two posts at either end of the court. The players are also wearing athletic shoes suitable for playing tennis.\n\n5. The game situation shows that the score is 2-6, 0-40 for the player in red (Sinner) against the player in yellow (Alcaraz). The player in red is currently at 40 points, indicating that he is one point away from winning the game. The player in yellow is at 15 points, suggesting that he is behind in the current game.",
+      "latency_s": 34.1,
+      "tokens": 276
+    },
+    "2": {
+      "thinking": "Analyzing the frame... 1. **Player Positions**: \n   - **Near Baseline**: One player is positioned near the baseline, preparing to return a shot.",
+      "answer": "1. **Player Positions**: \n   - **Near Baseline**: One player is positioned near the baseline, preparing to return a shot.\n   - **Near Net**: The other player is closer to the net, likely anticipating a volley.\n\n2. **Ball Position and Trajectory**: The ball is in mid-air, heading towards the baseline player.\n\n3. **Type of Shot**: The shot appears to be a backhand return, as indicated by the player's stance and racket position.\n\n4. **Estimated Ball Speed**: Moderate, around 100-120 km/h, based on the player's stance and the type of shot.\n\n5. **Court Surface**: Clay, as indicated by the reddish-brown color of the court.\n\n6. **Game Situation**: Rally, with both players engaged in a point.\n\n7. **Line Calls or Close Plays**: None visible in this frame.",
+      "latency_s": 40.3,
+      "tokens": 342
+    },
+    "3": {
+      "thinking": "Analyzing the frame... 1. The sport being played is tennis, specifically on a clay court, as indicated by the reddish-brown surface and the players' attire suitable for clay court conditions.",
+      "answer": "1. The sport being played is tennis, specifically on a clay court, as indicated by the reddish-brown surface and the players' attire suitable for clay court conditions.\n\n2. There are two players on the court. One player is positioned near the baseline on the right side of the court, preparing to receive a serve. The other player is at the service line on the left side, ready to serve. The players are positioned on opposite sides of the net, with one player closer to the baseline and the other closer to the service line.\n\n3. The player on the right side of the court is in the process of serving the ball. He is holding the racket with both hands and is in the motion of hitting the ball towards the opponent. The ball is visible in the air, indicating that the serve has been initiated. The player on the left side of the court is preparing to receive the serve, standing near the baseline and facing the server.\n\n4. The equipment visible includes tennis rackets held by both players, a tennis ball in mid-air, and the net dividing the court. The players are wearing athletic clothing appropriate for tennis, including shorts and shirts. The court itself is marked with white lines indicating the boundaries and service areas.\n\n5. The game situation is a tennis match in progress. The scoreboard shows the current score, with one player leading in the first set and the other player leading in the second set. The players are engaged in a rally, with the server attempting to win the point by successfully hitting the ball over the net and into the opponent's court. The audience in the background is watching the match intently, adding to the competitive atmosphere of the scene.",
+      "latency_s": 40.4,
+      "tokens": 340
+    },
+    "4": {
+      "thinking": "Analyzing the frame... 1. **Player Positions**:  \n   - **Foreground player**: Near the baseline, positioned to return the ball.",
+      "answer": "1. **Player Positions**:  \n   - **Foreground player**: Near the baseline, positioned to return the ball.  \n   - **Background player**: Near the net, having just struck the ball.  \n\n2. **Ball Position/ Trajectory**:  \n   - The ball is in mid-air, traveling toward the foreground player.  \n\n3. **Shot Type**:  \n   - The foreground player is executing a **backhand return**.  \n\n4. **Estimated Ball Speed**:  \n   - **100-120 km/h** (typical for a backhand return on clay).  \n\n5. **Court Surface**:  \n   - **Clay court** (red-brown surface with white lines).  \n\n6. **Game Situation**:  \n   - **Rally in progress**; the foreground player is returning the ball to the background player.  \n\n7. **Line Calls/Closeness**:  \n   - No visible line calls or close plays in this frame.",
+      "latency_s": 38.8,
+      "tokens": 328
+    },
+    "5": {
+      "thinking": "Analyzing the frame for key elements, player positions, and game state...",
+      "answer": "Clay court, backhand shot, rally, 100-120 km/h",
+      "latency_s": 22.8,
+      "tokens": 179
+    },
+    "6": {
+      "thinking": "Analyzing the frame for key elements, player positions, and game state...",
+      "answer": "Clay court, rally, groundstroke, 100-120 km/h",
+      "latency_s": 21.4,
+      "tokens": 168
+    },
+    "7": {
+      "thinking": "Analyzing the frame for key elements, player positions, and game state...",
+      "answer": "Clay court, groundstroke rally, Alcaraz leading 2-0 in the first set",
+      "latency_s": 37.6,
+      "tokens": 313
+    }
+  },
+  "cricket": {
+    "0": {
+      "thinking": "Analyzing the frame... The frame captures a moment during a cricket match, specifically a bowling delivery. The bowler, dressed in blue, is in the follow-through phase after releasing the ball.",
+      "answer": "The frame captures a moment during a cricket match, specifically a bowling delivery. The bowler, dressed in blue, is in the follow-through phase after releasing the ball. The batsman, wearing green, is in a defensive stance, preparing to face the delivery. The ball is not visible in the frame, but its trajectory can be inferred from the bowler's action and the batsman's readiness. The estimated delivery speed is around 130-140 km/h, typical for a pace bowler. The field placement includes fielders positioned around the pitch, with one fielder in the foreground and others in the background. There are no obvious DRS/review-worthy moments or close calls visible in this frame.",
+      "latency_s": 53.1,
+      "tokens": 447
+    },
+    "1": {
+      "thinking": "Analyzing the frame... 1. The sport being played is cricket, specifically a T20 match, as indicated by the ICC Men's T20 World Cup logo in the top right corner.",
+      "answer": "1. The sport being played is cricket, specifically a T20 match, as indicated by the ICC Men's T20 World Cup logo in the top right corner.\n\n2. There are two players visible. One is a batsman wearing a green uniform with the number 16 on his back, positioned near the pitch. The other is a fielder in a blue uniform, running across the field.\n\n3. The fielder in blue is actively running, likely in response to a play. The batsman in green appears to be walking away from the pitch, possibly after being dismissed or completing his innings.\n\n4. The equipment visible includes cricket bats, gloves, and protective gear such as pads and helmets. The batsman is holding a bat and wearing gloves, while the fielder is in full cricket attire.\n\n5. The game situation suggests a moment during the match where a batsman has either been dismissed or is leaving the field. The fielder's movement indicates active play, possibly following a ball delivery or a catch. The presence of the ICC Men's T20 World Cup logo indicates this is a high-profile international tournament.",
+      "latency_s": 28.5,
+      "tokens": 231
+    },
+    "2": {
+      "thinking": "Analyzing the frame for key elements, player positions, and game state...",
+      "answer": "The players are celebrating a successful play, likely after a wicket or a boundary.",
+      "latency_s": 66.7,
+      "tokens": 581
+    },
+    "3": {
+      "thinking": "Analyzing the frame... 1. Phase of play: Bowling delivery\n2.",
+      "answer": "1. Phase of play: Bowling delivery\n2. Bowler's action and type: Pace delivery with a follow-through motion\n3. Batsman's stance and shot selection: Defensive stance, expecting a delivery requiring a quick reaction\n4. Ball position and trajectory: Not visible, but inferred to be approaching the batsman\n5. Estimated delivery speed: 130-140 km/h\n6. Field placement and fielder positions: Fielders positioned around the pitch, one in the background and another closer to the batsman\n7. DRS/review-worthy moments: None visible in this frame",
+      "latency_s": 36.1,
+      "tokens": 304
+    },
+    "4": {
+      "thinking": "Analyzing the frame... The analysis of the provided cricket frame is as follows:\n\n1. **Phase of Play**: The batsman is in a ready stance, likely facing a delivery.",
+      "answer": "The analysis of the provided cricket frame is as follows:\n\n1. **Phase of Play**: The batsman is in a ready stance, likely facing a delivery. The close-up view and lack of visible ball or bowler suggest this is a moment of anticipation before or during a delivery.\n\n2. **Bowler's Action and Type**: Not visible in the frame. No bowler or ball motion is shown, so pace/spin or delivery stride cannot be determined.\n\n3. **Batsman's Stance and Shot Selection**: The batsman is in a focused, upright stance with his head turned slightly, indicating readiness to face a delivery. No shot is actively being played, as the ball is not visible.\n\n4. **Ball Position and Trajectory**: The ball is not visible in the frame, making its position or trajectory impossible to assess.\n\n5. **Estimated Delivery Speed**: Cannot be estimated without visible bowler action or ball movement.\n\n6. **Field Placement and Fielder Positions**: Not discernible in the close-up shot; no fielders are visible.\n\n7. **DRS/Review-Worthy Moments**: No clear close calls or contentious plays are evident in this frame.\n\n**Summary**: The frame emphasizes the batsman's concentration and readiness, typical of a live match broadcast. Key elements like the bowler, ball, and field setup are absent, leaving the phase of play ambiguous but centered on anticipation.",
+      "latency_s": 87.8,
+      "tokens": 771
+    },
+    "5": {
+      "thinking": "Analyzing the frame... 1. Phase of play: Bowling delivery\n2.",
+      "answer": "1. Phase of play: Bowling delivery\n2. Bowler's action and type: Pace bowler, follow-through after release\n3. Batsman's stance and shot selection: Defensive stance, preparing to block or play a shot\n4. Ball position and trajectory: Not visible, inferred trajectory from bowler's action\n5. Estimated delivery speed: 130-140 km/h\n6. Field placement and fielder positions: Standard field setup with fielders positioned around the pitch\n7. DRS/review-worthy moments: None visible",
+      "latency_s": 37.5,
+      "tokens": 317
+    },
+    "6": {
+      "thinking": "Analyzing the frame... 1. Phase of play: Bowling delivery (follow-through phase)\n2.",
+      "answer": "1. Phase of play: Bowling delivery (follow-through phase)\n2. Bowler's action and type: Pace delivery, extended arm and follow-through stride\n3. Batsman's stance and shot selection: Defensive stance, bat positioned to block the ball\n4. Ball position and trajectory: Near the batsman's bat, indicating a close call or potential dismissal\n5. Estimated delivery speed: 130-140 km/h (pace bowler)\n6. Field placement and fielder positions: Fielders positioned around the pitch, one in the foreground and another in the background\n7. DRS/review-worthy moments: Close call near the batsman's bat, potential LBW appeal",
+      "latency_s": 36.5,
+      "tokens": 305
+    },
+    "7": {
+      "thinking": "Analyzing the frame... 1. Phase of play: Celebration after a significant play (likely a wicket or key dismissal).",
+      "answer": "1. Phase of play: Celebration after a significant play (likely a wicket or key dismissal).\n2. Bowler's action: Not visible; focus is on post-action celebration.\n3. Batsman's stance: Not visible; focus is on celebratory interaction.\n4. Ball position: Not visible; no active play shown.\n5. Estimated delivery speed: Not applicable (no active delivery shown).\n6. Field placement: Not visible; focus is on players' interaction.\n7. DRS/close calls: Not applicable (no active play or review shown).",
+      "latency_s": 58.2,
+      "tokens": 504
+    }
+  },
+  "badminton": {
+    "0": {
+      "thinking": "Analyzing the frame... Based on the analysis, here is the badminton frame breakdown:\n\n**1. Player Positions on Court:**  \n- **Player 1:** Forecourt (near the net).",
+      "answer": "Based on the analysis, here is the badminton frame breakdown:\n\n**1. Player Positions on Court:**  \n- **Player 1:** Forecourt (near the net).  \n- **Player 2:** Midcourt or rear court (further back).  \n\n**2. Shuttlecock Position and Trajectory:**  \n- Not visible in the frame.  \n\n**3. Type of Shot Being Played:**  \n- Cannot be determined without seeing the shuttlecock.  \n\n**4. Estimated Shuttlecock Speed:**  \n- Not applicable (shuttlecock not visible).  \n\n**5. Player's Body Mechanics and Footwork:**  \n- Not clearly visible to assess movement.  \n\n**6. Rally Phase:**  \n- Neutral (no clear attacking or defending action observed).  \n\n**7. Court Positioning Advantage:**  \n- Not determinable without shuttlecock visibility and player actions.",
+      "latency_s": 38.3,
+      "tokens": 322
+    },
+    "1": {
+      "thinking": "Analyzing the frame... Based on the analysis, here is the badminton frame breakdown:\n\n**1. Player Positions on Court:**  \n- **Player 1:** Forecourt (near the net).",
+      "answer": "Based on the analysis, here is the badminton frame breakdown:\n\n**1. Player Positions on Court:**  \n- **Player 1:** Forecourt (near the net).  \n- **Player 2:** Midcourt or rear court (further back).  \n\n**2. Shuttlecock Position and Trajectory:**  \n- Not visible in the frame.  \n\n**3. Type of Shot Being Played:**  \n- Cannot be determined without seeing the shuttlecock.  \n\n**4. Estimated Shuttlecock Speed:**  \n- Not applicable (shuttlecock not visible).  \n\n**5. Player's Body Mechanics and Footwork:**  \n- Not clearly visible; no specific details can be observed.  \n\n**6. Rally Phase:**  \n- Neutral or defensive phase (no clear attacking or defensive actions visible).  \n\n**7. Court Positioning Advantage:**  \n- Neutral; no clear advantage can be determined without seeing the shuttlecock and players' actions.",
+      "latency_s": 39.8,
+      "tokens": 336
+    },
+    "2": {
+      "thinking": "There are two players visible in this frame. One player is positioned near the net, likely in the forecourt, while the other is further back, possibly in the midcourt or rear court. The player near the net appears to be preparing for a shot, while the other player is observing or waiting for the shuttlecock to come towards them. The shuttlecock is not visible in this frame, so its position and trajectory cannot be determined. The player near the net appears to be in a ready stance, suggesting they may be about to play a shot. However, the type of shot being played cannot be determined without seeing the shuttlecock in motion. However, the type",
+      "answer": "There are two players visible in this frame. One player is positioned near the net, likely in the forecourt, while the other is further back, possibly in the midcourt or rear court. The player near the net appears to be preparing for a shot, while the other player is observing or waiting for the shuttlecock to come towards them.",
+      "latency_s": 231.3,
+      "tokens": 2048
+    },
+    "3": {
+      "thinking": "There are two players visible in the frame. One is positioned near the net, likely in the forecourt, while the other is further back, possibly in the midcourt or rear court. The player near the net appears to be preparing for a shot, while the other player is in a ready stance. The shuttlecock is not visible in the frame, so its position and trajectory cannot be determined. The player near the net appears to be in a ready stance, suggesting that they may be preparing to receive a serve or return a shot. The player in the midcourt or rear court appears to be in a ready stance, suggesting that they may be preparing to serve or return a shot. Since the shuttlecock is not visible, it is not possible to determine the type of shot being played. The player in the",
+      "answer": "There are two players visible in the frame. One is positioned near the net, likely in the forecourt, while the other is further back, possibly in the midcourt or rear court. The player near the net appears to be preparing for a shot, while the other player is in a ready stance.",
+      "latency_s": 231.5,
+      "tokens": 2048
+    },
+    "4": {
+      "thinking": "There are two players visible in this frame. One player is positioned near the net, likely in the forecourt, while the other is further back, possibly in the midcourt or rear court. The player near the net appears to be preparing for a shot, while the other player is in a ready stance. The shuttlecock is not visible in the frame, so its position and trajectory cannot be determined. The player near the net appears to be in a ready stance, suggesting that they may be preparing to receive a serve or return a shot. The player in the midcourt or rear court is also in a ready stance, indicating that they are prepared to engage in the rally. Since the shuttlecock is not visible, it is not possible to determine the type of shot being played. [Analysis continues...]",
+      "answer": "There are two players visible in this frame. One player is positioned near the net, likely in the forecourt, while the other is further back, possibly in the midcourt or rear court. The player near the net appears to be preparing for a shot, while the other player is in a ready stance.",
+      "latency_s": 231.2,
+      "tokens": 2048
+    },
+    "5": {
+      "thinking": "Analyzing the frame... 1. Player positions on court (forecourt, midcourt, rearcourt)\n- Forecourt: One player near the net, likely in the forecourt.",
+      "answer": "1. Player positions on court (forecourt, midcourt, rearcourt)\n- Forecourt: One player near the net, likely in the forecourt.\n- Midcourt/Rearcourt: One player further back, possibly in the midcourt or rear court.\n\n2. Shuttlecock position and trajectory if visible\n- Not visible in this frame.\n\n3. Type of shot being played (smash, clear, drop, drive, net shot, serve)\n- Likely a net shot or drop shot, given the player's proximity to the net.\n\n4. Estimated shuttlecock speed in km/h based on shot type\n- Not estimable due to lack of visible shuttlecock.\n\n5. Player's body mechanics and footwork\n- Forecourt player: In a ready stance, prepared for quick movement.\n- Midcourt/Rearcourt player: In a ready stance, prepared to receive the shuttlecock.\n\n6. Rally phase (attacking, defending, neutral)\n- Neutral phase, as neither player is actively engaged in a shot.\n\n7. Court positioning advantage (who controls the rally)\n- Forecourt player has a slight advantage due to proximity to the net.",
+      "latency_s": 56.8,
+      "tokens": 492
+    },
+    "6": {
+      "thinking": "Analyzing the frame... 1. Player positions on court (forecourt, midcourt, rearcourt)\n   - Forecourt: One player near the net.",
+      "answer": "1. Player positions on court (forecourt, midcourt, rearcourt)\n   - Forecourt: One player near the net.\n   - Midcourt/Rearcourt: One player further back.\n\n2. Shuttlecock position and trajectory if visible\n   - Not visible in the frame.\n\n3. Type of shot being played (smash, clear, drop, drive, net shot, serve)\n   - Likely a net shot or drop shot (based on proximity to the net).\n\n4. Estimated shuttlecock speed in km/h based on shot type\n   - Not estimable without shuttlecock visibility.\n\n5. Player's body mechanics and footwork\n   - Forecourt player: Body positioned close to the net, ready for quick shot.\n   - Midcourt/Rearcourt player: Standing further back, in a defensive stance.\n\n6. Rally phase (attacking, defending, neutral)\n   - Neutral phase.\n\n7. Court positioning advantage (who controls the rally)\n   - Forecourt player has positional advantage.",
+      "latency_s": 50.3,
+      "tokens": 433
+    },
+    "7": {
+      "thinking": "Analyzing the frame... 1. Player positions on court (forecourt, midcourt, rearcourt)\n- Midcourt: One player in the foreground, positioned to hit the shuttlecock.",
+      "answer": "1. Player positions on court (forecourt, midcourt, rearcourt)\n- Midcourt: One player in the foreground, positioned to hit the shuttlecock.\n- Rearcourt: One player in the background, observing the play.\n\n2. Shuttlecock position and trajectory if visible\n- Not visible in this frame, but likely approaching the midcourt player.\n\n3. Type of shot being played (smash, clear, drop, drive, net shot, serve)\n- Drop shot, as indicated by the player's stance and racket position.\n\n4. Estimated shuttlecock speed in km/h based on shot type\n- 150-200 km/h for a drop shot.\n\n5. Player's body mechanics and footwork\n- Weight shifted forward, racket positioned for contact.\n- Stable footwork, positioned to react quickly.\n\n6. Rally phase (attacking, defending, neutral)\n- Neutral phase, with no active attack or defense.\n\n7. Court positioning advantage (who controls the rally)\n- Midcourt player appears to control the rally, positioned to hit a drop shot.",
+      "latency_s": 54.4,
+      "tokens": 471
+    }
+  },
+  "tabletennis": {
+    "0": {
+      "thinking": "In this table tennis frame, the player is positioned at mid-distance from the table, leaning forward with his racket extended towards the table. The ball is not visible in the frame, but the player's posture suggests he is preparing to make a stroke. The type of stroke appears to be a topspin loop, as indicated by the player's grip and the position of his racket. The estimated ball speed is around 150 km/h, which is typical for a topspin loop. The player's grip style is a shakehand grip, which is commonly used for topspin loops. The rally phase is likely in the attacking phase, as the player is preparing to hit the ball with a topspin loop. The table positioning suggests that the player is in a defensive position, as he is leaning forward and extending his racket towards the table. [Analysis continues...]",
+      "answer": "In this table tennis frame, the player is positioned at mid-distance from the table, leaning forward with his racket extended towards the table. The ball is not visible in the frame, but the player's posture suggests he is preparing to make a stroke. The type of stroke appears to be a topspin loop, as indicated by the player's grip and the position of his racket.",
+      "latency_s": 30.1,
+      "tokens": 249
+    },
+    "1": {
+      "thinking": "Analyzing the frame... In this table tennis frame, the player in the red shirt is positioned close to the table, leaning forward with his paddle extended towards the net. His posture suggests he is preparing to make a precise shot, likely a topspin loop or a block.",
+      "answer": "In this table tennis frame, the player in the red shirt is positioned close to the table, leaning forward with his paddle extended towards the net. His posture suggests he is preparing to make a precise shot, likely a topspin loop or a block. The ball is not visible in the frame, but the player's focus and the position of his paddle indicate he is about to strike the ball. The opponent in the yellow shirt is positioned at mid-distance, ready to react to the incoming shot. The table is positioned centrally, with the net dividing the two players. The tactical situation appears to be an attacking phase, as the player in red is actively engaging in the rally. The grip style of the player in red is not clearly visible, but his technique suggests a strong, controlled stroke. The estimated ball speed, based on the type of stroke, would be around 150-200 km/h for a topspin loop. The rally phase is likely in the attacking phase, as the player in red is actively engaging in the rally. The table positioning and tactical situation suggest a competitive match, with both players focused on their respective strategies. The player in red is likely aiming to maintain control of the rally and score points, while the player in yellow is preparing to counter-attack. The overall scene captures the intensity and skill involved in table tennis, with both players demonstrating their expertise in the sport.",
+      "latency_s": 87.2,
+      "tokens": 768
+    },
+    "2": {
+      "thinking": "Analyzing the frame... In this table tennis frame, the player in the red shirt is positioned close to the table, leaning forward with his paddle in hand and his other hand extended towards the table. The player in the yellow shirt is positioned at mid-distance, leaning over the table and observing the action.",
+      "answer": "In this table tennis frame, the player in the red shirt is positioned close to the table, leaning forward with his paddle in hand and his other hand extended towards the table. The player in the yellow shirt is positioned at mid-distance, leaning over the table and observing the action. The ball is not visible in the frame, so its position and spin direction cannot be determined. The player in the red shirt appears to be preparing to serve, as he is holding the paddle in a serving position and his other hand is extended towards the table. The estimated ball speed for a serve can vary, but it is typically around 150-200 km/h. The player in the red shirt is using a shakehand grip, which is a common grip for serving. The rally phase is likely the opening phase, as the players are preparing to start the match. The table positioning suggests that the player in the red shirt is in a ready position to serve, while the player in the yellow shirt is waiting to receive the serve.",
+      "latency_s": 48.7,
+      "tokens": 418
+    },
+    "3": {
+      "thinking": "Analyzing the frame... **Table Tennis Frame Analysis**\n\n1. **Player Positions Relative to the Table**:  \n   - **Yellow-Shirted Player (Ma Long)**: Positioned at **mid-distance** from the table, leaning forward with a ready stance to counterattack.",
+      "answer": "**Table Tennis Frame Analysis**\n\n1. **Player Positions Relative to the Table**:  \n   - **Yellow-Shirted Player (Ma Long)**: Positioned at **mid-distance** from the table, leaning forward with a ready stance to counterattack.  \n   - **Red-Shirted Player (Hugo Calderano)**: Also at **mid-distance**, actively moving to execute a stroke, likely a topspin loop.  \n\n2. **Ball Position and Spin Direction**:  \n   - The ball is in mid-air, traveling toward the yellow-shirted player. Spin direction is inferred as **topspin** due to the attacking posture and trajectory of the red-shirted player's stroke.  \n\n3. **Type of Stroke**:  \n   - The red-shirted player is likely executing a **topspin loop** (aggressive forehand stroke), while the yellow-shirted player is preparing for a **counterattack** (possibly a backhand flick or block).  \n\n4. **Estimated Ball Speed**:  \n   - **150-200 km/h** (typical for a topspin loop in professional play).  \n\n5. **Player's Grip Style and Technique**:  \n   - **Yellow-Shirted Player**: Shakehand grip (common for forehand loops) and a low, balanced stance for quick recovery.  \n   - **Red-Shirted Player**: Shakehand grip for the forehand loop, with a dynamic leg drive and upper-body rotation for power.  \n\n6. **Rally Phase**:  \n   - **Attacking Phase**: The red-shirted player is in control of the rally, while the yellow-shirted player is transitioning into a counterattack.  \n\n7. **Table Positioning and Tactical Situation**:  \n   - The red-shirted player is maintaining control with a topspin loop, forcing the yellow-shirted player to react. The table positioning suggests a **net-driven rally**, with both players focused on outmaneuvering each other's strokes.  \n\n**Additional Context**:  \n- The scoreboard shows a tied score (3-3), indicating a high-stakes, evenly matched game.  \n- The referee and audience add to the professional setting, emphasizing the intensity of the match.",
+      "latency_s": 93.9,
+      "tokens": 829
+    },
+    "4": {
+      "thinking": "Analyzing the frame... In this table tennis frame, the players are positioned on opposite sides of the table, with one player in a ready stance and the other preparing to return the ball. The ball is in mid-air, indicating an ongoing rally.",
+      "answer": "In this table tennis frame, the players are positioned on opposite sides of the table, with one player in a ready stance and the other preparing to return the ball. The ball is in mid-air, indicating an ongoing rally. The player on the right appears to be executing a topspin loop, as suggested by the position of their racket and the trajectory of the ball. The estimated ball speed for a topspin loop is around 150-200 km/h. The player's grip style is a shakehand grip, which is commonly used for topspin loops. The rally phase seems to be in the attacking phase, as the player on the right is actively returning the ball. The table positioning suggests that the player on the left is in a defensive position, while the player on the right is in an offensive position. The tactical situation appears to be a back-and-forth exchange, with both players trying to outmaneuver each other.",
+      "latency_s": 61.5,
+      "tokens": 534
+    },
+    "5": {
+      "thinking": "Analyzing the frame... In this table tennis frame, the player in the yellow shirt is positioned at mid-distance, while the player in the red shirt is at close range. The ball is in mid-air, traveling towards the player in the red shirt.",
+      "answer": "In this table tennis frame, the player in the yellow shirt is positioned at mid-distance, while the player in the red shirt is at close range. The ball is in mid-air, traveling towards the player in the red shirt. The player in the red shirt appears to be preparing to return the ball with a backhand flick. The ball's speed is estimated to be around 150 km/h, which is typical for a backhand flick. The player in the red shirt is using a shakehand grip, which is common for backhand strokes. The rally is in the attacking phase, as the player in the red shirt is actively returning the ball. The table positioning suggests that the player in the red shirt is in a defensive position, while the player in the yellow shirt is in an offensive position. The tactical situation appears to be a back-and-forth rally, with both players trying to outmaneuver each other.",
+      "latency_s": 64.5,
+      "tokens": 562
+    },
+    "6": {
+      "thinking": "Analyzing the frame for key elements, player positions, and game state...",
+      "answer": "The analysis is inconclusive due to lack of visible ball and motion details.",
+      "latency_s": 19.1,
+      "tokens": 145
+    },
+    "7": {
+      "thinking": "In this table tennis frame, the player is positioned close to the table, leaning forward with his right hand extended towards the table surface. His left hand holds the paddle, which is not in contact with the ball. The ball is not visible in the frame, so its position and spin direction cannot be determined. The player appears to be preparing for a serve or a return, as he is in a ready stance with his body slightly bent forward. The type of stroke cannot be identified without seeing the ball in motion. The player's grip style and technique are not clearly visible, but his posture suggests a focused and ready stance. The rally phase is likely the opening phase, as the player is preparing for the next shot. [Analysis continues...]",
+      "answer": "In this table tennis frame, the player is positioned close to the table, leaning forward with his right hand extended towards the table surface. His left hand holds the paddle, which is not in contact with the ball. The ball is not visible in the frame, so its position and spin direction cannot be determined.",
+      "latency_s": 30.2,
+      "tokens": 247
+    }
+  },
+  "pickleball": {
+    "0": {
+      "thinking": "Analyzing the frame... In this pickleball frame, I see two players on a court with a net in the middle. The player in the foreground is wearing a white shirt and orange shorts, holding a paddle, and appears to be preparing for a shot.",
+      "answer": "In this pickleball frame, I see two players on a court with a net in the middle. The player in the foreground is wearing a white shirt and orange shorts, holding a paddle, and appears to be preparing for a shot. The player in the background is wearing a blue shirt and white shorts, also holding a paddle, and seems to be in a ready stance. The scoreboard shows the score as 6-0, indicating that the player in the foreground is leading. The court has various advertisements and logos, including \"Humana\" and \"Carvana.\" The audience is seated in the background, watching the match. The player in the foreground is positioned near the kitchen line, while the player in the background is further back on the court. The ball is not visible in this frame, so I cannot determine its position or trajectory. Based on the player's stance and the scoreboard, it seems like the player in the foreground is about to serve or make a shot. Since the ball is not visible, I cannot estimate the ball speed. The player in the foreground is positioned near the kitchen line, while the player in the background is further back on the court. The player in the foreground is likely in the serving or transitioning phase, while the player in the background is in a ready stance. There are no visible NVZ violations or close kitchen-line plays in this frame.",
+      "latency_s": 64.0,
+      "tokens": 558
+    },
+    "1": {
+      "thinking": "Analyzing the frame... 1. Player positions relative to NVZ (kitchen) line: The foreground player is positioned near the NVZ line, while the opponent is further back.",
+      "answer": "1. Player positions relative to NVZ (kitchen) line: The foreground player is positioned near the NVZ line, while the opponent is further back.\n2. Ball position and trajectory: Not visible in the frame.\n3. Type of shot: Dink.\n4. Estimated ball speed: 100-150 km/h.\n5. Court positioning: Foreground player in a defensive stance, opponent in an offensive position.\n6. Rally phase: Transitioning.\n7. NVZ violations or close kitchen-line plays: None observed.",
+      "latency_s": 34.7,
+      "tokens": 291
+    },
+    "2": {
+      "thinking": "Analyzing the frame... 1. The sport being played is pickleball, a fast-paced game that combines elements of tennis, badminton, and table tennis, played with paddles and a plastic ball.",
+      "answer": "1. The sport being played is pickleball, a fast-paced game that combines elements of tennis, badminton, and table tennis, played with paddles and a plastic ball.\n\n2. There are two players on the court. One player, wearing a white shirt and orange shorts, is positioned near the net, preparing to hit the ball. The other player, dressed in a blue shirt and white shorts, is standing further back on the court, ready to receive the ball.\n\n3. The player in the white shirt is in the process of serving the ball. He is holding the paddle in his right hand and has just tossed the ball into the air, preparing to strike it with his paddle. The player in the blue shirt is focused on the ball, anticipating the serve.\n\n4. The equipment visible includes the pickleball paddles, which are used to hit the ball. The paddles have a distinct shape and size, designed specifically for pickleball. The ball is also visible, being tossed into the air by the player in the white shirt.\n\n5. The game situation is a championship match, as indicated by the scoreboard in the background. The scoreboard shows the names of the players and their scores, with one player leading 6-0. The match is part of the Carvana Mesa Arizona Cup, a professional pickleball tournament.",
+      "latency_s": 33.2,
+      "tokens": 271
+    },
+    "3": {
+      "thinking": "Analyzing the frame... 1. Player positions relative to NVZ (kitchen) line: The foreground player is positioned near the NVZ line, while the background player is further back on their side of the court.",
+      "answer": "1. Player positions relative to NVZ (kitchen) line: The foreground player is positioned near the NVZ line, while the background player is further back on their side of the court.\n2. Ball position and trajectory: The ball is in mid-air, approaching the net with a low trajectory, consistent with a dink shot.\n3. Type of shot: Dink shot, characterized by a controlled, low hit aimed at the opponent's NVZ.\n4. Estimated ball speed: 100-150 km/h, typical for a dink shot.\n5. Court positioning: Both players are in their respective sides, with the foreground player closer to the net and the background player further back.\n6. Rally phase: Transitioning from a serve to a dink shot, indicating a mid-rally phase.\n7. NVZ violations or close kitchen-line plays: No visible violations or close kitchen-line plays are observed.",
+      "latency_s": 53.6,
+      "tokens": 457
+    },
+    "4": {
+      "thinking": "Analyzing the frame... 1. Player positions relative to NVZ (kitchen) line: The player in white is positioned near the NVZ line, while the player in blue is at the baseline.",
+      "answer": "1. Player positions relative to NVZ (kitchen) line: The player in white is positioned near the NVZ line, while the player in blue is at the baseline.\n2. Ball position and trajectory: The ball is in mid-air, heading towards the NVZ player.\n3. Type of shot: Drive shot.\n4. Estimated ball speed: 150 km/h.\n5. Court positioning: Both teams are in a standard formation, with the NVZ player in a ready position and the baseline player preparing to hit.\n6. Rally phase: Transitioning phase, moving from the baseline to the NVZ.\n7. NVZ violations or close kitchen-line plays: None observed.",
+      "latency_s": 36.3,
+      "tokens": 301
+    },
+    "5": {
+      "thinking": "Analyzing the frame... 1. The sport being played is pickleball, a fast-paced game that combines elements of tennis, badminton, and table tennis, played with paddles and a plastic ball.",
+      "answer": "1. The sport being played is pickleball, a fast-paced game that combines elements of tennis, badminton, and table tennis, played with paddles and a plastic ball.\n\n2. There are two players on the court. One player is positioned near the net, ready to return the ball, while the other player is partially visible on the right side of the frame, likely having just hit the ball.\n\n3. The player near the net is in a ready stance, holding their paddle and preparing to hit the ball. The ball is in mid-air, indicating that it has been hit and is traveling towards the net player. The game situation suggests a rally is ongoing, with both players actively engaged in the play.\n\n4. The equipment visible includes the pickleball paddles held by the players, the pickleball itself in mid-air, and the net that divides the court. The court is marked with lines to define the playing area, and there are advertisements and logos on the walls surrounding the court.\n\n5. The game situation shows a competitive match in progress, with the score displayed on the screen indicating the current state of the game. The players are focused and actively participating in the rally, demonstrating the dynamic nature of pickleball.",
+      "latency_s": 30.6,
+      "tokens": 249
+    },
+    "6": {
+      "thinking": "Analyzing the frame... 1. The sport being played is pickleball, a fast-paced game that combines elements of tennis, badminton, and table tennis, played with paddles and a plastic ball.",
+      "answer": "1. The sport being played is pickleball, a fast-paced game that combines elements of tennis, badminton, and table tennis, played with paddles and a plastic ball.\n\n2. There are two players positioned on opposite sides of the net. One player is in the foreground, standing on the right side of the court, while the other player is in the background, positioned on the left side of the court.\n\n3. The player in the foreground is preparing to hit the ball, which is in mid-air near the net. The player in the background is observing the play, ready to react to the incoming shot.\n\n4. The equipment visible includes the pickleball paddles, the plastic ball, and the net. The paddles are likely made of composite materials, and the ball is a small, lightweight plastic ball with a matte finish.\n\n5. The game situation shows a competitive match with a score of 6-0 in favor of the player in the foreground. The match is part of the Carvana Mesa Arizona Cup, a professional pickleball tournament. The player in the foreground is leading the game, indicating a strong performance so far.",
+      "latency_s": 28.4,
+      "tokens": 233
+    },
+    "7": {
+      "thinking": "Analyzing the frame... In this pickleball frame, I see a competitive match in progress. The player in the white shirt and orange shorts is positioned near the NVZ (kitchen) line, ready to react to the ball.",
+      "answer": "In this pickleball frame, I see a competitive match in progress. The player in the white shirt and orange shorts is positioned near the NVZ (kitchen) line, ready to react to the ball. The player in the blue shirt and white shorts is further back, likely having just hit the ball. The ball is not visible in the frame, but its trajectory can be inferred from the players' positions. The player in white appears to be preparing for a dink shot, while the player in blue is in a ready stance, possibly anticipating a return. The court is well-maintained, with clear markings and a net dividing the playing area. The audience in the background adds to the atmosphere of the match. The score indicates that the player in white is leading 6-0, suggesting a dominant performance so far. The rally phase seems to be in transition, with both players actively engaged in the game. There are no visible NVZ violations or close kitchen-line plays in this frame.",
+      "latency_s": 75.9,
+      "tokens": 665
+    }
+  }
+}

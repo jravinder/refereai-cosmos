@@ -113,8 +113,7 @@ except ImportError:
         class ScoringEngine:
             """Minimal scoring engine stub (standalone use).
 
-            Real scoring engines (CricketScorer, TennisScorer, etc.) live
-            in the parent sports-ai repo under scoring/. This stub allows
+            Production scoring engines are separate. This stub allows
             the pipeline to instantiate without them.
             """
 
