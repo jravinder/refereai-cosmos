@@ -81,6 +81,10 @@ function initTypingAnimation() {
 }
 
 function playTyping(el, panel, text) {
+  // Lock panel height before clearing to prevent layout shift
+  const panelBody = panel.querySelector('.reasoning-body');
+  if (panelBody) panelBody.style.minHeight = panelBody.offsetHeight + 'px';
+
   el.textContent = '';
   el.classList.add('typing');
   panel.classList.add('is-typing');
@@ -93,6 +97,9 @@ function playTyping(el, panel, text) {
     if (index >= text.length) {
       el.classList.remove('typing');
       panel.classList.remove('is-typing');
+      // Release height lock
+      const panelBody = panel.querySelector('.reasoning-body');
+      if (panelBody) panelBody.style.minHeight = '';
       return;
     }
 
@@ -333,9 +340,8 @@ function initLiveInference() {
     } else {
       thinkingEl.textContent = thinking || '(no reasoning block)';
       answerEl.textContent = answer;
+      resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
-
-    resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
   // ── Show/hide preview elements ──
