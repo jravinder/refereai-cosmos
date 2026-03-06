@@ -208,9 +208,15 @@ The model works best with:
 - Standard broadcast or courtside camera angles
 - Short video clips (5-10 seconds) for video analysis
 
+## Web-Based Try It Page
+
+The **[Try It](https://refereai-cosmos.vercel.app/try.html)** page lets you connect your own Cosmos endpoint and run inference directly in the browser — no CLI needed. Enter your endpoint URL, pick a sample frame, and see chain-of-thought results.
+
+To use it locally: open `demo/try.html` in your browser and point it at your running Cosmos server.
+
 ## Web Demo
 
-The interactive web demo is live at **[refereai-cosmos.vercel.app](https://refereai-cosmos.vercel.app/)**.
+The full interactive demo is live at **[refereai-cosmos.vercel.app](https://refereai-cosmos.vercel.app/)**.
 
 To run it locally:
 

@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Try It — RefereAI x Cosmos Reason 2</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080810;--bg-raised:#0c0c18;--bg-card:#12122a;
+  --border:#1a1a2e;--text:#f0f0f0;--text-dim:#8888aa;
+  --accent:#00eaff;--accent-dim:rgba(0,234,255,.15);
+  --green:#22c55e;--red:#ef4444;--amber:#f59e0b;
+  --mono:'SF Mono','Cascadia Code','Fira Code',monospace;
+  --sans:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* Layout */
+.container{max-width:960px;margin:0 auto;padding:2rem 1.5rem}
+header{border-bottom:1px solid var(--border);padding:1rem 0;margin-bottom:2rem}
+header .top{display:flex;align-items:center;justify-content:space-between;max-width:960px;margin:0 auto;padding:0 1.5rem}
+header h1{font-size:1.2rem;font-weight:600}
+header h1 span{color:var(--accent)}
+header nav a{margin-left:1.5rem;color:var(--text-dim);font-size:.875rem}
+header nav a:hover{color:var(--text)}
+
+.step{margin-bottom:2.5rem}
+.step-label{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem}
+.step-num{background:var(--accent);color:var(--bg);width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex-shrink:0}
+.step-label h2{font-size:1.15rem;font-weight:600}
+
+/* Endpoint */
+.endpoint-row{display:flex;gap:.5rem;margin-bottom:.75rem}
+.endpoint-row input{flex:1;background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:.6rem 1rem;color:var(--text);font-family:var(--mono);font-size:.875rem;outline:none;transition:border .2s}
+.endpoint-row input:focus{border-color:var(--accent)}
+.btn{background:var(--accent);color:var(--bg);border:none;border-radius:8px;padding:.6rem 1.25rem;font-weight:600;font-size:.875rem;cursor:pointer;transition:opacity .2s;white-space:nowrap}
+.btn:hover{opacity:.85}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent);opacity:1}
+.status{display:flex;align-items:center;gap:.5rem;font-size:.85rem;color:var(--text-dim);min-height:1.5rem}
+.status .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dot-green{background:var(--green)}
+.dot-red{background:var(--red)}
+.dot-amber{background:var(--amber)}
+.dot-gray{background:#444}
+
+/* Setup tabs */
+.tabs{display:flex;gap:0;margin-top:1rem;border-bottom:1px solid var(--border)}
+.tab{padding:.5rem 1rem;font-size:.8rem;color:var(--text-dim);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab-content{display:none;padding:1rem;background:var(--bg-card);border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px}
+.tab-content.active{display:block}
+.tab-content pre{font-family:var(--mono);font-size:.8rem;line-height:1.7;color:#c0c0d0;white-space:pre-wrap;word-break:break-all}
+.tab-content code{color:var(--accent)}
+.copy-btn{float:right;font-size:.7rem;background:var(--bg);border:1px solid var(--border);color:var(--text-dim);padding:.2rem .6rem;border-radius:4px;cursor:pointer}
+.copy-btn:hover{border-color:var(--accent);color:var(--accent)}
+
+/* Samples */
+.samples{display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1rem}
+.sample{width:120px;cursor:pointer;border:2px solid var(--border);border-radius:10px;overflow:hidden;transition:border .2s,transform .15s}
+.sample:hover{border-color:var(--accent);transform:translateY(-2px)}
+.sample.selected{border-color:var(--accent);box-shadow:0 0 12px var(--accent-dim)}
+.sample img{width:100%;height:80px;object-fit:cover;display:block}
+.sample .label{text-align:center;padding:.35rem 0;font-size:.75rem;font-weight:500;background:var(--bg-card)}
+
+.controls{display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem}
+.controls select{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:.5rem .75rem;color:var(--text);font-size:.85rem;outline:none;cursor:pointer}
+.controls select:focus{border-color:var(--accent)}
+.controls label{font-size:.85rem;color:var(--text-dim)}
+
+.preview-area{margin-bottom:1.25rem;text-align:center}
+.preview-area img,.preview-area video{max-width:100%;max-height:320px;border-radius:10px;border:1px solid var(--border)}
+.upload-zone{border:2px dashed var(--border);border-radius:10px;padding:2rem;text-align:center;color:var(--text-dim);cursor:pointer;transition:border .2s;font-size:.85rem;margin-top:.75rem}
+.upload-zone:hover{border-color:var(--accent)}
+.upload-zone input{display:none}
+
+/* Analyze button */
+.analyze-row{text-align:center;margin:1.5rem 0}
+.btn-analyze{font-size:1rem;padding:.75rem 2.5rem;border-radius:10px;background:linear-gradient(135deg,#00eaff,#33eeff);position:relative}
+.btn-analyze:disabled{background:#333}
+
+/* Results */
+.results{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.results-header{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem;background:var(--bg-raised);border-bottom:1px solid var(--border)}
+.results-header span{font-family:var(--mono);font-size:.8rem;color:var(--text-dim)}
+.results-body{padding:1.25rem}
+.result-section{margin-bottom:1.25rem}
+.result-section:last-child{margin-bottom:0}
+.result-label{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:.4rem}
+.result-text{font-family:var(--mono);font-size:.82rem;line-height:1.7;color:#c0c0d0;white-space:pre-wrap;word-break:break-word;max-height:300px;overflow-y:auto;padding:.75rem;background:var(--bg);border-radius:8px}
+.result-text.thinking{border-left:3px solid var(--amber);color:#b0b0c0}
+.result-text.answer{border-left:3px solid var(--green)}
+.stats-row{display:flex;gap:1.5rem;padding:.75rem 1rem;border-top:1px solid var(--border);background:var(--bg-raised);font-size:.8rem;color:var(--text-dim)}
+.stats-row .val{color:var(--text);font-weight:600}
+.hidden{display:none}
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .6s linear infinite;margin-right:.5rem;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+.live-status{text-align:center;color:var(--text-dim);font-size:.875rem;margin:.75rem 0}
+
+/* Footer */
+footer{border-top:1px solid var(--border);padding:1.5rem 0;text-align:center;color:var(--text-dim);font-size:.8rem;margin-top:3rem}
+
+@media(max-width:640px){
+  .samples{gap:.5rem}
+  .sample{width:90px}
+  .sample img{height:60px}
+  .controls{flex-direction:column;align-items:stretch}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="top">
+    <h1>Refere<span>AI</span> — Try Cosmos Reason 2</h1>
+    <nav>
+      <a href="index.html">Demo</a>
+      <a href="broadcast.html">Broadcast</a>
+      <a href="https://github.com/jravinder/refereai-cosmos" target="_blank">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- STEP 1: Connect -->
+  <div class="step">
+    <div class="step-label">
+      <div class="step-num">1</div>
+      <h2>Connect to Cosmos Reason 2</h2>
+    </div>
+    <div class="endpoint-row">
+      <input type="text" id="endpoint" value="http://localhost:8000/v1" placeholder="http://localhost:8000/v1" spellcheck="false">
+      <button class="btn" id="test-btn" onclick="testEndpoint()">Test Connection</button>
+    </div>
+    <div class="status" id="status">
+      <span class="dot dot-gray"></span>
+      <span>Enter your endpoint and click Test</span>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active" onclick="showTab(this,'tab-hf')">HuggingFace (Jetson)</div>
+      <div class="tab" onclick="showTab(this,'tab-vllm')">vLLM</div>
+      <div class="tab" onclick="showTab(this,'tab-edge')">Edge 2B</div>
+      <div class="tab" onclick="showTab(this,'tab-gguf')">GGUF (Mac/CPU)</div>
+    </div>
+    <div class="tab-content active" id="tab-hf">
+      <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
+      <pre><code># Download model (~16GB)
+huggingface-cli download nvidia/Cosmos-Reason2-8B \
+  --local-dir ./models/cosmos-reason2-8b
+
+# Start the server
+python cosmos_server.py --model-path ./models/cosmos-reason2-8b
+# Serves at http://localhost:8000/v1</code></pre>
+    </div>
+    <div class="tab-content" id="tab-vllm">
+      <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
+      <pre><code>pip install vllm
+
+vllm serve nvidia/Cosmos-Reason2-8B \
+  --allowed-local-media-path "$(pwd)" \
+  --max-model-len 16384 \
+  --reasoning-parser qwen3 \
+  --port 8000</code></pre>
+    </div>
+    <div class="tab-content" id="tab-edge">
+      <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
+      <pre><code># INT4 quantized 2B model — runs on 8GB VRAM
+pip install vllm
+
+vllm serve embedl/Cosmos-Reason2-2B-W4A16-Edge2 \
+  --allowed-local-media-path "$(pwd)" \
+  --max-model-len 8192 \
+  --gpu-memory-utilization 0.75 \
+  --port 8000</code></pre>
+    </div>
+    <div class="tab-content" id="tab-gguf">
+      <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
+      <pre><code>brew install llama.cpp
+
+huggingface-cli download prithivMLmods/Cosmos-Reason2-8B-GGUF \
+  Cosmos-Reason2-8B.Q8_0.gguf \
+  Cosmos-Reason2-8B.mmproj-q8_0.gguf \
+  --local-dir ./models
+
+# Note: GGUF uses llama-mtmd-cli directly,
+# not an OpenAI-compatible server.
+# Use demo.py with --endpoint for server-based options.</code></pre>
+    </div>
+  </div>
+
+  <!-- STEP 2: Pick a frame -->
+  <div class="step">
+    <div class="step-label">
+      <div class="step-num">2</div>
+      <h2>Pick a Frame</h2>
+    </div>
+    <div class="samples" id="samples">
+      <div class="sample selected" data-sport="tennis" data-src="samples/tennis.jpg" onclick="selectSample(this)">
+        <img src="samples/tennis.jpg" alt="Tennis" loading="lazy">
+        <div class="label">Tennis</div>
+      </div>
+      <div class="sample" data-sport="cricket" data-src="samples/cricket.jpg" onclick="selectSample(this)">
+        <img src="samples/cricket.jpg" alt="Cricket" loading="lazy">
+        <div class="label">Cricket</div>
+      </div>
+      <div class="sample" data-sport="badminton" data-src="samples/badminton.jpg" onclick="selectSample(this)">
+        <img src="samples/badminton.jpg" alt="Badminton" loading="lazy">
+        <div class="label">Badminton</div>
+      </div>
+      <div class="sample" data-sport="pickleball" data-src="samples/pickleball.jpg" onclick="selectSample(this)">
+        <img src="samples/pickleball.jpg" alt="Pickleball" loading="lazy">
+        <div class="label">Pickleball</div>
+      </div>
+      <div class="sample" data-sport="tabletennis" data-src="samples/tabletennis.jpg" onclick="selectSample(this)">
+        <img src="samples/tabletennis.jpg" alt="Table Tennis" loading="lazy">
+        <div class="label">Table Tennis</div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <div>
+        <label>Sport: </label>
+        <select id="sport">
+          <option value="tennis">Tennis</option>
+          <option value="cricket">Cricket</option>
+          <option value="badminton">Badminton</option>
+          <option value="pickleball">Pickleball</option>
+          <option value="tabletennis">Table Tennis</option>
+        </select>
+      </div>
+      <div>
+        <label>Mode: </label>
+        <select id="mode">
+          <option value="scene">Scene Understanding</option>
+          <option value="physics">Physical Reasoning</option>
+          <option value="commentary">Commentary</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="preview-area" id="preview-area">
+      <img id="preview-img" src="samples/tennis.jpg" alt="Preview">
+    </div>
+
+    <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()">
+      Or drag and drop your own image here (JPG, PNG — max 5MB)
+      <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp" onchange="handleUpload(event)">
+    </div>
+  </div>
+
+  <!-- Analyze button -->
+  <div class="analyze-row">
+    <button class="btn btn-analyze" id="analyze-btn" onclick="analyze()">Analyze with Cosmos Reason 2</button>
+  </div>
+  <div class="live-status hidden" id="live-status"></div>
+
+  <!-- STEP 3: Results -->
+  <div class="step">
+    <div class="step-label">
+      <div class="step-num">3</div>
+      <h2>Results</h2>
+    </div>
+
+    <div class="results hidden" id="results">
+      <div class="results-header">
+        <span id="result-source">cosmos_reason2_output</span>
+        <span id="result-device"></span>
+      </div>
+      <div class="results-body">
+        <div class="result-section">
+          <div class="result-label">Chain-of-Thought Reasoning</div>
+          <div class="result-text thinking" id="r-thinking"></div>
+        </div>
+        <div class="result-section">
+          <div class="result-label">Answer</div>
+          <div class="result-text answer" id="r-answer"></div>
+        </div>
+      </div>
+      <div class="stats-row">
+        <div>Latency: <span class="val" id="r-latency">—</span></div>
+        <div>Tokens: <span class="val" id="r-tokens">—</span></div>
+        <div>Model: <span class="val" id="r-model">—</span></div>
+      </div>
+    </div>
+
+    <div id="results-placeholder" style="text-align:center;color:var(--text-dim);font-size:.9rem;padding:2rem 0">
+      Select a frame and click Analyze to see Cosmos Reason 2 chain-of-thought results.
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <a href="https://github.com/jravinder/refereai-cosmos">RefereAI x Cosmos Reason 2</a> — Built for the <a href="https://luma.com/nvidia-cosmos-cookoff">NVIDIA Cosmos Cookoff</a>
+  </div>
+</footer>
+
+<script>
+// ── State ──
+let connected = false;
+let currentImage = null; // base64
+let currentSport = 'tennis';
+let cachedResults = null;
+
+// Load cached results for fallback
+fetch('samples/frames_cache.json')
+  .then(r => r.json())
+  .then(data => { cachedResults = data; })
+  .catch(() => {});
+
+// ── Tab switching ──
+function showTab(el, id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+function copyBlock(btn) {
+  const pre = btn.parentElement.querySelector('code');
+  navigator.clipboard.writeText(pre.textContent).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1500);
+  });
+}
+
+// ── Endpoint test ──
+async function testEndpoint() {
+  const endpoint = document.getElementById('endpoint').value.trim();
+  const statusEl = document.getElementById('status');
+  const btn = document.getElementById('test-btn');
+  btn.disabled = true;
+  statusEl.innerHTML = '<span class="spinner"></span> Testing connection...';
+
+  try {
+    // Try /health first, then /v1/models
+    const base = endpoint.replace(/\/v1\/?$/, '');
+    let res = await fetch(base + '/health', { signal: AbortSignal.timeout(8000) }).catch(() => null);
+
+    if (!res || !res.ok) {
+      res = await fetch(endpoint + '/models', { signal: AbortSignal.timeout(8000) }).catch(() => null);
+    }
+
+    if (res && res.ok) {
+      const data = await res.json().catch(() => ({}));
+      const model = data.model || (data.data && data.data[0] && data.data[0].id) || 'cosmos-reason2';
+      connected = true;
+      statusEl.innerHTML = `<span class="dot dot-green"></span> Connected — <strong>${model}</strong>`;
+    } else {
+      connected = false;
+      statusEl.innerHTML = '<span class="dot dot-red"></span> Could not connect. Is the server running?';
+    }
+  } catch (e) {
+    connected = false;
+    statusEl.innerHTML = `<span class="dot dot-red"></span> Connection failed: ${e.message || 'timeout'}`;
+  }
+  btn.disabled = false;
+}
+
+// ── Sample selection ──
+function selectSample(el) {
+  document.querySelectorAll('.sample').forEach(s => s.classList.remove('selected'));
+  el.classList.add('selected');
+  const sport = el.dataset.sport;
+  const src = el.dataset.src;
+  currentSport = sport;
+  document.getElementById('sport').value = sport;
+  document.getElementById('preview-img').src = src;
+  currentImage = null; // will load on analyze
+}
+
+// ── File upload ──
+function handleUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) {
+    alert('File too large (max 5MB)');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    const dataUrl = ev.target.result;
+    document.getElementById('preview-img').src = dataUrl;
+    currentImage = dataUrl.split(',')[1]; // base64 part
+    document.querySelectorAll('.sample').forEach(s => s.classList.remove('selected'));
+  };
+  reader.readAsDataURL(file);
+}
+
+// Drag and drop
+const uploadZone = document.getElementById('upload-zone');
+uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.style.borderColor = 'var(--accent)'; });
+uploadZone.addEventListener('dragleave', () => { uploadZone.style.borderColor = ''; });
+uploadZone.addEventListener('drop', e => {
+  e.preventDefault();
+  uploadZone.style.borderColor = '';
+  if (e.dataTransfer.files.length) {
+    document.getElementById('file-input').files = e.dataTransfer.files;
+    handleUpload({ target: { files: e.dataTransfer.files } });
+  }
+});
+
+// ── Load image as base64 ──
+async function getImageBase64() {
+  if (currentImage) return currentImage;
+  const img = document.getElementById('preview-img');
+  const res = await fetch(img.src);
+  const blob = await res.blob();
+  return new Promise(resolve => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(',')[1]);
+    reader.readAsDataURL(blob);
+  });
+}
+
+// ── Sport-specific prompts ──
+const prompts = {
+  scene: {
+    cricket: 'Analyze this cricket frame. Describe the action, player positions, ball trajectory, and any scoring event.',
+    tennis: 'Analyze this tennis frame. Describe the players, court positions, shot type, and ball trajectory.',
+    badminton: 'Analyze this badminton frame. Describe player positions, shuttlecock trajectory, and shot type.',
+    pickleball: 'Analyze this pickleball frame. Describe player positions relative to the kitchen line, shot type, and ball trajectory.',
+    tabletennis: 'Analyze this table tennis frame. Describe the stroke type, spin, and ball position relative to the table.',
+  },
+  physics: {
+    cricket: 'Using physical reasoning, analyze ball trajectory, seam position, swing, bounce angle, and predict where this delivery will end up relative to the stumps.',
+    tennis: 'Using physical reasoning, analyze ball trajectory, spin, speed, and bounce angle. Is the ball in or out based on line proximity?',
+    badminton: 'Using physical reasoning, analyze shuttlecock trajectory, deceleration, and whether it will land in or out of the court boundaries.',
+    pickleball: 'Using physical reasoning, analyze ball trajectory, speed, and whether any kitchen (NVZ) violations are occurring.',
+    tabletennis: 'Using physical reasoning, analyze ball spin from paddle angle, trajectory after bounce, and whether this is an edge ball.',
+  },
+  commentary: {
+    cricket: 'Provide vivid broadcast commentary for this cricket moment. Describe the action as if calling it live on air.',
+    tennis: 'Provide vivid broadcast commentary for this tennis moment. Describe the rally, shot selection, and court positioning as if calling it live.',
+    badminton: 'Provide vivid broadcast commentary for this badminton rally. Describe the shuttle movement and player reactions as if calling it live.',
+    pickleball: 'Provide vivid broadcast commentary for this pickleball point. Describe the strategy and shot selection as if calling it live.',
+    tabletennis: 'Provide vivid broadcast commentary for this table tennis rally. Describe the spin, speed, and player technique as if calling it live.',
+  }
+};
+
+// ── Parse Cosmos response ──
+function parseResponse(data) {
+  const msg = data.choices[0].message;
+  const reasoningContent = msg.reasoning_content || '';
+  const mainContent = msg.content || '';
+  const raw = reasoningContent
+    ? '<think>' + reasoningContent + '</think>' + mainContent
+    : mainContent;
+  const usage = data.usage || {};
+
+  let thinking = '', answer = raw;
+  const firstOpen = raw.indexOf('<think>');
+  if (firstOpen !== -1) {
+    const afterFirst = firstOpen + 7;
+    const closeTag = raw.indexOf('</think>', afterFirst);
+    const secondOpen = raw.indexOf('<think>', afterFirst);
+    let thinkEnd = -1, answerStart = -1;
+
+    if (closeTag !== -1 && (secondOpen === -1 || closeTag < secondOpen)) {
+      thinkEnd = closeTag;
+      answerStart = closeTag + 8;
+    } else if (secondOpen !== -1) {
+      thinkEnd = secondOpen;
+      answerStart = secondOpen + 7;
+    }
+
+    if (thinkEnd !== -1) {
+      thinking = raw.slice(afterFirst, thinkEnd).trim();
+      answer = raw.slice(answerStart).trim();
+    } else {
+      const rest = raw.slice(afterFirst);
+      const splitIdx = rest.search(/\n\n(?=[A-Z*#-])/);
+      if (splitIdx !== -1) {
+        thinking = rest.slice(0, splitIdx).trim();
+        answer = rest.slice(splitIdx).trim();
+      } else {
+        thinking = rest.trim();
+        answer = '';
+      }
+    }
+  }
+
+  const ansMatch = answer.match(/<answer>([\s\S]*?)<\/answer>/);
+  if (ansMatch) answer = ansMatch[1].trim();
+  answer = answer.replace(/<\/?(?:think|answer)>/g, '').trim();
+  thinking = thinking.replace(/<\/?(?:think|answer)>/g, '').trim();
+
+  return { thinking, answer, tokens: usage.total_tokens || '?', model: data.model || 'cosmos-reason2' };
+}
+
+// ── Display results ──
+function showResults(thinking, answer, latency, tokens, model, source) {
+  document.getElementById('results').classList.remove('hidden');
+  document.getElementById('results-placeholder').classList.add('hidden');
+  document.getElementById('r-thinking').textContent = thinking || '(no chain-of-thought in response)';
+  document.getElementById('r-answer').textContent = answer || '(empty answer)';
+  document.getElementById('r-latency').textContent = latency;
+  document.getElementById('r-tokens').textContent = tokens;
+  document.getElementById('r-model').textContent = model;
+  document.getElementById('result-device').textContent = source;
+}
+
+// ── Main analyze ──
+async function analyze() {
+  const btn = document.getElementById('analyze-btn');
+  const statusEl = document.getElementById('live-status');
+  const sport = document.getElementById('sport').value;
+  const mode = document.getElementById('mode').value;
+  const endpoint = document.getElementById('endpoint').value.trim();
+
+  btn.disabled = true;
+  statusEl.classList.remove('hidden');
+
+  // If not connected, try cached results
+  if (!connected) {
+    statusEl.innerHTML = '<span class="spinner"></span> No server connected — loading cached result...';
+
+    if (cachedResults && cachedResults[sport] && cachedResults[sport]['0']) {
+      const c = cachedResults[sport]['0'];
+      setTimeout(() => {
+        showResults(c.thinking, c.answer, c.latency_s + 's', c.tokens, 'cosmos-reason2-8b', 'Pre-cached (Jetson AGX Orin)');
+        statusEl.classList.add('hidden');
+        btn.disabled = false;
+      }, 500);
+      return;
+    } else {
+      statusEl.innerHTML = '<span class="dot dot-red"></span> No server connected and no cached results. Please connect first.';
+      btn.disabled = false;
+      return;
+    }
+  }
+
+  // Live inference
+  try {
+    statusEl.innerHTML = '<span class="spinner"></span> Loading image...';
+    const imageB64 = await getImageBase64();
+
+    statusEl.innerHTML = '<span class="spinner"></span> Sending to Cosmos Reason 2... (this takes 30-90 seconds)';
+    const prompt = prompts[mode][sport] || prompts.scene[sport];
+    const start = performance.now();
+
+    const completionsUrl = endpoint.replace(/\/?$/, '') + '/chat/completions';
+    const res = await fetch(completionsUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'cosmos-reason2',
+        messages: [
+          { role: 'system', content: 'You are RefereAI, an AI sports analyst powered by NVIDIA Cosmos Reason 2. Analyze sports frames with physical reasoning. Output reasoning inside <think></think> tags, then give your final answer.' },
+          { role: 'user', content: [
+            { type: 'text', text: prompt },
+            { type: 'image_url', image_url: { url: 'data:image/jpeg;base64,' + imageB64 } }
+          ]}
+        ],
+        max_tokens: 2048,
+        temperature: 0.3
+      }),
+      signal: AbortSignal.timeout(180000) // 3 min timeout
+    });
+
+    if (!res.ok) {
+      const errText = await res.text().catch(() => '');
+      throw new Error(`HTTP ${res.status}: ${errText.slice(0, 200)}`);
+    }
+
+    const data = await res.json();
+    const elapsed = ((performance.now() - start) / 1000).toFixed(1);
+    const parsed = parseResponse(data);
+
+    showResults(parsed.thinking, parsed.answer, elapsed + 's', parsed.tokens, parsed.model, 'Live inference');
+    statusEl.classList.add('hidden');
+
+  } catch (e) {
+    statusEl.innerHTML = `<span class="dot dot-red"></span> Error: ${e.message}`;
+
+    // Fallback to cached
+    if (cachedResults && cachedResults[sport] && cachedResults[sport]['0']) {
+      const c = cachedResults[sport]['0'];
+      showResults(c.thinking, c.answer, c.latency_s + 's', c.tokens, 'cosmos-reason2-8b', 'Cached fallback (Jetson AGX Orin)');
+    }
+  }
+  btn.disabled = false;
+}
+
+// ── Init: check URL params ──
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  const ep = params.get('endpoint');
+  if (ep) {
+    document.getElementById('endpoint').value = ep;
+    testEndpoint();
+  }
+})();
+</script>
+
+</body>
+</html>
