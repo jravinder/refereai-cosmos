@@ -55,9 +55,6 @@ except ImportError:
         from enum import Enum as _Enum
 
         class VisionProvider(str, _Enum):
-            OLLAMA = "ollama"
-            VILA = "vila"
-            GROQ = "groq"
             COSMOS_REASON2 = "cosmos_reason2"
 
 # --- Scoring engine (optional — pipeline can detect events without scoring) ---
