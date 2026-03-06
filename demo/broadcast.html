@@ -868,6 +868,7 @@
     const sportLabels = {
       tennis: 'Tennis', cricket: 'Cricket', pickleball: 'Pickleball',
       badminton: 'Badminton', tabletennis: 'Table Tennis',
+      cricket_live: 'Cricket Live',
     };
 
     // ── Match metadata for score bug (scores visible in the video clip) ──
@@ -1097,7 +1098,7 @@
 
     // Known YouTube → local clip mappings (enables frame capture for live inference)
     const ytLocalClips = {
-      'WbRmZ1PkTn8': { video: 'samples/cricket_live.mp4', sport: 'cricket', label: 'India v England — T20 WC 2026 Semi-final' },
+      'WbRmZ1PkTn8': { video: 'samples/cricket_live.mp4', sport: 'cricket', label: 'India v England — T20 WC 2026 Semi-final', cacheKey: 'cricket_live' },
     };
 
     document.getElementById('yt-go').addEventListener('click', () => {
@@ -1132,9 +1133,14 @@
           updateScoreBug(local.sport);
         }
         addCommentary(`${local.label} — starting analysis`, true);
-        commentaryText.textContent = `${local.label} \u00b7 Starting live inference...`;
-        // Auto-start live inference after video loads
-        setTimeout(() => { if (!isInferring) runLiveInference(currentSport); }, 500);
+        // If we have pre-cached analysis, show it instantly (great for demos)
+        if (local.cacheKey && framesCache && framesCache[local.cacheKey]) {
+          commentaryText.textContent = `${local.label} \u00b7 Loading cached analysis...`;
+          setTimeout(() => showCachedAnalysis(local.cacheKey), 500);
+        } else {
+          commentaryText.textContent = `${local.label} \u00b7 Starting live inference...`;
+          setTimeout(() => { if (!isInferring) runLiveInference(currentSport); }, 500);
+        }
       } else {
         // Unknown URL — embed as iframe (frame capture won't work)
         showYouTube(id);
