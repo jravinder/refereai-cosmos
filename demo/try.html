@@ -20,12 +20,12 @@ a:hover{text-decoration:underline}
 
 /* Layout */
 .container{max-width:960px;margin:0 auto;padding:2rem 1.5rem}
-header{border-bottom:1px solid var(--border);padding:1rem 0;margin-bottom:2rem}
-header .top{display:flex;align-items:center;justify-content:space-between;max-width:960px;margin:0 auto;padding:0 1.5rem}
-header h1{font-size:1.2rem;font-weight:600}
-header h1 span{color:var(--accent)}
-header nav a{margin-left:1.5rem;color:var(--text-dim);font-size:.875rem}
-header nav a:hover{color:var(--text)}
+.site-nav{border-bottom:1px solid var(--border);padding:0}
+.site-nav-inner{display:flex;align-items:center;justify-content:space-between;max-width:960px;margin:0 auto;padding:0 1.5rem;height:52px}
+.site-nav-logo{font-size:1.2rem;font-weight:600}
+.site-nav-logo span{color:var(--accent)}
+.site-nav nav a{margin-left:1.5rem;color:var(--text-dim);font-size:.875rem}
+.site-nav nav a:hover{color:var(--text)}
 
 .step{margin-bottom:2.5rem}
 .step-label{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem}
@@ -115,12 +115,14 @@ footer{border-top:1px solid var(--border);padding:1.5rem 0;text-align:center;col
 </head>
 <body>
 
-<header>
-  <div class="top">
-    <h1>Refere<span>AI</span> — Try Cosmos Reason 2</h1>
+<header class="site-nav">
+  <div class="site-nav-inner">
+    <h1 class="site-nav-logo">Refere<span>AI</span></h1>
     <nav>
-      <a href="index.html">Demo</a>
+      <a href="index.html">Home</a>
+      <a href="try.html">Try It</a>
       <a href="broadcast.html">Broadcast</a>
+      <a href="results.html">Results</a>
       <a href="https://github.com/jravinder/refereai-cosmos" target="_blank">GitHub</a>
     </nav>
   </div>
