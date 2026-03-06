@@ -4,7 +4,7 @@
 
 Built for the [NVIDIA Cosmos Cookoff](https://luma.com/nvidia-cosmos-cookoff) hackathon.
 
-**[Live Demo](https://refereai-cosmos.vercel.app/)** | **[Broadcast View](https://refereai-cosmos.vercel.app/broadcast.html)** | **[Demo Video](#)** *(coming soon)*
+**[Live Demo](https://refereai-cosmos.vercel.app/)** | **[Broadcast View](https://refereai-cosmos.vercel.app/broadcast.html)** | **[Run the Demo](DEMO.md)** | **[Demo Video](#)** *(coming soon)*
 
 ## What It Does
 
