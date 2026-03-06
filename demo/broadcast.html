@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <title>RefereAI — Live Broadcast View</title>
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-2HQ3NK00HL"></script>
@@ -54,34 +55,12 @@
       align-items: center;
       gap: 12px;
     }
-    .site-nav {
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      padding: 0;
-      background: rgba(8,8,16,0.92);
-      flex-shrink: 0;
-    }
-    .site-nav-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-      height: 52px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .site-nav-logo { font-size: 1.2rem; font-weight: 600; }
-    .site-nav-logo span { color: #00eaff; }
-    .site-nav nav { display: flex; }
-    .site-nav nav a {
-      margin-left: 1.5rem; color: rgba(255,255,255,0.5); font-size: .875rem;
-      text-decoration: none; transition: color 0.2s;
-    }
-    .site-nav nav a:hover { color: #fff; }
+    /* Top bar logo + nav links */
     .logo {
-      font-weight: 800;
-      font-size: 17px;
-      color: var(--accent);
-      letter-spacing: -0.5px;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--text);
+      letter-spacing: -0.3px;
     }
     .live-badge {
       display: flex;
@@ -146,6 +125,27 @@
       padding: 3px 8px;
       border-radius: 3px;
     }
+    .model-select {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--accent);
+      background: var(--accent-dim);
+      padding: 3px 8px;
+      border-radius: 3px;
+      border: 1px solid rgba(0,234,255,0.15);
+      cursor: pointer;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%2300eaff'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 6px center;
+      padding-right: 18px;
+    }
+    .model-select option {
+      background: #111;
+      color: #eee;
+    }
     .yt-input-wrap {
       display: flex;
       align-items: center;
@@ -174,13 +174,29 @@
       border-radius: 4px;
       cursor: pointer;
     }
+    .top-bar-divider {
+      width: 1px;
+      height: 20px;
+      background: rgba(255,255,255,0.12);
+    }
+    .top-bar-nav {
+      display: flex;
+      gap: 12px;
+    }
+    .top-bar-nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 11px;
+      transition: color 0.2s;
+    }
+    .top-bar-nav a:hover { color: #fff; }
 
     /* ── Main 4-Panel Layout ────────────────────── */
     .broadcast {
       flex: 1;
       display: grid;
-      grid-template-columns: 180px 1fr 300px;
-      grid-template-rows: 1fr auto;
+      grid-template-columns: 340px 1fr 300px;
+      grid-template-rows: minmax(0, 1fr);
       gap: 0;
       overflow: hidden;
     }
@@ -188,35 +204,124 @@
     /* ── Left Panel — AI Answer ──────────────────── */
     .left-panel {
       background: var(--surface-solid);
-      border-right: 1px solid var(--border);
+      border-left: 1px solid var(--border);
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      order: 3;
     }
-    .left-header {
-      padding: 12px 14px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+    /* Left panel score card */
+    .left-score-card {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(0,234,255,0.15);
+      background: linear-gradient(135deg, rgba(0,234,255,0.06), transparent);
     }
-    .left-header-label {
-      font-size: 10px;
+    .left-score-badge {
+      font-size: 9px;
+      font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
       color: var(--accent);
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
     }
-    .left-header-label .icon { width: 14px; height: 14px; }
-    .left-headline {
-      font-size: 15px;
+    .left-score-players {
+      font-size: 13px;
       font-weight: 700;
-      line-height: 1.3;
+      line-height: 1.35;
     }
-    .left-detail {
-      font-size: 11px;
+    .left-score-num {
+      font-family: var(--mono);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--accent);
+      margin: 4px 0;
+      letter-spacing: 1px;
+    }
+    .left-score-event {
+      font-size: 10px;
       color: var(--text-muted);
-      margin-top: 4px;
+      line-height: 1.4;
+    }
+    /* Left panel commentary */
+    .left-commentary {
+      flex: 1;
+      min-height: 0;
+      padding: 10px 14px;
+      overflow-y: scroll;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(0,234,255,0.2) transparent;
+    }
+    .left-commentary::-webkit-scrollbar { width: 6px; }
+    .left-commentary::-webkit-scrollbar-track { background: transparent; }
+    .left-commentary::-webkit-scrollbar-thumb { background: rgba(0,234,255,0.2); border-radius: 3px; }
+    .left-commentary::-webkit-scrollbar-thumb:hover { background: rgba(0,234,255,0.4); }
+    .left-commentary-label {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--green);
+      margin-bottom: 6px;
+    }
+    .left-commentary-log {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .commentary-entry {
+      font-size: 11.5px;
+      line-height: 1.5;
+      color: var(--text);
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      animation: fadeIn 0.4s ease forwards;
+      opacity: 0;
+    }
+    .commentary-entry:last-child { border-bottom: none; }
+    .commentary-entry .commentary-time {
+      font-family: var(--mono);
+      font-size: 9px;
+      color: var(--text-muted);
+      margin-right: 6px;
+    }
+    .commentary-entry.commentary-status {
+      color: var(--text-muted);
+      font-size: 10px;
+      font-style: italic;
+    }
+    .audio-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .audio-btn {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: all 0.2s;
+    }
+    .audio-btn:hover { color: var(--accent); border-color: rgba(0,234,255,0.3); }
+    .audio-btn.active { color: var(--accent); background: var(--accent-dim); border-color: rgba(0,234,255,0.3); }
+    .audio-label {
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+    .left-commentary-text {
+      font-size: 12px;
+      line-height: 1.55;
+      color: var(--text);
     }
 
     /* Inference stats row */
@@ -246,38 +351,9 @@
       margin-top: 2px;
     }
 
-    /* Answer content in left panel */
-    .left-answer {
-      flex: 1;
-      overflow-y: auto;
-      padding: 8px 10px;
-      scrollbar-width: thin;
-      scrollbar-color: rgba(0,234,255,0.2) transparent;
-    }
-    .left-answer-content {
-      font-size: 12px;
-      line-height: 1.6;
-      color: var(--text);
-      white-space: pre-wrap;
-    }
-    .left-answer-content strong { color: var(--accent); }
+    /* (left-answer removed — answer now in right panel) */
 
 
-    /* Hardware badge */
-    .hw-badge {
-      padding: 10px 14px;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      flex-shrink: 0;
-    }
-    .hw-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 3px 0;
-      font-size: 11px;
-    }
-    .hw-row .hw-label { color: var(--text-muted); }
-    .hw-row .hw-val { font-family: var(--mono); font-size: 10px; color: var(--text); }
 
     /* ── Center — Video Area ────────────────────── */
     .video-area {
@@ -287,6 +363,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      order: 2;
     }
     .video-area video,
     .video-area img {
@@ -303,8 +380,8 @@
     /* Score Bug overlay */
     .score-bug {
       position: absolute;
-      top: 12px;
-      left: 12px;
+      bottom: 40px;
+      right: 12px;
       background: rgba(0, 0, 0, 0.85);
       backdrop-filter: blur(16px);
       border: 1px solid var(--border);
@@ -338,30 +415,6 @@
       color: var(--text-muted);
       margin-top: 3px;
     }
-
-    /* Latency pills overlay */
-    .latency-bug {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      display: flex;
-      gap: 8px;
-      z-index: 5;
-    }
-    .latency-pill {
-      background: var(--surface);
-      backdrop-filter: blur(16px);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 5px 10px;
-      font-family: var(--mono);
-      font-size: 11px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .latency-pill .label { color: var(--text-muted); font-size: 9px; }
-    .latency-pill .value { color: var(--accent); font-weight: 600; }
 
     .cosmos-watermark {
       position: absolute;
@@ -416,110 +469,81 @@
       border: 1px solid rgba(245, 158, 11, 0.3);
     }
 
-    /* ── Right Panel — Score + Commentary + CoT ──── */
+    /* ── Right Panel — Answer + CoT together ──── */
     .analysis-panel {
       background: var(--surface-solid);
-      border-left: 1px solid var(--border);
+      border-right: 1px solid var(--border);
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      min-height: 0;
+      order: 1;
     }
-
-    /* Primary: Score Card */
-    .right-score-card {
-      padding: 14px;
-      border-bottom: 1px solid rgba(0,234,255,0.15);
-      background: linear-gradient(135deg, rgba(0,234,255,0.06), transparent);
-    }
-    .rsc-badge {
-      font-size: 9px;
+    .right-panel-header {
+      padding: 10px 16px;
+      font-size: 10px;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 1.5px;
       color: var(--accent);
-      margin-bottom: 6px;
-    }
-    .rsc-players {
-      font-size: 15px;
-      font-weight: 700;
-      line-height: 1.3;
-    }
-    .rsc-score {
-      font-family: var(--mono);
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--accent);
-      margin: 4px 0;
-      letter-spacing: 1px;
-    }
-    .rsc-event {
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    /* Primary: Commentary */
-    .right-commentary {
-      padding: 12px 14px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    .rc-label {
-      font-size: 9px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--green);
-      margin-bottom: 6px;
-    }
-    .rc-text {
-      font-size: 12px;
-      line-height: 1.5;
-      color: var(--text);
-    }
-
-    /* Secondary: CoT header */
-    .right-cot-header {
-      padding: 8px 14px;
-      font-size: 9px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text-muted);
-      border-bottom: 1px solid rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(0,234,255,0.15);
+      background: linear-gradient(135deg, rgba(0,234,255,0.06), transparent);
       display: flex;
       align-items: center;
-      gap: 6px;
+      justify-content: space-between;
       flex-shrink: 0;
     }
-
-    .panel-section {
-      padding: 12px 14px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    .panel-label {
+    .right-panel-frame {
       font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--accent);
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      font-weight: 600;
+      color: var(--text-muted);
+      font-family: var(--mono);
     }
-    .panel-label .icon { width: 14px; height: 14px; }
-    .thinking-section {
+    .right-scroll {
       flex: 1;
-      overflow-y: auto;
-      padding: 12px 14px;
+      min-height: 0;
+      overflow-y: scroll;
       scrollbar-width: thin;
       scrollbar-color: rgba(0,234,255,0.2) transparent;
     }
-    .thinking-section .panel-label { margin-bottom: 10px; }
+    .right-scroll::-webkit-scrollbar { width: 6px; }
+    .right-scroll::-webkit-scrollbar-track { background: transparent; }
+    .right-scroll::-webkit-scrollbar-thumb { background: rgba(0,234,255,0.2); border-radius: 3px; }
+    .right-scroll::-webkit-scrollbar-thumb:hover { background: rgba(0,234,255,0.4); }
+    .right-section {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .right-section-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+    }
+    .right-section-label.answer-label {
+      color: var(--green);
+      border-bottom: 1px solid rgba(52,211,153,0.15);
+    }
+    .right-section-label.cot-label {
+      color: #f59e0b;
+      border-bottom: 1px solid rgba(245,158,11,0.15);
+    }
+    .right-answer-content {
+      font-size: 12.5px;
+      line-height: 1.65;
+      color: var(--text);
+      transition: opacity 0.3s;
+    }
+    .right-answer-content strong { color: var(--accent); }
     .thinking-content {
       font-family: var(--mono);
-      font-size: 10.5px;
-      line-height: 1.65;
+      font-size: 11px;
+      line-height: 1.7;
       color: rgba(255,255,255,0.6);
       white-space: pre-wrap;
+      transition: opacity 0.3s;
     }
     .cursor-blink::after {
       content: '\25CA';
@@ -589,12 +613,11 @@
     .model-info-row .mi-label { color: var(--text-muted); }
     .model-info-row .mi-val { font-family: var(--mono); font-size: 10px; color: var(--text); }
 
-    /* ── Bottom — Commentary Ticker ──────────────── */
+    /* ── Commentary Ticker — top center bar ──────── */
     .commentary-bar {
-      grid-column: 1 / -1;
       background: var(--surface-solid);
-      border-top: 1px solid var(--border);
-      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+      padding: 6px 16px;
       display: flex;
       align-items: center;
       gap: 12px;
@@ -666,21 +689,10 @@
 </head>
 <body>
 
-  <header class="site-nav">
-    <div class="site-nav-inner">
-      <h1 class="site-nav-logo">Refere<span>AI</span></h1>
-      <nav>
-        <a href="index.html">Home</a>
-        <a href="try.html">Try It</a>
-        <a href="broadcast.html">Broadcast</a>
-        <a href="https://github.com/jravinder/refereai-cosmos" target="_blank">GitHub</a>
-      </nav>
-    </div>
-  </header>
-
   <!-- Top Bar -->
   <div class="top-bar">
     <div class="top-bar-left">
+      <span class="logo">Refere<span style="color:var(--accent)">AI</span></span>
       <span class="live-badge"><span class="live-dot"></span> LIVE</span>
     </div>
     <div class="sport-tabs" id="sport-tabs">
@@ -695,61 +707,60 @@
         <input class="yt-input" id="yt-url" type="text" placeholder="Paste YouTube URL..." />
         <button class="yt-btn" id="yt-go">Stream</button>
       </div>
-      <button class="yt-btn" id="reanalyze-btn" title="Run live inference on Jetson AGX Orin (slow ~15-40s)" style="background: var(--green); position: relative;">Live Inference</button>
-      <span class="model-tag">cosmos-reason2-8b</span>
+      <button class="yt-btn" id="reanalyze-btn" style="background: var(--green); position: relative;">Analyze</button>
+      <span class="model-tag">Cosmos Reason 2-8B</span>
+      <span class="model-tag" style="background:rgba(255,255,255,0.06);color:var(--text-muted);">Jetson AGX Orin</span>
+      <span class="top-bar-divider"></span>
+      <nav class="top-bar-nav">
+        <a href="index.html">Home</a>
+        <a href="try.html">Try It</a>
+        <a href="https://github.com/jravinder/refereai-cosmos" target="_blank">GitHub</a>
+      </nav>
     </div>
+  </div>
+
+  <!-- Commentary Ticker — top center -->
+  <div class="commentary-bar">
+    <span class="commentary-label">RefereAI</span>
+    <span class="commentary-text" id="commentary-text">Select a sport to watch AI-powered analysis in real time.</span>
+    <span class="powered-by"><span>&#9679;</span> Powered by RefereAI &middot; Cosmos Reason 2 on Jetson AGX Orin</span>
   </div>
 
   <!-- 4-Panel Broadcast Layout -->
   <div class="broadcast">
 
-    <!-- LEFT — AI Analysis (real Cosmos output) -->
+    <!-- LEFT — Score + Stats -->
     <div class="left-panel">
-      <div class="left-header" id="left-header">
-        <div class="left-header-label">
-          <svg class="icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="10" height="10" rx="2"/><path d="M5 7h4M7 5v4"/></svg>
-          RefereAI Analysis
-          <span class="inference-source" id="inference-source"></span>
-        </div>
-        <div class="left-headline" id="left-headline"></div>
-        <div class="left-detail" id="left-detail"></div>
+      <div class="left-score-card">
+        <div class="left-score-badge">RefereAI <span class="inference-source" id="inference-source"></span></div>
+        <div class="left-score-players" id="rsc-players-left"></div>
+        <div class="left-score-num" id="rsc-score-left"></div>
+        <div class="left-score-event" id="rsc-event-left"></div>
       </div>
 
-      <div class="inference-stats">
-        <div class="inf-stat">
-          <div class="val" id="stat-latency">--</div>
-          <div class="lbl">Latency</div>
-        </div>
-        <div class="inf-stat">
-          <div class="val" id="stat-tokens">--</div>
-          <div class="lbl">Tokens</div>
-        </div>
-        <div class="inf-stat">
-          <div class="val">Orin</div>
-          <div class="lbl">Device</div>
-        </div>
-      </div>
+      <!-- stats moved to right panel -->
 
       <div class="processing-badge" id="left-processing">
         <div class="processing-spinner"></div>
         <span class="processing-text">Processing</span>
-        <span class="processing-detail" id="left-proc-status">Waiting for CoT...</span>
+        <span class="processing-detail" id="left-proc-status">Waiting...</span>
       </div>
 
-      <div class="hw-badge">
-        <div class="hw-row">
-          <span class="hw-label">Hardware</span>
-          <span class="hw-val">Jetson AGX Orin 64GB</span>
-        </div>
-        <div class="hw-row">
-          <span class="hw-label">Model</span>
-          <span class="hw-val">Cosmos-Reason2-8B</span>
-        </div>
-        <div class="hw-row">
-          <span class="hw-label">Backend</span>
-          <span class="hw-val">HuggingFace Transformers</span>
-        </div>
+      <div class="left-commentary">
+        <div class="left-commentary-label">AI Commentary</div>
+        <div class="left-commentary-log" id="left-commentary-log"></div>
       </div>
+
+      <div class="audio-controls" id="audio-controls">
+        <button class="audio-btn" id="audio-toggle" title="Read commentary aloud">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <path id="audio-waves" d="M15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14"/>
+          </svg>
+        </button>
+        <span class="audio-label" id="audio-label">Read aloud</span>
+      </div>
+
     </div>
 
     <!-- CENTER — Video -->
@@ -767,70 +778,44 @@
         <div class="score-bug-detail" id="bug-detail"></div>
       </div>
 
-      <div class="latency-bug">
-        <div class="latency-pill">
-          <span class="label">Latency</span>
-          <span class="value" id="bug-latency">--</span>
-        </div>
-        <div class="latency-pill">
-          <span class="label">Tokens</span>
-          <span class="value" id="bug-tokens">--</span>
-        </div>
-      </div>
-
       <div class="source-badge" id="source-badge">Sample clip</div>
       <div class="cosmos-watermark">Powered by RefereAI &middot; NVIDIA Cosmos Reason 2 &middot; Jetson AGX Orin</div>
     </div>
 
-    <!-- RIGHT — RefereAI Output (primary) + Reasoning (secondary) -->
+    <!-- RIGHT — Answer + Chain-of-Thought (scrollable together) -->
     <div class="analysis-panel">
 
-      <!-- PRIMARY: Score + Commentary -->
-      <div class="right-score-card" id="right-score-card">
-        <div class="rsc-badge">RefereAI</div>
-        <div class="rsc-players" id="rsc-players">--</div>
-        <div class="rsc-score" id="rsc-score">--</div>
-        <div class="rsc-event" id="rsc-event"></div>
+      <div class="right-panel-header">
+        <span>RefereAI Analysis</span>
+        <span class="right-panel-frame" id="right-proc-status"></span>
       </div>
 
-      <div class="right-commentary" id="right-commentary">
-        <div class="rc-label">AI Commentary</div>
-        <div class="rc-text" id="rc-text">Analyzing frame...</div>
+      <div class="inference-stats">
+        <div class="inf-stat">
+          <div class="val" id="stat-latency">--</div>
+          <div class="lbl">Latency</div>
+        </div>
+        <div class="inf-stat">
+          <div class="val" id="stat-tokens">--</div>
+          <div class="lbl">Tokens</div>
+        </div>
+        <div class="inf-stat">
+          <div class="val">Orin</div>
+          <div class="lbl">Device</div>
+        </div>
       </div>
 
       <div class="processing-badge" id="right-processing">
         <div class="processing-spinner"></div>
         <span class="processing-text">Cosmos Reasoning</span>
-        <span class="processing-detail" id="right-proc-status">Step 0/5</span>
+        <span class="processing-detail" id="right-proc-detail">Step 0/5</span>
       </div>
 
-      <!-- SECONDARY: Chain-of-Thought -->
-      <div class="right-cot-header">
-        <svg class="icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" style="width:12px;height:12px;"><circle cx="7" cy="7" r="5.5"/><path d="M7 4v3.5l2.5 1.5"/></svg>
-        Chain-of-Thought
-      </div>
-      <div class="thinking-section" id="thinking-section">
-        <div class="thinking-content" id="thinking-text"></div>
-      </div>
-
-      <div class="model-info">
-        <div class="model-info-row">
-          <span class="mi-label">Model</span>
-          <span class="mi-val">Cosmos-Reason2-8B</span>
-        </div>
-        <div class="model-info-row">
-          <span class="mi-label">Hardware</span>
-          <span class="mi-val">Jetson AGX Orin 64GB</span>
-        </div>
+      <div class="right-scroll">
+        <!-- Frame cards appended here dynamically -->
       </div>
     </div>
 
-    <!-- BOTTOM — Commentary Ticker -->
-    <div class="commentary-bar">
-      <span class="commentary-label">RefereAI</span>
-      <span class="commentary-text" id="commentary-text">Select a sport to watch AI-powered analysis in real time.</span>
-      <span class="powered-by"><span>&#9679;</span> Powered by RefereAI &middot; Cosmos Reason 2 on Jetson AGX Orin</span>
-    </div>
 
   </div>
 
@@ -848,6 +833,10 @@
       || (isLocal
         ? 'http://192.168.4.124:8000/v1/chat/completions'
         : '/api/cosmos');
+    function getModelConfig() {
+      return { model: 'cosmos-reason2', label: 'Cosmos Reason 2-8B' };
+    }
+    function getCosmosUrl() { return COSMOS_URL; }
     const API_KEY = 'sk-admin-239d6633e1bd990e63c288070575bec1';
 
     // ── Sport-specific prompts (real prompts used for inference) ──
@@ -937,23 +926,75 @@
     const bugEvent = document.getElementById('bug-event');
     const bugScore = document.getElementById('bug-score');
     const bugDetail = document.getElementById('bug-detail');
-    const bugLatency = document.getElementById('bug-latency');
-    const bugTokens = document.getElementById('bug-tokens');
-    const rscPlayers = document.getElementById('rsc-players');
-    const rscScore = document.getElementById('rsc-score');
-    const rscEvent = document.getElementById('rsc-event');
-    const rcText = document.getElementById('rc-text');
-    const thinkingText = document.getElementById('thinking-text');
+    const rscPlayers = document.getElementById('rsc-players-left');
+    const rscScore = document.getElementById('rsc-score-left');
+    const rscEvent = document.getElementById('rsc-event-left');
+    const leftCommentaryLog = document.getElementById('left-commentary-log');
+    // Running commentary — appends a new line to the left panel log
+    function addCommentary(text, isStatus) {
+      const entry = document.createElement('div');
+      entry.className = 'commentary-entry' + (isStatus ? ' commentary-status' : '');
+      const now = new Date();
+      const ts = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      entry.innerHTML = `<span class="commentary-time">${ts}</span>${text}`;
+      leftCommentaryLog.appendChild(entry);
+      // Keep max 30 entries
+      while (leftCommentaryLog.children.length > 30) leftCommentaryLog.removeChild(leftCommentaryLog.firstChild);
+      leftCommentaryLog.parentElement.scrollTop = leftCommentaryLog.parentElement.scrollHeight;
+      // Speak if TTS enabled
+      if (typeof speakCommentary === 'function') speakCommentary(text);
+    }
+    function clearCommentary() { leftCommentaryLog.innerHTML = ''; }
+
+    // ── Text-to-Speech for AI Commentary ──
+    let ttsEnabled = false;
+    const ttsQueue = [];
+    let ttsSpeaking = false;
+    const audioToggle = document.getElementById('audio-toggle');
+    const audioLabel = document.getElementById('audio-label');
+
+    audioToggle.addEventListener('click', () => {
+      ttsEnabled = !ttsEnabled;
+      audioToggle.classList.toggle('active', ttsEnabled);
+      audioLabel.textContent = ttsEnabled ? 'Speaking' : 'Read aloud';
+      if (!ttsEnabled) {
+        speechSynthesis.cancel();
+        ttsQueue.length = 0;
+        ttsSpeaking = false;
+      }
+    });
+
+    function speakCommentary(text) {
+      if (!ttsEnabled || !text || text.length < 10) return;
+      ttsQueue.push(text);
+      processQueue();
+    }
+    function processQueue() {
+      if (ttsSpeaking || ttsQueue.length === 0) return;
+      ttsSpeaking = true;
+      const text = ttsQueue.shift();
+      const utt = new SpeechSynthesisUtterance(text);
+      utt.rate = 1.1;
+      utt.pitch = 1.0;
+      // Prefer a clear English voice
+      const voices = speechSynthesis.getVoices();
+      const preferred = voices.find(v => v.name.includes('Samantha') || v.name.includes('Daniel') || v.name.includes('Google'));
+      if (preferred) utt.voice = preferred;
+      utt.onend = () => { ttsSpeaking = false; processQueue(); };
+      utt.onerror = () => { ttsSpeaking = false; processQueue(); };
+      speechSynthesis.speak(utt);
+    }
+    // Load voices
+    speechSynthesis.onvoiceschanged = () => {};
+
     const commentaryText = document.getElementById('commentary-text');
     const statLatency = document.getElementById('stat-latency');
     const statTokens = document.getElementById('stat-tokens');
-    const leftHeadline = document.getElementById('left-headline');
-    const leftDetail = document.getElementById('left-detail');
     const sourceBadge = document.getElementById('source-badge');
     const leftProc = document.getElementById('left-processing');
     const leftProcStatus = document.getElementById('left-proc-status');
     const rightProc = document.getElementById('right-processing');
-    const rightProcStatus = document.getElementById('right-proc-status');
+    const rightProcStatus = document.getElementById('right-proc-detail');
     const inferenceSource = document.getElementById('inference-source');
 
     function setSourceBadge(type) {
@@ -971,6 +1012,7 @@
 
     let currentTyping = null;
     let currentSport = 'tennis';
+    let youtubeActive = false;
     let isInferring = false;
 
     // ── Processing indicators ──
@@ -1053,9 +1095,53 @@
       return null;
     }
 
+    // Known YouTube → local clip mappings (enables frame capture for live inference)
+    const ytLocalClips = {
+      'WbRmZ1PkTn8': { video: 'samples/cricket_live.mp4', sport: 'cricket', label: 'India v England — T20 WC 2026 Semi-final' },
+    };
+
     document.getElementById('yt-go').addEventListener('click', () => {
-      const id = parseYouTubeId(document.getElementById('yt-url').value.trim());
-      if (id) { showYouTube(id); sourceBadge.textContent = 'YouTube stream'; }
+      const url = document.getElementById('yt-url').value.trim();
+      const id = parseYouTubeId(url);
+      if (!id) return;
+
+      // Clear cached analysis
+      if (cacheInterval) { clearInterval(cacheInterval); cacheInterval = null; }
+      setSourceBadge(null);
+      const scroll = document.querySelector('.right-scroll');
+      if (scroll) scroll.innerHTML = '<div style="padding:14px 16px;color:var(--text-muted);font-size:12px;">Video loaded. Click <strong>Live Inference</strong> to analyze with Cosmos Reason 2.</div>';
+      clearCommentary();
+
+      const local = ytLocalClips[id];
+      if (local) {
+        // Play as local video — frame capture works!
+        youtubeActive = false;
+        ytEl.style.display = 'none'; ytEl.src = '';
+        imgEl.style.display = 'none';
+        videoEl.style.display = 'block';
+        videoEl.src = local.video;
+        videoEl.load();
+        videoEl.play().catch(() => {});
+        sourceBadge.textContent = local.label;
+        // Switch to the matching sport tab
+        if (local.sport) {
+          currentSport = local.sport;
+          document.querySelectorAll('.sport-tab').forEach(t => {
+            t.classList.toggle('active', t.dataset.sport === local.sport);
+          });
+          updateScoreBug(local.sport);
+        }
+        addCommentary(`${local.label} — starting analysis`, true);
+        commentaryText.textContent = `${local.label} \u00b7 Starting live inference...`;
+        // Auto-start live inference after video loads
+        setTimeout(() => { if (!isInferring) runLiveInference(currentSport); }, 500);
+      } else {
+        // Unknown URL — embed as iframe (frame capture won't work)
+        showYouTube(id);
+        sourceBadge.textContent = 'YouTube stream';
+        addCommentary('YouTube stream loaded — click Live Inference (uses sample image)', true);
+        commentaryText.textContent = 'YouTube stream \u00b7 Click Live Inference to analyze';
+      }
     });
     document.getElementById('yt-url').addEventListener('keydown', (e) => {
       if (e.key === 'Enter') document.getElementById('yt-go').click();
@@ -1066,11 +1152,22 @@
       imgEl.style.display = 'none';
       ytEl.style.display = 'block';
       ytEl.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&controls=1&modestbranding=1&rel=0&playlist=${videoId}`;
+      youtubeActive = true;
     }
 
     function showSportYouTube(sport) {
       const ytId = sportYouTube[sport];
-      if (ytId) { showYouTube(ytId); sourceBadge.textContent = 'YouTube \u2022 Official channel'; }
+      if (ytId) {
+        showYouTube(ytId);
+        sourceBadge.textContent = 'YouTube \u2022 Official channel';
+        if (cacheInterval) { clearInterval(cacheInterval); cacheInterval = null; }
+        setSourceBadge(null);
+        const scroll = document.querySelector('.right-scroll');
+        if (scroll) scroll.innerHTML = '<div style="padding:14px 16px;color:var(--text-muted);font-size:12px;">YouTube stream loaded. Click <strong>Live Inference</strong> to analyze.</div>';
+        clearCommentary();
+        addCommentary('YouTube stream loaded — ready for live inference', true);
+        commentaryText.textContent = 'YouTube stream \u00b7 Click Live Inference to analyze';
+      }
     }
 
     // ── Helpers ──
@@ -1078,7 +1175,7 @@
       const m = answer.match(/\*\*(.+?)\*\*/);
       if (m) { const p = m[1].split('\u2014').map(s => s.trim()); return { event: p[0]||'', detail: p[1]||'' }; }
       const first = answer.split('\n')[0].replace(/[*#]/g, '').trim();
-      return { event: first.slice(0, 40), detail: '' };
+      return { event: first, detail: '' };
     }
 
     function formatAnswer(answer) {
@@ -1092,19 +1189,20 @@
         .replace(/\*\*/g, '')
         .split(/[.\n]/)
         .map(s => s.replace(/^\d+[\.\)\s]+/, '').trim())
-        .filter(s => s.length > 15 && s.length < 150);
-      // Action keywords — pick the sentence most about what's HAPPENING
-      const actionWords = ['serve','return','rally','hit','strike','shot','swing','toss','bounce','play','run','catch','smash','drive','block','spin','drop','volley','dink','clear','loop','chop','pitch','bowl','field','defend','score','point','game','set','match','leading','winning','fault'];
+        .filter(s => s.length > 15 && s.length < 120);
+      const actionWords = ['serve','return','rally','hit','strike','shot','swing','toss','bounce','play','run','catch','smash','drive','block','spin','drop','volley','dink','clear','loop','chop','pitch','bowl','field','defend','score','point','game','set','match','leading','winning','fault','ball','net','baseline','court'];
       let best = '', bestScore = 0;
       for (const s of sentences) {
         const lower = s.toLowerCase();
-        // Skip boring sentences
         if (lower.startsWith('the sport being played') || lower.startsWith('visible equipment') || lower.startsWith('the players are also')) continue;
         let score = 0;
         for (const w of actionWords) { if (lower.includes(w)) score++; }
         if (score > bestScore) { bestScore = score; best = s; }
       }
-      return best || sentences[0] || 'Analyzing...';
+      let result = best || sentences[0] || 'Analyzing...';
+      // Keep it punchy — max 80 chars
+      if (result.length > 80) result = result.slice(0, 77) + '...';
+      return result;
     }
 
     function randInt(a, b) { return Math.floor(Math.random() * (b - a + 1)) + a; }
@@ -1146,21 +1244,18 @@
 
       // Reset UI
       setSourceBadge(null);
-      rcText.textContent = 'Analyzing frame...';
-      thinkingText.textContent = '';
-      leftHeadline.textContent = 'Analyzing...';
-      leftDetail.textContent = '';
+      addCommentary('Analyzing...', true);
+      const scroll = document.querySelector('.right-scroll');
+      scroll.innerHTML = '<div style="padding:14px 16px;color:var(--text-muted);font-size:12px;">Waiting for live inference...</div>';
       bugSport.textContent = label;
       bugEvent.textContent = 'Analyzing...';
       bugDetail.textContent = '';
-      bugLatency.textContent = '--';
-      bugTokens.textContent = '--';
       statLatency.textContent = '--';
       statTokens.textContent = '--';
 
       // Show processing
       showProcessing(true);
-      leftProcStatus.textContent = 'Capturing frame...';
+      leftProcStatus.textContent = 'Capturing...';
       rightProcStatus.textContent = 'Connecting...';
 
       commentaryText.textContent = '';
@@ -1185,12 +1280,12 @@
       // Build request
       leftProcStatus.textContent = 'Sending to Jetson...';
       rightProcStatus.textContent = 'Waiting for GPU...';
-      commentaryText.textContent = `Sending ${label} frame to Cosmos Reason 2-8B on Jetson AGX Orin (64GB)...`;
+      commentaryText.textContent = `Sending to ${getModelConfig().label} on Jetson AGX Orin...`;
 
       const systemPrompt = `You are RefereAI, an expert ${label} umpire powered by NVIDIA Cosmos Reason 2. You ONLY analyze sports content. Analyze the image using physical reasoning about ball trajectories, player positions, and game rules. First reason step-by-step inside <think> tags about the physics, trajectories, and rules. Then give your final structured analysis after the </think> tag.`;
 
       const payload = {
-        model: 'cosmos-reason2',
+        model: getModelConfig().model,
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: [
@@ -1214,12 +1309,11 @@
       const elapsedInterval = setInterval(() => {
         const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
         rightProcStatus.textContent = `Inferring... ${elapsed}s`;
-        bugLatency.textContent = elapsed + 's';
         statLatency.textContent = elapsed + 's';
       }, 500);
 
       try {
-        const response = await fetch(COSMOS_URL, {
+        const response = await fetch(getCosmosUrl(), {
           method: 'POST',
           headers,
           body: JSON.stringify(payload),
@@ -1249,12 +1343,9 @@
         const headline = extractHeadline(parsed.answer);
 
         // Update stats with real data
-        bugLatency.textContent = elapsed + 's';
-        bugTokens.textContent = totalTokens.toLocaleString();
         statLatency.textContent = elapsed + 's';
         statTokens.textContent = totalTokens.toLocaleString();
-        leftHeadline.textContent = headline.event;
-        leftDetail.textContent = headline.detail;
+        // headline shown in score bug overlay
         bugEvent.textContent = headline.event;
         bugDetail.textContent = headline.detail;
 
@@ -1265,21 +1356,35 @@
         const meta = data._refereai || {};
         console.log(`[RefereAI LIVE] sport=${sport} latency=${elapsed}s tokens=${totalTokens} request_id=${meta.request_id || 'local'} source=${meta.source || 'direct'}`);
 
-        // Type out the real chain-of-thought
+        // Build live card in the scroll panel
         leftProcStatus.textContent = 'Reasoning...';
         rightProcStatus.textContent = 'Streaming...';
         commentaryText.textContent = `LIVE on Jetson AGX Orin (${elapsed}s, ${totalTokens} tokens) — streaming reasoning...`;
 
-        typeText(thinkingText, parsed.thinking, 12, () => {
-          showProcessing(false);
-          rcText.textContent = extractCommentary(parsed.answer);
-          commentaryText.classList.remove('typing');
-          commentaryText.textContent = `[LIVE] ${headline.event}${headline.detail ? ' \u2014 ' + headline.detail : ''} (${elapsed}s on Jetson AGX Orin)`;
-          isInferring = false;
-        }, (step) => {
-          rightProcStatus.textContent = `Step ${step}`;
-          leftProcStatus.textContent = `Step ${step}`;
-        });
+        const scroll = document.querySelector('.right-scroll');
+        scroll.innerHTML = '';
+        const liveCard = document.createElement('div');
+        liveCard.style.cssText = 'padding:14px 16px;animation:fadeIn 0.5s ease forwards;';
+        liveCard.innerHTML = `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+            <span style="font-size:11px;font-weight:700;color:#22c55e;">LIVE \u00b7 ${label}</span>
+            <span style="font-family:var(--mono);font-size:9px;color:var(--text-muted);">${elapsed}s \u00b7 ${totalTokens} tok</span>
+          </div>
+          <div class="live-answer" style="font-size:12px;line-height:1.6;color:var(--text);margin-bottom:10px;"></div>
+          <details style="margin-top:6px;">
+            <summary style="font-size:9px;color:var(--text-muted);cursor:pointer;user-select:none;">Show reasoning</summary>
+            <div class="live-thinking" style="font-family:var(--mono);font-size:10px;line-height:1.6;color:rgba(255,255,255,0.4);white-space:pre-wrap;margin-top:6px;padding:8px;background:rgba(255,255,255,0.02);border-radius:4px;border-left:2px solid rgba(245,158,11,0.25);max-height:180px;overflow-y:auto;"></div>
+          </details>`;
+        scroll.appendChild(liveCard);
+        // Show results instantly — no typing animation
+        const liveThinkingEl = liveCard.querySelector('.live-thinking');
+        const liveAnswerEl = liveCard.querySelector('.live-answer');
+        liveAnswerEl.innerHTML = formatAnswer(parsed.answer);
+        liveThinkingEl.textContent = parsed.thinking;
+        showProcessing(false);
+        addCommentary(extractCommentary(parsed.answer));
+        commentaryText.classList.remove('typing');
+        commentaryText.textContent = `[LIVE] ${headline.event}${headline.detail ? ' \u2014 ' + headline.detail : ''} (${elapsed}s on Jetson AGX Orin)`;
+        isInferring = false;
 
       } catch (err) {
         clearInterval(elapsedInterval);
@@ -1293,25 +1398,18 @@
           const data = cachedResults[sport];
           const headline = extractHeadline(data.answer);
 
-          leftHeadline.textContent = headline.event;
-          leftDetail.textContent = headline.detail;
           bugEvent.textContent = headline.event;
           bugDetail.textContent = headline.detail;
-          bugLatency.textContent = data.latency_s + 's';
-          bugTokens.textContent = data.tokens.toLocaleString();
           statLatency.textContent = data.latency_s + 's';
           statTokens.textContent = data.tokens.toLocaleString();
           leftProcStatus.textContent = 'Cached fallback';
           rightProcStatus.textContent = 'Cached';
 
-          typeText(thinkingText, data.thinking, 12, () => {
-            showProcessing(false);
-            rcText.textContent = extractCommentary(data.answer);
-            isInferring = false;
-          }, (step) => {
-            rightProcStatus.textContent = `Step ${step}`;
-            leftProcStatus.textContent = `Step ${step}`;
-          });
+          const fallbackScroll = document.querySelector('.right-scroll');
+          fallbackScroll.innerHTML = '';
+          appendSingleResult(sport, data.thinking, data.answer, data.latency_s + 's', data.tokens || '--');
+          showProcessing(false);
+          isInferring = false;
         } else {
           showProcessing(false);
           commentaryText.textContent = `Error: ${err.message}`;
@@ -1324,6 +1422,7 @@
     // ── Show local video from samples/ ──
     function showLocalVideo(sport) {
       const media = sportMedia[sport];
+      youtubeActive = false;
       ytEl.style.display = 'none';
       ytEl.src = '';
       if (media.video) {
@@ -1377,78 +1476,134 @@
       showProcessing(false);
       commentaryText.classList.remove('typing');
 
+      // Clear previous cards and commentary
+      const scroll = document.querySelector('.right-scroll');
+      if (scroll) scroll.innerHTML = '';
+      clearCommentary();
+      const label = sportLabels[sport] || sport;
+      addCommentary(`${label} coverage starting \u2014 Cosmos Reason 2 on Jetson AGX Orin`, true);
+
       // Try frames_cache first, fall back to cached_results
       const sportFrames = framesCache ? framesCache[sport] : null;
       const frameKeys = sportFrames ? Object.keys(sportFrames).sort((a,b) => +a - +b) : [];
 
       if (frameKeys.length > 0) {
         currentFrameIndex = 0;
-        showFrame(sport, sportFrames, frameKeys, 0);
+        // Show first frame immediately
+        appendFrameCard(sport, sportFrames, frameKeys, 0);
+        updateLatestStats(sportFrames[frameKeys[0]]);
 
-        // Auto-cycle every 8 seconds
+        // Auto-append next frame every 8 seconds
         cacheInterval = setInterval(() => {
           currentFrameIndex = (currentFrameIndex + 1) % frameKeys.length;
-          showFrame(sport, sportFrames, frameKeys, currentFrameIndex);
+          if (currentFrameIndex === 0) {
+            // Looped — clear and start fresh
+            scroll.innerHTML = '';
+          }
+          appendFrameCard(sport, sportFrames, frameKeys, currentFrameIndex);
+          updateLatestStats(sportFrames[frameKeys[currentFrameIndex]]);
+          commentaryText.textContent = `Pre-analyzed \u00b7 ${currentFrameIndex + 1} of ${frameKeys.length} \u00b7 Click Live Inference for real-time`;
         }, 8000);
 
-        // Show frame count
-        commentaryText.textContent = `Showing ${frameKeys.length} pre-analyzed frames from Cosmos Reason 2 on Jetson AGX Orin. Click "Live Inference" for real-time analysis.`;
+        commentaryText.textContent = `Pre-analyzed \u00b7 ${currentFrameIndex + 1} of ${frameKeys.length} \u00b7 Click Live Inference for real-time`;
       } else if (cachedResults && cachedResults[sport]) {
-        // Fallback to single cached result
         const data = cachedResults[sport];
-        displayResult(sport, data.thinking, data.answer, data.latency_s + 's', data.tokens || '--');
-        commentaryText.textContent = `Showing cached Cosmos Reason 2 analysis. Click "Live Inference" for real-time analysis.`;
+        appendSingleResult(sport, data.thinking, data.answer, data.latency_s + 's', data.tokens || '--');
+        commentaryText.textContent = `Cached analysis \u00b7 Click Live Inference for real-time`;
       } else {
-        // No cache available
-        leftHeadline.textContent = 'Waiting for analysis...';
-        leftDetail.textContent = 'Click "Live Inference" to analyze with Cosmos Reason 2';
-        rcText.textContent = 'Waiting for Cosmos analysis...';
-        thinkingText.textContent = '';
+        addCommentary('Click "Live Inference" to analyze with Cosmos Reason 2');
         statLatency.textContent = '--';
         statTokens.textContent = '--';
-        bugLatency.textContent = '--';
-        bugTokens.textContent = '--';
         commentaryText.textContent = 'Select a sport and click "Live Inference" to run Cosmos Reason 2.';
       }
     }
 
-    function showFrame(sport, sportFrames, frameKeys, index) {
+    function updateLatestStats(frame) {
+      if (!frame) return;
+      statLatency.textContent = frame.latency_s ? frame.latency_s.toFixed(1) + 's' : '--';
+      statTokens.textContent = frame.tokens || '--';
+      if (frame.answer) addCommentary(extractCommentary(frame.answer));
+    }
+
+    function appendFrameCard(sport, sportFrames, frameKeys, index) {
       const key = frameKeys[index];
       const frame = sportFrames[key];
       if (!frame) return;
 
       const latency = frame.latency_s ? frame.latency_s.toFixed(1) + 's' : '--';
       const tokens = frame.tokens || '--';
+      const scroll = document.querySelector('.right-scroll');
+      const label = sportLabels[sport] || sport;
+      const headline = frame.answer ? extractHeadline(frame.answer) : { event: '', detail: '' };
 
-      displayResult(sport, frame.thinking, frame.answer, latency, tokens);
+      const card = document.createElement('div');
+      card.className = 'frame-card';
+      card.style.cssText = 'padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.06);animation:fadeIn 0.5s ease forwards;';
 
-      // Update frame counter in processing area
-      rightProcStatus.textContent = `Frame ${+key + 1} / ${frameKeys.length}`;
-      leftProcStatus.textContent = `Cached frame ${+key + 1}`;
+      // Running commentary style — headline + flowing text, no "Frame N" label
+      const headlineText = headline.event || `${label} analysis`;
+      const header = `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+        <span style="font-size:11px;font-weight:700;color:var(--accent);">${headlineText}</span>
+        <span style="font-family:var(--mono);font-size:9px;color:var(--text-muted);">${latency}</span>
+      </div>`;
+
+      const answerHtml = frame.answer
+        ? `<div style="font-size:12px;line-height:1.6;color:var(--text-secondary,rgba(255,255,255,0.75));">${formatAnswer(frame.answer)}</div>`
+        : '';
+
+      const thinkingHtml = frame.thinking
+        ? `<details style="margin-top:6px;">
+            <summary style="font-size:9px;color:var(--text-muted);cursor:pointer;user-select:none;">Show reasoning</summary>
+            <div style="font-family:var(--mono);font-size:10px;line-height:1.6;color:rgba(255,255,255,0.4);white-space:pre-wrap;margin-top:6px;padding:8px;background:rgba(255,255,255,0.02);border-radius:4px;border-left:2px solid rgba(245,158,11,0.25);max-height:180px;overflow-y:auto;">${escapeHtml(frame.thinking)}</div>
+          </details>`
+        : '';
+
+      card.innerHTML = header + answerHtml + thinkingHtml;
+      scroll.appendChild(card);
+      scroll.scrollTop = scroll.scrollHeight;
+
+      rightProcStatus.textContent = `${index + 1} / ${frameKeys.length}`;
+      leftProcStatus.textContent = `Analysis ${index + 1}`;
     }
 
-    function displayResult(sport, thinking, answer, latency, tokens) {
-      const label = sportLabels[sport];
-      const headline = extractHeadline(answer || '');
+    function escapeHtml(str) {
+      const d = document.createElement('div');
+      d.textContent = str;
+      return d.innerHTML;
+    }
 
-      leftHeadline.textContent = headline.event || label + ' Analysis';
-      leftDetail.textContent = headline.detail || '';
+    function appendSingleResult(sport, thinking, answer, latency, tokens) {
       statLatency.textContent = latency;
       statTokens.textContent = tokens;
-      bugLatency.textContent = latency;
-      bugTokens.textContent = tokens;
+      if (answer) addCommentary(extractCommentary(answer));
 
-      // Right panel: AI commentary (pick the most useful sentence)
-      if (answer) {
-        rcText.textContent = extractCommentary(answer);
-      }
-      // Right panel: chain-of-thought
-      if (thinking) {
-        thinkingText.textContent = thinking;
-        if (thinkingText.parentElement) {
-          thinkingText.parentElement.scrollTop = 0;
-        }
-      }
+      const scroll = document.querySelector('.right-scroll');
+      const card = document.createElement('div');
+      card.style.cssText = 'padding:14px 16px;';
+      const answerHtml = answer
+        ? `<div class="right-section-label answer-label">Cosmos Answer</div><div style="font-size:12.5px;line-height:1.65;color:var(--text);">${formatAnswer(answer)}</div>`
+        : '';
+      const thinkingHtml = thinking
+        ? `<div class="right-section-label cot-label" style="margin-top:14px;">Chain-of-Thought</div><div style="font-family:var(--mono);font-size:11px;line-height:1.7;color:rgba(255,255,255,0.6);white-space:pre-wrap;">${escapeHtml(thinking)}</div>`
+        : '';
+      card.innerHTML = answerHtml + thinkingHtml;
+      scroll.appendChild(card);
+    }
+
+    // displayResult kept for live inference use
+    function displayResult(sport, thinking, answer, latency, tokens) {
+      statLatency.textContent = latency;
+      statTokens.textContent = tokens;
+      if (answer) addCommentary(extractCommentary(answer));
+
+      const scroll = document.querySelector('.right-scroll');
+      scroll.innerHTML = '';
+      const card = document.createElement('div');
+      card.style.cssText = 'padding:14px 16px;';
+      card.innerHTML = (answer ? `<div class="right-section-label answer-label">Cosmos Answer</div><div class="right-answer-content">${formatAnswer(answer)}</div>` : '')
+        + (thinking ? `<div class="right-section-label cot-label" style="margin-top:14px;">Chain-of-Thought</div><div class="thinking-content">${escapeHtml(thinking)}</div>` : '');
+      scroll.appendChild(card);
+      scroll.scrollTop = 0;
     }
 
     // ── Load sport: show video + cached analysis (no live inference by default) ──
@@ -1456,13 +1611,15 @@
       currentSport = sport;
       currentTyping = null;
 
-      // Show local video
-      showLocalVideo(sport);
+      // Don't replace YouTube stream when switching sports
+      if (!youtubeActive) {
+        showLocalVideo(sport);
+      }
 
       // Update score bug with match data
       updateScoreBug(sport);
 
-      // Show cached analysis (auto-cycling frames)
+      // Show cached analysis
       showCachedAnalysis(sport);
     }
 
@@ -1484,5 +1641,6 @@
     // ── Auto-start on load — wait briefly for cache to load ──
     setTimeout(() => loadSport('tennis'), 300);
   </script>
+  <script src="chat-widget.js"></script>
 </body>
 </html>
