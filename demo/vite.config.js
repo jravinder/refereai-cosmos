@@ -9,6 +9,8 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, 'index.html'),
         broadcast: resolve(__dirname, 'broadcast.html'),
+        try: resolve(__dirname, 'try.html'),
+        results: resolve(__dirname, 'results.html'),
       },
     },
   },
