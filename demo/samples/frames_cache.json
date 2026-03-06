@@ -20,7 +20,7 @@
     },
     "3": {
       "thinking": "In this frame, the tennis ball is visible near the baseline on the right side of the court, indicating it has just been hit. The player in the red shirt is positioned near the baseline, having completed his swing and is now moving forward. His body mechanics show a follow-through motion with his racket extended behind him. The player in the yellow shirt is positioned further back on the court, closer to the center, and appears to be preparing for the next shot. The ball's trajectory suggests it was hit with significant force, likely a groundstroke, and is now traveling towards the opponent. The score displayed on the screen shows Alcaraz leading 6-3 in the first set and 40-15 in the second set, indicating that Alcaraz is in a strong position in the match. <think>\nThe ball is now in play, heading towards the opponent after a powerful groundstroke from Alcaraz. The rally continues as Sinner prepares to return the shot. Alcaraz's follow-through and body mechanics indicate a strong, controlled hit, while Sinner's positioning suggests he is ready to react to the incoming ball. The score reflects Alcaraz's dominance in the match, with a significant lead in both sets.",
-      "answer": "",
+      "answer": "The score reflects Alcaraz's dominance in the match, with a significant lead in both sets.",
       "latency_s": 30.9,
       "tokens": 2490
     },
@@ -51,14 +51,14 @@
   },
   "cricket": {
     "0": {
-      "thinking": "",
-      "answer": "<think> In this frame, the batsman in teal is captured mid-swing, having just made contact with the ball. His body is rotated, indicating a powerful shot. The ball is not visible, but the trajectory suggests it was hit towards the leg side. The bowler in blue is running back to his mark, while another fielder in blue is positioned near the boundary. The batsman's follow-through shows he has completed his swing, and the ball is likely in flight. The fielders are reacting to the shot, with one moving towards the boundary. The scoreboard overlay indicates the match is between Fazalhaq Farooqi and Finn Allen, suggesting a fantasy cricket context. <think>\nThe batsman in teal has just unleashed a powerful shot, sending the ball hurtling towards the leg side as the bowler in blue scrambles back to his mark. The fielders react swiftly, with one sprinting towards the boundary in anticipation of a potential six. The scoreboard confirms the match is between Fazalhaq Farooqi and Finn Allen, adding a layer of fantasy cricket intrigue to the action.",
+      "thinking": "In this frame, the batsman in teal is captured mid-swing, having just made contact with the ball. His body is rotated, indicating a powerful shot. The ball is not visible, but the trajectory suggests it was hit towards the leg side. The bowler in blue is running back to his mark, while another fielder in blue is positioned near the boundary. The batsman's follow-through shows he has completed his swing, and the ball is likely in flight. The fielders are reacting to the shot, with one moving towards the boundary. The scoreboard overlay indicates the match is between Fazalhaq Farooqi and Finn Allen, suggesting a fantasy cricket context. \nThe batsman in teal has just unleashed a powerful shot, sending the ball hurtling towards the leg side as the bowler in blue scrambles back to his mark. The fielders react swiftly, with one sprinting towards the boundary in anticipation of a potential six. The scoreboard confirms the match is between Fazalhaq Farooqi and Finn Allen, adding a layer of fantasy cricket intrigue to the action.",
+      "answer": "The scoreboard confirms the match is between Fazalhaq Farooqi and Finn Allen, adding a layer of fantasy cricket intrigue to the action.",
       "latency_s": 28.0,
       "tokens": 2466
     },
     "1": {
       "thinking": "In this frame, the bowler, Fazalhaq Farooqi, is seen running towards the batsman, Finn Allen, after delivering the ball. His body language suggests he is celebrating or reacting to the outcome of the delivery. The batsman, Finn Allen, is standing near the crease, holding his bat, and appears to be observing the bowler's reaction. The ball is not visible in the frame, but based on the context, it can be inferred that the batsman has either missed the ball or played a shot that did not result in a boundary. The bowler's movement indicates a possible celebration of a wicket or a good delivery. The scoreboard overlay shows the names of the players involved in the action, confirming the identity of the bowler and the batsman. <think>\nThe bowler, Fazalhaq Farooqi, is seen celebrating after delivering the ball, while the batsman, Finn Allen, stands near the crease, holding his bat. The ball's trajectory is not visible, but the bowler's reaction suggests a successful delivery, possibly resulting in a wicket or a good shot. The scoreboard confirms the players' identities, adding context to the action.",
-      "answer": "",
+      "answer": "The scoreboard confirms the players' identities, adding context to the action.",
       "latency_s": 30.6,
       "tokens": 2490
     },
@@ -119,8 +119,8 @@
       "tokens": 2391
     },
     "3": {
-      "thinking": "",
-      "answer": "<think> In this frame, the players are positioned at opposite ends of the court, with one near the net and the other closer to the baseline. The player near the net appears to be preparing for a shot, while the player at the baseline is in a ready stance. The shuttlecock is not visible, suggesting it may have just been hit or is about to be served. The players' body language indicates they are focused and prepared for the next move. The rally seems to be in its early stages, with both players maintaining a neutral posture and no signs of intense physical exertion yet. <think>\n\"Two players face off at opposite ends of the court, with one poised near the net and the other ready at the baseline, as the shuttlecock hovers just out of sight, signaling the start of a new rally,\"\n\nServe\nPlayer 1: Forecourt (near the net)\nPlayer 2: Rearcourt (closer to the baseline)\nShuttlecock: Not visible, likely in mid-air or just served\nLow intensity, players in neutral stances, focused but not exerting much effort yet.",
+      "thinking": "In this frame, the players are positioned at opposite ends of the court, with one near the net and the other closer to the baseline. The player near the net appears to be preparing for a shot, while the player at the baseline is in a ready stance. The shuttlecock is not visible, suggesting it may have just been hit or is about to be served. The players' body language indicates they are focused and prepared for the next move. The rally seems to be in its early stages, with both players maintaining a neutral posture and no signs of intense physical exertion yet. \n\"Two players face off at opposite ends of the court, with one poised near the net and the other ready at the baseline, as the shuttlecock hovers just out of sight, signaling the start of a new rally,\"",
+      "answer": "Serve\nPlayer 1: Forecourt (near the net)\nPlayer 2: Rearcourt (closer to the baseline)\nShuttlecock: Not visible, likely in mid-air or just served\nLow intensity, players in neutral stances, focused but not exerting much effort yet.",
       "latency_s": 53.7,
       "tokens": 2470
     },
@@ -137,8 +137,8 @@
       "tokens": 2407
     },
     "6": {
-      "thinking": "",
-      "answer": "<think> In this frame, the player in black is positioned near the net, having just completed a shot. His body posture suggests he has finished a stroke, possibly a net shot or drop shot, as indicated by his bent knees and forward lean. The opponent in red is standing further back, likely preparing for the next rally. The shuttlecock is not visible, but the positioning implies it was recently hit towards the opponent. The intensity appears moderate, with both players focused on the game. The player in black seems to be in control of the rally, while the opponent is ready to respond. <think>\nThe player in black executes a precise net shot, maintaining control and focus as he prepares for the next play.\nNet shot\nPlayer in black is in the forecourt, while the player in red is in the midcourt.\nThe shuttlecock is not visible in this frame.\nModerate intensity; the player in black shows controlled body language, while the player in red appears ready to react.",
+      "thinking": "In this frame, the player in black is positioned near the net, having just completed a shot. His body posture suggests he has finished a stroke, possibly a net shot or drop shot, as indicated by his bent knees and forward lean. The opponent in red is standing further back, likely preparing for the next rally. The shuttlecock is not visible, but the positioning implies it was recently hit towards the opponent. The intensity appears moderate, with both players focused on the game. The player in black seems to be in control of the rally, while the opponent is ready to respond. \nThe player in black executes a precise net shot, maintaining control and focus as he prepares for the next play.\nNet shot\nPlayer in black is in the forecourt, while the player in red is in the midcourt.\nThe shuttlecock is not visible in this frame.\nModerate intensity; the player in black shows controlled body language, while the player in red appears ready to react.",
+      "answer": "Moderate intensity; the player in black shows controlled body language, while the player in red appears ready to react.",
       "latency_s": 60.3,
       "tokens": 2443
     },
