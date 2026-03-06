@@ -72,7 +72,26 @@ vllm serve nvidia/Cosmos-Reason2-8B \
   --port 8000
 ```
 
-### Option C: Local GGUF (Apple Silicon / CPU)
+### Option C: Edge Deployment (Jetson Orin Nano / L4)
+
+For resource-constrained edge devices, use the [W4A16 quantized 2B model](https://huggingface.co/embedl/Cosmos-Reason2-2B-W4A16-Edge2) by Embedl — INT4 weights with FP16 activations, nearly lossless accuracy, ~2x faster inference. Runs on devices with as little as 8GB VRAM.
+
+```bash
+pip install vllm
+vllm serve embedl/Cosmos-Reason2-2B-W4A16-Edge2 \
+  --allowed-local-media-path "$(pwd)" \
+  --max-model-len 8192 \
+  --gpu-memory-utilization 0.75 \
+  --port 8000
+```
+
+| | 8B (Our Setup) | 2B W4A16 Edge |
+|---|---|---|
+| Hardware | Jetson AGX Orin 64GB | Jetson Orin Nano Super 8GB |
+| Inference | ~45s/frame | ~20s/frame |
+| Accuracy | Full 8B baseline | 50.58 vs 50.60 (2B baseline) |
+
+### Option D: Local GGUF (Apple Silicon / CPU)
 
 ```bash
 # Install llama.cpp
