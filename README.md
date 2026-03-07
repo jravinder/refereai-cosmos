@@ -192,6 +192,15 @@ This reasoning chain is:
 | Serving | HuggingFace Transformers + LiteLLM |
 | Access | FastAPI + Tailscale Funnel |
 
+## Documentation
+
+- **[DEMO.md](DEMO.md)** — Step-by-step guide to running inference, server setup (4 deployment options), CLI reference, sample data, and expected output
+
+## Future Steps
+
+- **Real-time inference** — Move from frame-by-frame analysis to a continuous streaming pipeline with sub-second latency for live scoring decisions during play
+- **Higher-performance hardware** — Deploy on DGX or multi-GPU systems to run larger Cosmos models with faster throughput, enabling real-time analysis across multiple camera feeds simultaneously
+
 ## Team
 
 - **[Ravinder Jilkapally](https://linkedin.com/in/jravinder)** — Product & Engineering Lead
