@@ -376,7 +376,7 @@
     .score-bug {
       position: absolute;
       bottom: 40px;
-      right: 12px;
+      left: 12px;
       background: rgba(0, 0, 0, 0.85);
       backdrop-filter: blur(16px);
       border: 1px solid var(--border);
@@ -781,15 +781,14 @@
         <div class="score-bug-detail" id="bug-detail"></div>
       </div>
 
-      <div class="source-badge" id="source-badge">Sample clip</div>
-      <div class="cosmos-watermark">Powered by RefereAI &middot; NVIDIA Cosmos Reason 2 &middot; Jetson AGX Orin</div>
+      <div class="source-badge" id="source-badge" style="display:none;">Sample clip</div>
     </div>
 
     <!-- RIGHT — Answer + Chain-of-Thought (scrollable together) -->
     <div class="analysis-panel">
 
       <div class="right-panel-header">
-        <span>RefereAI Analysis</span>
+        <span>Cosmos AI Commentary</span>
         <span class="right-panel-frame" id="right-proc-status"></span>
       </div>
 
@@ -1486,16 +1485,21 @@
     let syncedFrameKeys = [];
     let syncedSport = null;
     let frameTransitioning = false;
+    let lastFrameChangeTime = 0;
+    const MIN_FRAME_INTERVAL = 5000; // minimum 5 seconds between frame changes
 
     // Video timeupdate handler — maps currentTime to frame index
     function onVideoTimeUpdate() {
       if (!syncedSportFrames || syncedFrameKeys.length === 0 || frameTransitioning) return;
+      const now = Date.now();
+      if (now - lastFrameChangeTime < MIN_FRAME_INTERVAL) return;
       const duration = videoEl.duration || 20;
       const frameCount = syncedFrameKeys.length;
       const segmentLen = duration / frameCount;
       const newIndex = Math.min(Math.floor(videoEl.currentTime / segmentLen), frameCount - 1);
       if (newIndex !== currentFrameIndex && newIndex >= 0) {
         currentFrameIndex = newIndex;
+        lastFrameChangeTime = now;
         showFrameWithProcessing(syncedSport, syncedSportFrames, syncedFrameKeys, newIndex);
       }
     }
@@ -1588,11 +1592,7 @@
           </details>`
         : '';
 
-      scroll.innerHTML = `<div class="frame-card" style="padding:12px 16px;animation:fadeIn 0.4s ease forwards;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
-          <span style="font-size:11px;font-weight:700;color:var(--accent);">${headlineText}</span>
-          <span style="font-family:var(--mono);font-size:9px;color:var(--text-muted);">${latency}</span>
-        </div>
+      scroll.innerHTML = `<div class="frame-card" style="padding:14px 16px;animation:fadeIn 0.4s ease forwards;">
         ${answerHtml}${thinkingHtml}
       </div>`;
       scroll.scrollTop = 0;
