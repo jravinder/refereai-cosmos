@@ -768,7 +768,7 @@
 
     <!-- CENTER — Video -->
     <div class="video-area">
-      <video id="broadcast-video" muted playsinline autoplay>
+      <video id="broadcast-video" muted playsinline autoplay preload="auto" poster="samples/tennis.jpg">
         <source src="samples/tennis_clip.mp4" type="video/mp4" />
       </video>
       <img id="broadcast-img" src="samples/tennis.jpg" alt="" style="display:none;" />
@@ -1127,6 +1127,7 @@
         ytEl.style.display = 'none'; ytEl.src = '';
         imgEl.style.display = 'none';
         videoEl.style.display = 'block';
+        videoEl.poster = local.video.replace('_clip.mp4', '.jpg');
         videoEl.src = local.video;
         videoEl.load();
         videoEl.play().catch(() => {});
@@ -1443,6 +1444,7 @@
       if (media.video) {
         videoEl.style.display = 'block';
         imgEl.style.display = 'none';
+        videoEl.poster = media.video.replace('_clip.mp4', '.jpg');
         videoEl.src = media.video;
         videoEl.load();
         videoEl.play().catch(() => {});
