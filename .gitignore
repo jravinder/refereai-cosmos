@@ -13,3 +13,6 @@ demo/node_modules/
 .claude/
 demo/samples/frames/
 demo/public/samples/frames/
+
+# Claude Code project instructions (local only)
+CLAUDE.md
