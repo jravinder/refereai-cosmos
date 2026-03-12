@@ -768,7 +768,7 @@
 
     <!-- CENTER — Video -->
     <div class="video-area">
-      <video id="broadcast-video" muted playsinline autoplay preload="auto" poster="samples/tennis.jpg">
+      <video id="broadcast-video" muted playsinline autoplay loop preload="auto" poster="samples/tennis.jpg">
         <source src="samples/tennis_clip.mp4" type="video/mp4" />
       </video>
       <img id="broadcast-img" src="samples/tennis.jpg" alt="" style="display:none;" />
@@ -1010,7 +1010,10 @@
     function setSourceBadge(type) {
       if (type === 'live') {
         inferenceSource.className = 'inference-source live';
-        inferenceSource.innerHTML = '<span class="src-dot"></span> Live Analysis';
+        inferenceSource.innerHTML = '<span class="src-dot"></span> Live Inference';
+      } else if (type === 'preanalyzed') {
+        inferenceSource.className = 'inference-source live';
+        inferenceSource.innerHTML = '<span class="src-dot"></span> Cosmos Reason 2';
       } else {
         inferenceSource.className = 'inference-source';
         inferenceSource.innerHTML = '';
@@ -1516,8 +1519,8 @@
       syncedSport = null;
       frameTransitioning = false;
 
-      // Set source badge — always show as live
-      setSourceBadge('live');
+      // Set source badge — pre-analyzed for cached, live for real inference
+      setSourceBadge('preanalyzed');
       showProcessing(false);
       commentaryText.classList.remove('typing');
 
@@ -1526,7 +1529,7 @@
       if (scroll) scroll.innerHTML = '';
       clearCommentary();
       const label = sportLabels[sport] || sport;
-      addCommentary(`${label} coverage starting \u2014 Cosmos Reason 2 on Jetson AGX Orin`, true);
+      addCommentary(`${label} coverage \u2014 analyzed by Cosmos Reason 2 on Jetson AGX Orin`, true);
 
       // Try frames_cache first, fall back to cached_results
       const sportFrames = framesCache ? framesCache[sport] : null;
@@ -1538,15 +1541,15 @@
         syncedFrameKeys = frameKeys;
         syncedSport = sport;
 
-        // Show first frame with brief processing flash
+        // Show first frame
         currentFrameIndex = 0;
         showFrameWithProcessing(sport, sportFrames, frameKeys, 0);
-        commentaryText.textContent = `Analyzing ${label} \u00b7 Cosmos Reason 2 on Jetson AGX Orin`;
+        updateCommentaryForFrame(sport, sportFrames, frameKeys, 0);
       } else if (cachedResults && cachedResults[sport]) {
         const data = cachedResults[sport];
-        setSourceBadge('live');
+        setSourceBadge('preanalyzed');
         appendSingleResult(sport, data.thinking, data.answer, data.latency_s + 's', data.tokens || '--');
-        commentaryText.textContent = `${label} analysis \u00b7 Cosmos Reason 2 on Jetson AGX Orin`;
+        commentaryText.textContent = `${label} \u00b7 Cosmos Reason 2 on Jetson AGX Orin`;
       } else {
         addCommentary('Click "Analyze" to run Cosmos Reason 2');
         statLatency.textContent = '--';
@@ -1555,9 +1558,21 @@
       }
     }
 
-    // Show frame analysis directly (no fake processing flash)
+    // Show frame analysis and update commentary
     function showFrameWithProcessing(sport, sportFrames, frameKeys, index) {
       showFrameCard(sport, sportFrames, frameKeys, index);
+      updateCommentaryForFrame(sport, sportFrames, frameKeys, index);
+    }
+
+    // Update bottom commentary bar with frame-specific text
+    function updateCommentaryForFrame(sport, sportFrames, frameKeys, index) {
+      const key = frameKeys[index];
+      const frame = sportFrames[key];
+      if (!frame || !frame.answer) return;
+      const headline = extractHeadline(frame.answer);
+      if (headline.event) {
+        commentaryText.textContent = headline.event;
+      }
     }
 
     // Show a single frame card (replaces scroll content)
