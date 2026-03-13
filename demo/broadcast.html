@@ -891,8 +891,9 @@
       cricket: {
         event: 'ICC Men\'s T20 World Cup 2026',
         players: ['New Zealand', 'South Africa'],
-        score: 'T20 Match',
-        subtitle: 'Group Stage',
+        score: 'NZ vs SA',
+        detail: '12-1 (1.4 ov)',
+        subtitle: '1st Semi-Final \u2014 Eden Gardens, Kolkata',
       },
       badminton: {
         event: 'BWF Australian Open 2024',
@@ -1468,11 +1469,11 @@
       if (match) {
         const players = match.players.join(' vs ');
         bugEvent.textContent = players;
-        bugScore.textContent = match.score;
-        bugDetail.textContent = match.subtitle + ' — ' + match.event;
+        bugScore.textContent = match.detail ? match.score + '  ' + match.detail : match.score;
+        bugDetail.textContent = match.subtitle + ' \u2014 ' + match.event;
         // Right panel score card
         rscPlayers.textContent = players;
-        rscScore.textContent = match.score;
+        rscScore.textContent = match.detail ? match.score + '  ' + match.detail : match.score;
         rscEvent.textContent = match.subtitle + ' — ' + match.event;
       } else {
         bugEvent.textContent = label;
