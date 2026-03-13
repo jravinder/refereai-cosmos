@@ -1491,21 +1491,23 @@
     let syncedFrameKeys = [];
     let syncedSport = null;
     let frameTransitioning = false;
-    let lastFrameChangeTime = 0;
-    const MIN_FRAME_INTERVAL = 5000; // minimum 5 seconds between frame changes
+    let lastVideoTime = 0;
 
     // Video timeupdate handler — maps currentTime to frame index
     function onVideoTimeUpdate() {
-      if (!syncedSportFrames || syncedFrameKeys.length === 0 || frameTransitioning) return;
-      const now = Date.now();
-      if (now - lastFrameChangeTime < MIN_FRAME_INTERVAL) return;
+      if (!syncedSportFrames || syncedFrameKeys.length === 0) return;
       const duration = videoEl.duration || 20;
       const frameCount = syncedFrameKeys.length;
       const segmentLen = duration / frameCount;
-      const newIndex = Math.min(Math.floor(videoEl.currentTime / segmentLen), frameCount - 1);
-      if (newIndex !== currentFrameIndex && newIndex >= 0) {
+      const ct = videoEl.currentTime;
+
+      // Detect loop (video jumped backward by more than 1s)
+      const looped = ct < lastVideoTime - 1;
+      lastVideoTime = ct;
+
+      const newIndex = Math.min(Math.floor(ct / segmentLen), frameCount - 1);
+      if ((newIndex !== currentFrameIndex || looped) && newIndex >= 0) {
         currentFrameIndex = newIndex;
-        lastFrameChangeTime = now;
         showFrameWithProcessing(syncedSport, syncedSportFrames, syncedFrameKeys, newIndex);
       }
     }
